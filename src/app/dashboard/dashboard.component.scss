@@ -40,7 +40,7 @@ nav {
   margin: 6px 0;
 }
 
-header ul {
+.menu-items {
   position: absolute;
   width: 100vw;
   height: calc(100vh - 70px);
@@ -48,6 +48,7 @@ header ul {
   top: 70px;
   background: var(--color-1);
   transition: 0.2s;
+  z-index: 100;
 }
 
 .change .line-1 {
