@@ -46,7 +46,7 @@ nav {
   height: calc(100vh - 70px);
   left: 105vw;
   top: 70px;
-  background: var(--color-1);
+  background: linear-gradient(45deg, var(--color-1), var(--color-2));
   transition: 0.2s;
   z-index: 100;
 }
