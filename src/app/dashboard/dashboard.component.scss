@@ -51,6 +51,11 @@ nav {
   z-index: 100;
 }
 
+.menu-items li a  {
+  color: var(--color-4);
+  text-decoration: none;
+}
+
 .change .line-1 {
   transform: translate(0, 11px) rotate(-45deg);
 }

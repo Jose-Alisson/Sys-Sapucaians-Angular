@@ -11,32 +11,41 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 80%;
+  width: 90%;
   margin: auto;
 }
 
 .showcase-content img {
-  max-width: 200px;
+  height: 200px;
 }
 
-.side-left h1{
-  font-family: 'Avenir Bold';
-  text-transform: uppercase;
-  color: var(--color-4);
+.side-left{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.side-left h1 {
+  font-size: 38px;
+  color: var(--color-1);
   -webkit-text-stroke: 1px var(--color-1);
 }
 
-.side-left a{
-  color: white;
-  background: var(--color-3);
-  border-radius: 20px;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 7px 14px;
+.side-left h1 span{
+  font-size: 32px;
+  color: var(--color-3);
 }
 
-.side-left h1 span{
-  color: var(--color-3);
+.side-left a{
+  color: var(--color-1);
+  text-transform: uppercase;
+  background: var(--color-3);
+  border-radius: 5px;
+  padding: 4px 7px;
+  text-decoration: none;
+  margin-top: 10px;
+  font-weight: 500;
 }
 
 .side-bottom{

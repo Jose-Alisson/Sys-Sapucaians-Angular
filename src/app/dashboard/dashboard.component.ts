@@ -1,6 +1,7 @@
 import {
   ActivatedRoute,
   ActivationEnd,
+  ChildActivationEnd,
   NavigationEnd,
   Router,
   Routes,
@@ -17,7 +18,7 @@ import { filter, map, switchMap } from 'rxjs';
 export class DashboardComponent implements OnInit {
   title: string = 'home';
 
-  array:string[] = []
+  array: string[] = [];
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     router.events
@@ -31,13 +32,13 @@ export class DashboardComponent implements OnInit {
       )
       .pipe(switchMap((route) => route.data))
       .subscribe((event) => {
-        this.title = event['title']
+        this.title = event['title'];
       });
   }
 
   ngOnInit(): void {}
 
-  merge(){
-    document.querySelector('.menu-burguer')?.classList.toggle('change')
+  merge() {
+    document.querySelector('.menu-burguer')?.classList.toggle('change');
   }
 }
