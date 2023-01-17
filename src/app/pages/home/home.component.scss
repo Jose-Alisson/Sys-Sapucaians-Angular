@@ -20,6 +20,7 @@
 }
 
 .side-left{
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -47,6 +48,28 @@
   text-decoration: none;
   margin-top: 10px;
   font-weight: 500;
+}
+
+.side-left img {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  animation: flutuar 2s infinite;
+}
+
+@keyframes flutuar {
+
+  0%{
+    transform: translateY(0%);
+  }
+
+  50%{
+    transform: translateY(60%);
+  }
+
+  100%{
+    transform: translateY(0%);
+  }
 }
 
 .side-bottom{

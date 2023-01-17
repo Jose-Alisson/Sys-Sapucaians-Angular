@@ -1,13 +1,5 @@
-import {
-  ActivatedRoute,
-  ActivationEnd,
-  ChildActivationEnd,
-  NavigationEnd,
-  Router,
-  Routes,
-} from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { appRoutes } from '../app.module';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, switchMap } from 'rxjs';
 
 @Component({
@@ -15,7 +7,7 @@ import { filter, map, switchMap } from 'rxjs';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   title: string = 'home';
 
   array: string[] = [];
@@ -37,6 +29,18 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  ngAfterViewInit() {
+    let menuburguer = document.querySelector('.menu-burguer');
+    let menu = document.querySelector('.menu-items');
+    menu?.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', function () {
+        if (menuburguer?.classList.contains('change')) {
+          menuburguer?.classList.remove('change');
+        }
+      });
+    });
+  }
 
   merge() {
     document.querySelector('.menu-burguer')?.classList.toggle('change');
