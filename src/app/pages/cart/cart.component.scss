@@ -73,7 +73,7 @@
 
 #modal .modal-header {
   width: 100%;
-  height: 35px;
+  height: 45px;
   align-items: center;
   margin: auto;
   display: flex;
@@ -100,13 +100,14 @@
 
 .step-group {
   width: 100%;
+  height: calc(100% - 45px);
   overflow-x: hidden;
+  position: relative;
 }
 
 .step-content {
   display: flex;
   width: 400%;
-  height: 100%;
 }
 
 .step-content input[name="st"] {
@@ -132,4 +133,71 @@
 
 #st-4:checked ~ .current {
   margin-left: -75%;
+}
+
+
+.step-control{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: var(--color-1);
+  justify-content: center;
+  width: 100%;
+}
+
+.step-control ul {
+  justify-content: space-between;
+  position: relative;
+  display: flex;
+  width: 87.7%;
+  margin: auto;
+}
+
+.step-control ul li{
+  position: relative;
+  list-style: none;
+  width: 70px;
+  height: 70px;
+  z-index: 1;
+}
+
+.step-control ul li label{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+}
+
+.step-control ul li label .icon{
+  position: relative;
+  display: block;
+  font-size: 1.5em;
+  line-height: 75px;
+  transition: 0.5s;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.step-control ul li.active label .icon{
+  transform: translate(-8px);
+  color: var(--color-3);
+}
+
+.step-control ul li label .text{
+  position: absolute;
+  opacity: 0;
+  font-weight: 600;
+  font-size: 0.5em;
+  color: var(--color-4);
+  transition: 0.5s;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  transform: translateY(0px);
+}
+
+.step-control ul li.active label .text{
+  transform: translateY(13px);
+  opacity: 1;
 }

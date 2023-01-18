@@ -1,6 +1,6 @@
 <div class="container">
   <div class="show-cart-controll">
-    <div class="hidden"></div>
+    <div class="hidden" style="width: 30px"></div>
     <h1>Meus pedidos</h1>
     <div class="btn-add" (click)="active()">
       <i class="fa-solid fa-plus"></i>
@@ -21,7 +21,6 @@
       <input type="radio" name="st" id="st-1" checked="true" />
       <input type="radio" name="st" id="st-2" />
       <input type="radio" name="st" id="st-3" />
-      <input type="radio" name="st" id="st-4" />
 
       <div class="step current"></div>
       <div class="step"></div>
@@ -29,10 +28,26 @@
       <div class="step"></div>
     </div>
     <div class="step-control">
-      <label for="st-1"><i class="fa-solid fa-memo"></i>Pedido</label>
-      <label for="st-2"><i class="fa-solid fa-magnifying-glass"></i>Observação</label>
-      <label for="st-3"><i class="fa-solid fa-map-location-dot"></i>Endereço</label>
-      <label for="st-4"><i class="fa-solid fa-money-bill"></i>Pagamento</label>
+      <ul>
+        <li class="list active">
+          <label for="st-1">
+            <span class="icon"><i class="fa-solid fa-list"></i></span>
+            <span class="text">Pedido</span>
+          </label>
+        </li>
+        <li class="list">
+          <label for="st-2">
+            <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <span class="text">Observação</span>
+          </label>
+        </li>
+        <li class="list">
+          <label for="st-3">
+            <span class="icon"><i class="fa-solid fa-check"></i></span>
+            <span class="text">Checagem</span>
+          </label>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
