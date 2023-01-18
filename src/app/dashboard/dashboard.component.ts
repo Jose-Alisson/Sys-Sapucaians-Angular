@@ -40,6 +40,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       });
     });
+
+    menu?.querySelectorAll('li').forEach(li => {
+      li.addEventListener('click', function(){
+        menu?.querySelectorAll('li').forEach(data => {
+          if(data.classList.contains('actived')){
+            data.classList.remove('actived')
+          }
+        })
+        if(!li.classList.contains('actived')){
+          li.classList.add('actived')
+        }
+      })
+    })
   }
 
   merge() {

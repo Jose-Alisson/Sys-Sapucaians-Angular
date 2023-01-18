@@ -52,12 +52,6 @@ nav {
   list-style: none;
 }
 
-.menu-items h1{
-  margin: auto;
-  color: var(--color-4);
-  text-align: center;
-}
-
 .li-nav{
   display: flex;
   width: 95%;
@@ -72,12 +66,21 @@ nav {
 }
 
 .menu-items li{
-  margin-bottom: 15px;
+  margin-top: 15px;
+  opacity: 0.7;
+}
+
+.menu-items li.actived{
+  opacity: 1;
 }
 
 .menu-items li p  {
   color: var(--color-4);
   text-transform: uppercase;
+}
+
+.menu-items li p i {
+  margin-right: 5px;
 }
 
 .change .line-1 {
