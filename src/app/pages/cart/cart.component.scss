@@ -37,7 +37,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 #modal {
@@ -135,14 +135,37 @@
 }
 
 .step-header-seach{
-  width: 90%;
   margin: auto;
+  height: 45px;
+  width: 90%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
 .step-header-seach input{
-  width: 100%;
+  flex-grow: 1;
+  padding: 7px 14px;
+  border-radius: 5px;
+  border: 1px var(--color-9) solid;
+  outline: none;
+}
+
+.step-header-seach .btn-seach {
+  background: var(--color-1);
+  border-radius: 200px;
+  width: 30px;
+  height: 30px;
+  padding: 5px 5px;
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.step-header-seach .btn-seach i {
+  color: var(--color-4);
 }
 
 .step-navgation{
