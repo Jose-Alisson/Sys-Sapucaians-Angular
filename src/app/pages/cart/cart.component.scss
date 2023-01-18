@@ -46,7 +46,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 600px;
+  height: 80%;
   background: green;
   max-width: 90%;
   max-height: 90%;
@@ -82,7 +82,6 @@
 }
 
 #modal .modal-header h2{
-  font-family: 'Avenir Bold';
   color: var(--color-4);
 }
 
@@ -135,33 +134,45 @@
   margin-left: -75%;
 }
 
+.step-header-seach{
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
 
-.step-control{
+.step-header-seach input{
+  width: 100%;
+}
+
+.step-navgation{
   position: absolute;
   bottom: 0;
   left: 0;
   background: var(--color-1);
   justify-content: center;
   width: 100%;
+  height: 70px;
 }
 
-.step-control ul {
-  justify-content: space-between;
-  position: relative;
-  display: flex;
-  width: 87.7%;
+.step-navgation ul{
+  width: 90%;
   margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
 }
 
-.step-control ul li{
-  position: relative;
+.step-navgation ul li{
   list-style: none;
   width: 70px;
   height: 70px;
+  position: relative;
   z-index: 1;
 }
 
-.step-control ul li label{
+.step-navgation ul li label{
   position: relative;
   display: flex;
   justify-content: center;
@@ -169,35 +180,44 @@
   flex-direction: column;
   width: 100%;
   text-align: center;
+  font-weight: 500;
 }
 
-.step-control ul li label .icon{
+.step-navgation ul li label .icon{
   position: relative;
   display: block;
   font-size: 1.5em;
   line-height: 75px;
-  transition: 0.5s;
+  transition: 0.05s;
   color: rgba(255, 255, 255, 0.5);
 }
 
-.step-control ul li.active label .icon{
-  transform: translate(-8px);
+.step-navgation ul li.active label .icon{
+  transform: translateY(-8px);
   color: var(--color-3);
 }
 
-.step-control ul li label .text{
+
+.step-navgation ul li label .text{
   position: absolute;
-  opacity: 0;
   font-weight: 600;
   font-size: 0.5em;
-  color: var(--color-4);
+  opacity: 0;
+  color: var(--color-3);
   transition: 0.5s;
-  letter-spacing: 0.5em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   transform: translateY(0px);
 }
 
-.step-control ul li.active label .text{
-  transform: translateY(13px);
+
+.step-navgation ul li.active label .text{
   opacity: 1;
+  transform: translateY(13px);
+}
+
+@media screen and (max-height: 375px) {
+  #modal{
+    height: 600px;
+  }
 }
