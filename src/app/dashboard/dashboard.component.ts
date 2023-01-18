@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     let menuburguer = document.querySelector('.menu-burguer');
     let menu = document.querySelector('.menu-items');
-    menu?.querySelectorAll('a').forEach((a) => {
+    menu?.querySelectorAll('.li-nav').forEach((a) => {
       a.addEventListener('click', function () {
         if (menuburguer?.classList.contains('change')) {
           menuburguer?.classList.remove('change');
