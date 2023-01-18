@@ -51,8 +51,9 @@
   max-width: 90%;
   max-height: 90%;
   background: var(--color-4);
-  border-radius: 5px;
+  border-radius: 15px;
   animation: reactive 0.2s linear;
+  overflow-x: hidden;
 }
 
 @keyframes reactive {
@@ -72,10 +73,17 @@
 
 #modal .modal-header {
   width: 100%;
-  height: 32px;
+  height: 35px;
+  align-items: center;
   margin: auto;
   display: flex;
+  background: var(--color-1);
   justify-content: space-between;
+}
+
+#modal .modal-header h2{
+  font-family: 'Avenir Bold';
+  color: var(--color-4);
 }
 
 #modal .modal-header .close {
@@ -87,7 +95,7 @@
   align-items: center;
   width: 25px;
   height: 25px;
-  margin: 5px;
+  margin: 5px 5px 5px 5px;
 }
 
 .step-group {
