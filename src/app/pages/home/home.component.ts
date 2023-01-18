@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     let img = sideLeft?.querySelector('img')
 
     img?.style.setProperty('top','' + (a?.offsetTop! + a?.offsetHeight!) + 'px')
+    console.log(a?.offsetTop! + a?.offsetHeight!)
 
 
   }

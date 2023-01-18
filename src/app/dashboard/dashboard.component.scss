@@ -49,11 +49,29 @@ nav {
   background: linear-gradient(45deg, var(--color-1), var(--color-2));
   transition: 0.2s;
   z-index: 100;
+  list-style: none;
+}
+
+.li-nav{
+  width: 95%;
+  margin: auto;
+  background: var(--color-5);
+  padding: 7px 15px;
+  border-radius: 6px;
+}
+
+.li-nav i {
+  color: var(--color-3);
+}
+
+.menu-items li{
+  margin-bottom: 15px;
 }
 
 .menu-items li a  {
   color: var(--color-4);
   text-decoration: none;
+  text-transform: uppercase;
 }
 
 .change .line-1 {
