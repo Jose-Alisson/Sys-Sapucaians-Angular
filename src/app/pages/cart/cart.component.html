@@ -2,6 +2,37 @@
   <div class="show-cart-controll">
     <div class="hidden"></div>
     <h1>Meus pedidos</h1>
-    <div class="btn-add"><i class="fa-solid fa-plus"></i></div>
+    <div class="btn-add" (click)="active()">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+  </div>
+</div>
+<div id="fade"></div>
+<div id="modal">
+  <div class="modal-header">
+    <div class="hidden"></div>
+    <h2>Meu Pedido</h2>
+    <div class="close" (click)="desative()">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+  </div>
+  <div class="step-group">
+    <div class="step-content">
+      <input type="radio" name="st" id="st-1" checked="true" />
+      <input type="radio" name="st" id="st-2" />
+      <input type="radio" name="st" id="st-3" />
+      <input type="radio" name="st" id="st-4" />
+
+      <div class="step current"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+      <div class="step"></div>
+    </div>
+    <div class="step-control">
+      <label for="st-1"><i class="fa-solid fa-memo"></i>Pedido</label>
+      <label for="st-2"><i class="fa-solid fa-magnifying-glass"></i>Observação</label>
+      <label for="st-3"><i class="fa-solid fa-map-location-dot"></i>Endereço</label>
+      <label for="st-4"><i class="fa-solid fa-money-bill"></i>Pagamento</label>
+    </div>
   </div>
 </div>

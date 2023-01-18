@@ -1,5 +1,5 @@
-.show-cart-controll{
-  width: 90%;
+.show-cart-controll {
+  width: 95%;
   margin: auto;
   background: var(--color-1);
   display: flex;
@@ -10,12 +10,12 @@
   padding: 20px 15px;
 }
 
-.show-cart-controll h1{
+.show-cart-controll h1 {
   color: var(--color-4);
   text-align: center;
 }
 
-.show-cart-controll .btn-add{
+.show-cart-controll .btn-add {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,4 +25,103 @@
   height: 32px;
   border-radius: 200px;
   background: var(--color-3);
+}
+
+.desatived {
+  display: none;
+}
+
+#fade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+#modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 600px;
+  background: green;
+  max-width: 90%;
+  max-height: 90%;
+  background: var(--color-4);
+  border-radius: 5px;
+  animation: reactive 0.2s linear;
+}
+
+@keyframes reactive {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.01,1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1,1);
+  }
+}
+
+#modal .modal-header {
+  width: 100%;
+  height: 32px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+#modal .modal-header .close {
+  background: var(--color-6);
+  border-radius: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  margin: 5px;
+}
+
+.step-group {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.step-content {
+  display: flex;
+  width: 400%;
+  height: 100%;
+}
+
+.step-content input[name="st"] {
+  display: none;
+}
+
+.step {
+  transition: 0.2s;
+  width: 25%;
+}
+
+#st-1:checked ~ .current {
+  margin-left: 0;
+}
+
+#st-2:checked ~ .current {
+  margin-left: -25%;
+}
+
+#st-3:checked ~ .current {
+  margin-left: -50%;
+}
+
+#st-4:checked ~ .current {
+  margin-left: -75%;
 }

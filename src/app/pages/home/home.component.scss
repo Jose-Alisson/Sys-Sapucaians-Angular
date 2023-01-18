@@ -2,11 +2,11 @@
   font-family: "Poppins", sans-serif;
 }
 
-.showcase{
+.showcase {
   width: 100%;
 }
 
-.showcase-content{
+.showcase-content {
   height: 300px;
   display: flex;
   justify-content: space-between;
@@ -19,7 +19,7 @@
   height: 200px;
 }
 
-.side-left{
+.side-left {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -33,12 +33,12 @@
   -webkit-text-stroke: 1px var(--color-1);
 }
 
-.side-left h1 span{
+.side-left h1 span {
   font-size: 32px;
   color: var(--color-3);
 }
 
-.side-left a{
+.side-left a {
   color: var(--color-1);
   text-transform: uppercase;
   background: var(--color-3);
@@ -59,21 +59,26 @@
 }
 
 @keyframes flutuar {
-
-  0%{
+  0% {
     transform: translateY(0%);
   }
 
-  50%{
+  50% {
     transform: translateY(60%);
   }
 
-  100%{
+  100% {
     transform: translateY(0%);
   }
 }
 
-.side-bottom{
+.side-bottom {
   height: 100%;
   background: var(--color-1);
+}
+
+.side-bottom h1 {
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-4);
 }
