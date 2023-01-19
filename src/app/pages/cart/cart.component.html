@@ -40,10 +40,10 @@
            <p>Adicione uma forma de pagamento</p>
            <div class="wrapper">
             <div class="select-btn">
-              <span>Forma de pagamento</span>
+              <span id="pagamento">Forma de pagamento</span>
               <i class="fa-solid fa-sort-up"></i>
             </div>
-            <div class="select-content">
+            <div style="z-index: 3;" class="select-content">
               <ul class="options">
                 <li><i class="fa-solid fa-sack-dollar"></i>Dinheiro</li>
                 <li><i class="fa-solid fa-credit-card"></i>Cartão</li>
@@ -52,8 +52,24 @@
             </div>
            </div>
         </div>
+        <div class="box" *ngIf="formaDePagamento('Dinheiro')">
+          <p>Troco para</p>
+          <input type="text">
+        </div>
        <div class="box">
         <p>Adicione uma forma de despache</p>
+        <div class="wrapper">
+          <div class="select-btn">
+            <span>Forma de despache</span>
+            <i class="fa-solid fa-sort-up"></i>
+          </div>
+          <div style="z-index: 2;" class="select-content">
+            <ul class="options">
+              <li><i class="fa-solid fa-shop"></i>Local</li>
+              <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
+            </ul>
+          </div>
+         </div>
        </div>
       </div>
     </div>

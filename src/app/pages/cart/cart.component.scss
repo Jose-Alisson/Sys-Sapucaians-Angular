@@ -265,6 +265,7 @@
 
 
 .wrapper{
+  margin-top: 5px;
   width: 100%;
   position: relative;
 }
@@ -305,6 +306,18 @@
   cursor: pointer;
   align-items: center;
   list-style: none;
+}
+
+.options li i{
+  margin: 0px 5px;
+
+}
+
+.select-btn i{
+  transition: transform 0.3s linear;
+}
+.wrapper.active .select-btn i {
+  transform: rotate(-180deg);
 }
 
 .options li:hover{

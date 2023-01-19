@@ -28,6 +28,15 @@ export class CartComponent implements OnInit, AfterViewInit {
       selectBtn?.addEventListener('click', () => {
         w.classList.toggle('active')
       })
+
+      w.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', () => {
+          selectBtn?.querySelectorAll('span').forEach(span => {
+            w.classList.remove('active')
+            span.innerText = li.innerText
+          })
+        })
+      })
     })
   }
 
@@ -41,5 +50,9 @@ export class CartComponent implements OnInit, AfterViewInit {
   desative() {
     document.getElementById('fade')?.classList.add('desatived');
     document.getElementById('modal')?.classList.add('desatived');
+  }
+
+  formaDePagamento(forma:string){
+    return document.getElementById('pagamento')?.innerText == forma
   }
 }
