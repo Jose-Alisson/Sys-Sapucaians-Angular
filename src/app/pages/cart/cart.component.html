@@ -10,8 +10,7 @@
 <div id="fade" class="desatived"></div>
 <div id="modal" class="desatived">
   <div class="modal-header">
-    <div class="hidden"></div>
-    <h2>Meu Pedido</h2>
+    <p style="color: var(--color-4); margin-left: 10px;">Meu Pedido</p>
     <div class="close" (click)="desative()">
       <i class="fa-solid fa-xmark"></i>
     </div>
@@ -23,20 +22,32 @@
       <input type="radio" name="st" id="st-3" />
 
       <div class="step current">
-        <div class="step-header-seach">
-          <input type="text" name="" id="" placeholder="Produto">
-          <div class="btn-seach">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div>
+        <div class="field-seach">
+          <input type="text" name="seach" id="field-seach" placeholder="Produto">
+          <button><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
         <div class="step-result">
         </div>
       </div>
       <div class="step">
+        <h2>Observação</h2>
+        <p>Adcione uma observação ao seu pedido.</p>
         <textarea name="" id="" cols="30" rows="10" maxlength="150"></textarea>
       </div>
-      <div class="step"></div>
-      <div class="step"></div>
+      <div class="step">
+        <h2>Checagem</h2>
+        <p>Adicione uma forma de pagamento</p>
+        <select>
+          <option value="dinheiro">dinheiro</option>
+          <option value="cartao">cartão</option>
+          <option value="pix">pix</option>
+        </select>
+        <p>Adicione uma forma de despache</p>
+        <select>
+          <option value="local">local</option>
+          <option value="meuEndereco">meu endereço</option>
+        </select>
+      </div>
     </div>
     <div class="step-navgation">
       <ul>
