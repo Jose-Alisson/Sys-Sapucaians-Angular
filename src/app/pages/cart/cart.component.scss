@@ -241,6 +241,76 @@
   transform: translateY(13px);
 }
 
+.step .box{
+  width: 90%;
+  background: var(--color-1);
+  margin: auto;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.step .box p {
+  color: var(--color-4);
+}
+
+.step .box:not(:last-child){
+  margin-bottom: 15px;
+}
+
+
+.wrapper{
+  width: 100%;
+  position: relative;
+}
+
+.select-btn{
+  background: #fff;
+  height: 35px;
+  padding: 0px 12px;
+  border-radius: 7px;
+  font-size: 16px;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+}
+
+.select-content{
+  display: none;
+  position: absolute;
+  padding: 20px;
+  background: rgb(230, 230, 230);
+  margin-top: 15px;
+  width: 100%;
+  border-radius: 7px;
+}
+
+.wrapper.active .select-content{
+  display: block;
+}
+
+.select-content > i {
+  align-items: center;
+}
+
+.options li{
+  height: 32px;
+  border-radius: 5px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  list-style: none;
+}
+
+.options li:hover{
+  background: var(--color-3);
+}
+
 @media screen and (max-height: 375px) {
   #modal{
     height: 600px;
