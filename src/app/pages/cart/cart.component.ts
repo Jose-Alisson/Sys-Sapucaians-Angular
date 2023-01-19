@@ -38,7 +38,14 @@ export class CartComponent implements OnInit, AfterViewInit {
         })
       })
     })
+
+    let textArea = (<HTMLTextAreaElement> document.getElementById('textArea'))
+    textArea?.addEventListener('keyup', () => {
+      this.max = "" + textArea?.value.length + "/" + textArea.maxLength
+    })
   }
+
+  max = "/"
 
   ngOnInit(): void {}
 

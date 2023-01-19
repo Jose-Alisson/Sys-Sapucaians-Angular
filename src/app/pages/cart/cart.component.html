@@ -31,8 +31,11 @@
       </div>
       <div class="step">
         <h2>Observação</h2>
-        <p>Observação ao seu pedido.</p>
-        <textarea name="" id="" cols="30" rows="10" maxlength="150"></textarea>
+        <div class="box">
+          <p>Observação ao seu pedido.</p>
+          <textarea name="" id="textArea" cols="30" rows="10" maxlength="150"></textarea>
+          <p style="text-align: right;width: 100%;font-size: 14px;">{{max}}</p>
+        </div>
       </div>
       <div class="step">
         <h2>Checagem</h2>
@@ -53,8 +56,10 @@
            </div>
         </div>
         <div class="box" *ngIf="formaDePagamento('Dinheiro')">
-          <p>Troco para</p>
-          <input type="text">
+          <div class="din-box">
+            <p>Troco para</p>
+            <input type="text" placeholder="R$ 50,00">
+          </div>
         </div>
        <div class="box">
         <p>Adicione uma forma de despache</p>
@@ -71,9 +76,13 @@
           </div>
          </div>
        </div>
+       <div class="box">
+        <button>Fazer meu pedido</button>
+       </div>
       </div>
     </div>
-    <div class="step-navgation">
+  </div>
+  <div class="step-navgation">
       <ul>
         <li class="list active">
           <label for="st-1">
@@ -95,5 +104,4 @@
         </li>
       </ul>
     </div>
-  </div>
 </div>
