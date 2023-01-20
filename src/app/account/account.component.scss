@@ -1,7 +1,6 @@
 .container {
   background: linear-gradient(45deg, var(--color-1), var(--color-2));
   display: flex;
-
 }
 
 .side-left,
@@ -22,4 +21,14 @@
   height: 100%;
   background: var(--color-4);
   overflow-y: scroll;
+}
+
+@media screen and (max-width: 400px){
+  .side-left{
+    display: none;
+  }
+
+  .side-right{
+    width: 100vw;
+  }
 }

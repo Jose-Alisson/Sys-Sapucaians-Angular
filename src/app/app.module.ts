@@ -47,6 +47,9 @@ export const appRoutes: Routes = [
     HomeComponent,
     CartComponent,
     AccountComponent,
+    AboutComponent,
+    SignInComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
