@@ -1,3 +1,11 @@
+*:not(i){
+  font-family: 'Poppins', sans-serif;
+}
+
+.container{
+  height: calc(100% - 44px);
+}
+
 .logo img{
   width: 100%;
   height: 100%;
@@ -6,4 +14,43 @@
 .logo{
   width: 70px;
   height: 70px;
+}
+
+.card-header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.card-header h1{
+  font-family: 'Avenir Bold', sans-serif;
+}
+
+.field-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px var(--color-1) solid;
+  border-radius: 5px;
+  background: var(--color-1);
+}
+
+.field-box input {
+  padding: 7px 14px;
+  width: 100%;
+  background: var(--color-4);
+  outline: none;
+  border-radius: 0px 5px 5px 0px;
+  border: 0;
+}
+
+.field-box i {
+  margin: 0px 10px;
+  color: var(--color-3);
+}
+
+.card-box:not(:last-child){
+  margin-bottom: 15px;
 }

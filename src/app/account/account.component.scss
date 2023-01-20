@@ -12,12 +12,24 @@
   align-items: center;
 }
 
-.side-left img {
-  width: 100px;
+
+.side-right{
+  background: var(--color-4);
+}
+
+.side-left #img_1 {
+  height: 15%;
+  object-fit: cover;
+}
+
+.side-left #img_2 {
+  height: 60%;
+  height: 60%;
+  object-fit: cover;
 }
 
 .card {
-  width: 100%;
+  width: 90%;
   height: 100%;
   background: var(--color-4);
   overflow-y: scroll;
