@@ -44,6 +44,7 @@
   outline: none;
   border-radius: 0px 5px 5px 0px;
   border: 0;
+  transition: 0.2s;
 }
 
 .field-box i {
@@ -53,4 +54,25 @@
 
 .card-box:not(:last-child){
   margin-bottom: 15px;
+}
+
+.card-content a {
+  color: gray;
+  text-decoration: none;
+}
+
+.card-content a span {
+  color: var(--color-11);
+}
+
+.card-content button{
+  width: 100%;
+  border-radius: 6px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: var(--color-1);
+  color: var(--color-4);
+  border: 0px;
+  padding: 7px 14px;
+  margin-top: 15px;
 }
