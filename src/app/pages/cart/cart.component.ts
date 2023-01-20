@@ -45,7 +45,7 @@ export class CartComponent implements OnInit, AfterViewInit {
     })
   }
 
-  max = "/"
+  max = "0/150"
 
   ngOnInit(): void {}
 

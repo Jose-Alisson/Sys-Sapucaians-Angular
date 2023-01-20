@@ -32,7 +32,7 @@
       <div class="step">
         <h2>Observação</h2>
         <div class="box">
-          <p>Observação ao seu pedido.</p>
+          <p>Adicione uma observação ao seu pedido.</p>
           <textarea name="" id="textArea" cols="30" rows="10" maxlength="150"></textarea>
           <p style="text-align: right;width: 100%;font-size: 14px;">{{max}}</p>
         </div>
@@ -58,7 +58,7 @@
         <div class="box" *ngIf="formaDePagamento('Dinheiro')">
           <div class="din-box">
             <p>Troco para</p>
-            <input type="text" placeholder="R$ 50,00">
+            <input type="text" placeholder="R$ 00,00" mask="99,99">
           </div>
         </div>
        <div class="box">
@@ -76,9 +76,9 @@
           </div>
          </div>
        </div>
-       <div class="box">
-        <button>Fazer meu pedido</button>
-       </div>
+       <div class="box transparent">
+        <button class="btn-green">Fazer meu pedido</button>
+      </div>
       </div>
     </div>
   </div>

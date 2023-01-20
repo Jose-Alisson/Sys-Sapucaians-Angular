@@ -285,9 +285,9 @@
   flex-direction: column;
 }
 
-.din-box p{
-  color: var(--color-3) !important;
-}
+//.din-box p{
+  //color: var(--color-3) !important;
+//}
 
 .din-box input{
   outline: none;
@@ -301,6 +301,16 @@
   width: 100%;
   border: 0;
   border-radius: 7px;
+}
+
+.btn-green{
+  background: #28a745;
+  border: #28a745;
+  padding: 7px 15px;
+  color: var(--color-4);
+  text-transform: uppercase;
+  border-radius: 7px;
+  margin: auto;
 }
 
 @media screen and (max-height: 375px) {
