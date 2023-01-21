@@ -52,10 +52,11 @@
 
 .side-left img {
   position: absolute;
-  width: 30px;
+  width: 22px;
   top: 120px;
-  height: 30px;
+  height: 30.8074957px;
   animation: flutuar 2s infinite;
+  display: block;
 }
 
 @keyframes flutuar {

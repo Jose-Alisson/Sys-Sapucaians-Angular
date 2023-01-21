@@ -1,0 +1,32 @@
+
+
+.step-group{
+  overflow-x: hidden;
+  margin-bottom: 15px;
+}
+
+.steps-content{
+  display: flex;
+  width: 400%;
+  height: 220px;
+  overflow-y: hidden;
+}
+
+.step{
+  width: 25%;
+  overflow-y: scroll;
+}
+
+.step::-webkit-scrollbar{
+  display: none;
+}
+
+.steps-content > input[type = "radio"]{
+  display: none;
+}
+
+.btn-v{
+  background: var(--color-6) !important;
+  color: var(--color-1) !important;
+}
+
