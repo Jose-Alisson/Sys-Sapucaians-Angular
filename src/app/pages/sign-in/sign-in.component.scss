@@ -36,6 +36,7 @@
   border: 2px var(--color-1) solid;
   border-radius: 5px;
   background: var(--color-1);
+  position: relative;
 }
 
 .field-box input {
@@ -46,6 +47,16 @@
   border-radius: 0px 5px 5px 0px;
   border: 0;
   transition: 0.2s;
+}
+
+#password{
+  padding: 7px 40px 7px 14px;
+}
+
+#eye{
+  position: absolute;
+  right: 10px;
+  margin: 0;
 }
 
 .field-box i {
