@@ -12,8 +12,8 @@
         <input type="radio" name="st" id="st-1" checked />
         <input type="radio" name="st" id="st-2" />
         <input type="radio" name="st" id="st-3" />
+        <input type="radio" name="st" id="st-4" />
         <div class="step current">
-          <div class="card-content">
             <div class="card-box">
               <label for="email">Email*</label>
               <div class="field-box">
@@ -40,13 +40,65 @@
               <p></p>
             </div>
           </div>
-          <div class="step current"></div>
-          <div class="step current"></div>
-        </div>
+          <div class="step">
+            <div class="card-box">
+              <label for="nome">Nome*</label>
+              <div class="field-box">
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" name="nome" id="nome" placeholder="Nome" />
+              </div>
+              <p></p>
+            </div>
+            <div class="card-box">
+              <label for="nome">Telephone</label>
+              <div class="field-box">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <input type="text" name="contact" id="telephone" placeholder="Telephone" prefix="(81)" mask=" 0 0000-0000 || 0000-0000" [showMaskTyped]="true"/>
+              </div>
+              <p></p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="card-box">
+              <label for="nameAddress">Nome do Endereço</label>
+              <div class="field-box">
+                <i class="fa-solid fa-house-chimney"></i>
+                <input type="text" name="nameAddress" id="nameAddress" placeholder="Nome do Endereço" />
+              </div>
+              <p></p>
+            </div>
+            <div class="card-box">
+              <label for="cep">CEP</label>
+              <div class="field-box">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="text" name="cep" id="cep" placeholder="CEP" />
+              </div>
+              <p></p>
+            </div>
+            <div class="card-box">
+              <label for="noth">Número da Residencia</label>
+              <div class="field-box">
+                <i class="fa-solid fa-circle-user"></i>
+                <input type="text" name="noth" id="noth" placeholder="Número da Residencia" />
+              </div>
+              <p></p>
+            </div>
+            <div class="card-box">
+              <label for="localidade">Localidade</label>
+              <div class="field-box">
+                <i class="fa-solid fa-mountain-sun"></i>
+                <input type="text" name="localidade" id="localidade" placeholder="Localidade Ex: Ur2" />
+              </div>
+              <p></p>
+            </div>
+          </div>
+          <div class="step">
+            <h1><i class="fa-solid fa-check"></i></h1>
+          </div>
       </div>
     </div>
     <a [routerLink]="['../signIn']">Já tenho uma conta, <span>Entar</span></a>
-      <button>Prosseguir</button>
-      <button class="btn-v" *ngIf="count > 1">Voltar</button>
+      <button class="btn-prosseguir">Prosseguir</button>
+      <button class="btn-voltar" *ngIf="count > 1 && count < 4" (click)="voltar()">Voltar</button>
   </div>
 </div>

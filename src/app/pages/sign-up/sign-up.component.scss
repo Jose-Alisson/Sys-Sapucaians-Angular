@@ -1,5 +1,11 @@
 
 
+.card-content > a{
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
 .step-group{
   overflow-x: hidden;
   margin-bottom: 15px;
@@ -13,20 +19,50 @@
 }
 
 .step{
+  transition: .2s;
   width: 25%;
   overflow-y: scroll;
+  padding: 0px 5px 0px 0px;
 }
 
 .step::-webkit-scrollbar{
-  display: none;
+  width: 5px;
+}
+
+.step::-webkit-scrollbar-track{
+  opacity: 0;
+}
+
+.step::-webkit-scrollbar-thumb{
+  background-color: var(--color-3);
+  border-radius: 5px;
+  height: 25%;
 }
 
 .steps-content > input[type = "radio"]{
   display: none;
 }
 
-.btn-v{
+.btn-voltar{
   background: var(--color-6) !important;
   color: var(--color-1) !important;
 }
+
+#st-1:checked ~ .current {
+  margin-left: 0%;
+}
+
+#st-2:checked ~ .current {
+  margin-left: -25%;
+}
+
+#st-3:checked ~ .current {
+  margin-left: -50%;
+}
+
+#st-4:checked ~ .current {
+  margin-left: -75%;
+}
+
+
 
