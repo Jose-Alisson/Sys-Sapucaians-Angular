@@ -30,13 +30,15 @@
 }
 
 .step::-webkit-scrollbar-track{
-  opacity: 0;
+  background-color: #dcdcdc;
+  border-radius: 0px 20px 20px 0px;
 }
 
 .step::-webkit-scrollbar-thumb{
   background-color: var(--color-3);
   border-radius: 5px;
   height: 25%;
+  border-radius: 0px 20px 20px 0px;
 }
 
 .steps-content > input[type = "radio"]{
@@ -64,5 +66,25 @@
   margin-left: -75%;
 }
 
+.ckecked {
+  width: 100px;
+  height: 100px;
+  background: #28a745;
+  border-radius: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
+.ckecked > i {
+  color: var(--color-4);
+  font-size: 72px;
+}
