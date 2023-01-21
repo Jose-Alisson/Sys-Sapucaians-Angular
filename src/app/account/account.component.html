@@ -1,12 +1,20 @@
 <div class="container">
   <div class="side-left">
-    <img src="assets//pizzaria text.png" alt="texto pizzaria" id="img_1"/>
-    <img src="assets//Pizza maker-bro.svg" alt="pizzaiolo" id="img_2"/>
+    <img src="assets//pizzaria text.png" alt="texto pizzaria" id="img_1" />
+    <img src="assets//Pizza maker-bro.svg" alt="pizzaiolo" id="img_2" />
   </div>
   <div class="side-right">
     <div class="card">
-      <router-outlet></router-outlet>
-      <asl-google-signin-button></asl-google-signin-button>
+      <div class="card-content">
+        <router-outlet></router-outlet>
+      </div>
+      <div class="line"></div>
+      <asl-google-signin-button
+        [size]="'large'"
+        [type]="'standard'"
+        [theme]="'filled_black'"
+        [logo_alignment]="'center'"
+      ></asl-google-signin-button>
     </div>
   </div>
 </div>
