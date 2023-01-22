@@ -1,3 +1,4 @@
+import { AccountService } from './../shared/services/account/account-service.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, switchMap } from 'rxjs';
@@ -12,7 +13,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   array: string[] = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private accountService: AccountService) {
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .pipe(map(() => activatedRoute))
@@ -26,6 +27,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       .subscribe((event) => {
         this.title = event['title'];
       });
+
+      if(accountService.usuario === undefined){
+        router.navigate(['account'])
+      }
   }
 
   ngOnInit(): void {}

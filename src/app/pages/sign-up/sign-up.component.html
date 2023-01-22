@@ -13,49 +13,71 @@
         <input type="radio" name="st" id="st-2" />
         <input type="radio" name="st" id="st-3" />
         <input type="radio" name="st" id="st-4" />
-        <div class="step current">
+        <div class="step current" [formGroup]="forms[0]">
+          <!--Email-->
             <div class="card-box">
-              <label for="email">Email*</label>
+              <label for="email">Email<span>*</span></label>
               <div class="field-box">
                 <i class="fa-solid fa-circle-user"></i>
-                <input type="email" name="email" id="email" placeholder="Email" />
+                <input type="email" name="email" id="email" placeholder="Email" formControlName="email" [(ngModel)]="usuario.email"/>
               </div>
-              <p></p>
+              <div class="invalid" *ngIf="getEmailElement().errors?.['required'] && (getEmailElement()?.touched || getEmailElement().dirty || isExibirAll())">
+                E-mail vazio*
+              </div>
+              <div class="invalid" *ngIf="getEmailElement().errors?.['email'] && (getEmailElement()?.touched || getEmailElement().dirty || isExibirAll())" >
+                E-mail Invalido*
+              </div>
             </div>
+            <!--Password-->
             <div class="card-box">
-              <label for="senha">Senha*</label>
+              <label for="senha">Senha<span>*</span></label>
               <div class="field-box">
                 <i class="fa-solid fa-lock"></i>
-                <input type="password" name="senha" id="password" placeholder="Senha" />
-                <i id="eye" #eyeIcon class="fa-solid fa-eye-slash" (click)="visibilidade(this.eyeIcon)"></i>
+                <input type="password" name="senha" id="password" placeholder="Senha" formControlName="password" [(ngModel)]="usuario.senha" />
+                <i id="eye" #eyeIcon class="fa-solid fa-eye-slash" (click)="visibilidade(this.eyeIcon)" ></i>
               </div>
-              <p></p>
+              <div class="invalid" *ngIf="getPasswordElement().errors?.['required'] && (getPasswordElement()?.touched || getPasswordElement().dirty || isExibirAll())">
+                Senha vazia*
+              </div>
+              <div class="invalid" *ngIf="getPasswordElement().errors?.['minlength'] && (getPasswordElement()?.touched || getPasswordElement().dirty || isExibirAll())" >
+                Senha muito curta, 6 caracteres min
+              </div>
             </div>
+            <!------  Confirm Password ----->
             <div class="card-box">
-              <label for="senha">Confirmação de Senha*</label>
+              <label for="senha">Confirmação de Senha<span>*</span></label>
               <div class="field-box">
                 <i class="fa-solid fa-circle-check"></i>
-                <input type="password" name="comfirmPassword" id="comfirmPassword" placeholder="Confirmação de Senha" />
+                <input type="password" name="comfirmPassword" id="comfirmPassword" placeholder="Confirmação de Senha"  formControlName="confirmPassword" />
               </div>
-              <p></p>
+              <div class="invalid" *ngIf="getConfirmPasswordElement().errors?.['required'] && (getConfirmPasswordElement()?.touched || getConfirmPasswordElement()?.dirty || isExibirAll())">
+                Confirmação vazia
+              </div>
+              <div class="invalid" *ngIf="!isEqual() && (getConfirmPasswordElement()?.touched || getConfirmPasswordElement()?.dirty || isExibirAll())">
+                Confirmação diferente de sua senha
+              </div>
             </div>
           </div>
-          <div class="step">
+          <div class="step" [formGroup]="forms[1]">
             <div class="card-box">
-              <label for="nome">Nome*</label>
+              <label for="nome">Nome<span>*</span></label>
               <div class="field-box">
                 <i class="fa-solid fa-signature"></i>
-                <input type="text" name="nome" id="nome" placeholder="Nome" />
+                <input type="text" name="nome" id="nome" placeholder="Nome" formControlName="nome" [(ngModel)]="usuario.nome"/>
               </div>
-              <p></p>
+              <div class="invalid" *ngIf="getNomeElement().errors?.['required'] && (getNomeElement()?.touched || getNomeElement()?.dirty || isExibirAll())">
+                Nome Vazio
+              </div>
+              <div class="invalid" *ngIf="getNomeElement().errors?.['minlength'] && (getNomeElement()?.touched || getNomeElement()?.dirty || isExibirAll())">
+                Nome muito curta, 4 caracteres min
+              </div>
             </div>
             <div class="card-box">
               <label for="nome">Contato</label>
               <div class="field-box">
                 <i class="fa-solid fa-mobile-screen-button"></i>
-                <input type="text" name="contact" id="telephone" placeholder="Telephone" prefix="(81)" mask=" 0 0000-0000 || 0000-0000" [showMaskTyped]="true"/>
+                <input type="text" name="contact" id="telephone" placeholder="Telephone" prefix="(81)" mask=" 0 0000-0000 || 0000-0000" [showMaskTyped]="true" [(ngModel)]="usuario.contato" [ngModelOptions]="{standalone: true}"/>
               </div>
-              <p></p>
             </div>
           </div>
           <div class="step">
@@ -63,33 +85,29 @@
               <label for="nameAddress">Nome do Endereço</label>
               <div class="field-box">
                 <i class="fa-solid fa-house-chimney"></i>
-                <input type="text" name="nameAddress" id="nameAddress" placeholder="Nome do Endereço" />
+                <input type="text" name="nameAddress" id="nameAddress" placeholder="Nome do Endereço" [(ngModel)]="endereco.nomeDoEndereco"/>
               </div>
-              <p></p>
             </div>
             <div class="card-box">
               <label for="cep">CEP</label>
               <div class="field-box">
                 <i class="fa-solid fa-envelope"></i>
-                <input type="text" name="cep" id="cep" placeholder="CEP" />
+                <input type="text" name="cep" id="cep" placeholder="CEP" [(ngModel)]="endereco.cep"/>
               </div>
-              <p></p>
             </div>
             <div class="card-box">
               <label for="noth">Número da Residencia</label>
               <div class="field-box">
                 <i class="fa-solid fa-arrow-up-1-9"></i>
-                <input type="text" name="noth" id="noth" placeholder="Número da Residencia" />
+                <input type="text" name="noth" id="noth" placeholder="Número da Residencia"  [(ngModel)]="endereco.numeroDaCasa"/>
               </div>
-              <p></p>
             </div>
             <div class="card-box">
               <label for="localidade">Localidade</label>
               <div class="field-box">
                 <i class="fa-solid fa-mountain-sun"></i>
-                <input type="text" name="localidade" id="localidade" placeholder="Localidade Ex: Ur2" />
+                <input type="text" name="localidade" id="localidade" placeholder="Localidade Ex: Ur2" [(ngModel)]="endereco.localidade"/>
               </div>
-              <p></p>
             </div>
           </div>
           <div class="step center">
@@ -97,7 +115,7 @@
               <i class="fa-solid fa-check"></i>
             </div>
           </div>
-      </div>
+        </div>
     </div>
     <a [routerLink]="['../signIn']">Já tenho uma conta, <span>Entar</span></a>
       <button class="btn-prosseguir">Prosseguir</button>

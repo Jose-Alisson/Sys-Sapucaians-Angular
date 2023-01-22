@@ -15,6 +15,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { AccountComponent } from './account/account.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 export const appRoutes: Routes = [
@@ -55,7 +56,9 @@ export const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes, { useHash: true }),
     NgxMaskModule.forRoot(),
-    SocialLoginModule
+    SocialLoginModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     {

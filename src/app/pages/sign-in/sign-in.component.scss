@@ -57,6 +57,7 @@
   position: absolute;
   right: 10px;
   margin: 0;
+  color: var(--color-1) !important;
 }
 
 .field-box i {
@@ -87,4 +88,24 @@
   border: 0px;
   padding: 7px 14px;
   margin-top: 15px;
+}
+
+label span {
+  color: var(--color-6);
+}
+
+.invalid{
+  background: var(--color-6);
+  padding: 4px;
+  border-radius: 6px;
+  position: relative;
+}
+
+.invalid::before{
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg) translateY(-50%);
+  top: 0;
 }

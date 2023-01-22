@@ -4,15 +4,11 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class AccountServiceService {
+export class AccountService {
 
-  usuario!: Usuario;
+  usuario!: Usuario
 
   constructor() { }
-
-  getUsuario(){
-    return this.usuario
-  }
 
   setUsuario(usuario:Usuario){
     this.usuario = usuario;
