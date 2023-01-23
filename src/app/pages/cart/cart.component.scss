@@ -59,16 +59,22 @@
 }
 #modal .modal-header {
   width: 100%;
-  height: 45px;
+  height: 55px;
   align-items: center;
   margin: auto;
   display: flex;
-  background: var(--color-1);
+  padding: 10px;
+  border-bottom: 1px var(--color-9) solid;
+  box-shadow: 2px 7px 40px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+  //background: var(--color-1);
   justify-content: space-between;
 }
+
 #modal .modal-header h2 {
   color: var(--color-4);
 }
+
 #modal .modal-header .close {
   background: var(--color-6);
   border-radius: 200px;
@@ -128,13 +134,13 @@
   color: var(--color-1);
 }
 .field-seach button {
-  background: var(--color-1);
+  background: var(--color-4);
   width: 55px;
   border-radius: 0px 20px 20px 0px;
   border: 0;
 }
 .field-seach i {
-  color: var(--color-4);
+  color: var(--color-1);
 }
 .step h2 {
   text-align: center;
