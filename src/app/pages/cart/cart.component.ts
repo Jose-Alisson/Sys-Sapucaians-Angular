@@ -50,12 +50,10 @@ export class CartComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   active() {
-    document.getElementById('fade')?.classList.remove('desatived');
     document.getElementById('modal')?.classList.remove('desatived');
   }
 
   desative() {
-    document.getElementById('fade')?.classList.add('desatived');
     document.getElementById('modal')?.classList.add('desatived');
   }
 

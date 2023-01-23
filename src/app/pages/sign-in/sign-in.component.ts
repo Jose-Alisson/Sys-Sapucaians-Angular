@@ -1,3 +1,4 @@
+import { SignInService } from './../../shared/services/signIn/sign-in.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignInComponent implements OnInit {
 
-  constructor() { }
+  autho = {
+    email: '',
+    password: ''
+  }
+
+  constructor(private signInService: SignInService) { }
 
   ngOnInit(): void {
   }
@@ -20,5 +26,9 @@ export class SignInComponent implements OnInit {
     } else {
       element.classList.replace('fa-eye-slash', 'fa-eye')
     }
+  }
+
+  login(){
+    this.signInService.login(this.autho.email, this.autho.password)
   }
 }

@@ -1,3 +1,4 @@
+import { Usuario } from './../../model/usuario.model';
 import { AccountService } from './../../shared/services/account/account-service.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,10 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
-  myAccount = ""
+  myAccount!: Usuario
 
   constructor(private account : AccountService) {
-    this.myAccount = JSON.stringify(account.usuario)
+    this.myAccount = account.usuario
   }
 
   ngOnInit(): void {

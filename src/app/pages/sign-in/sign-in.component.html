@@ -11,7 +11,7 @@
       <label for="email">Email<span>*</span></label>
       <div class="field-box">
         <i class="fa-solid fa-circle-user"></i>
-        <input type="email" name="email" id="email" placeholder="Email">
+        <input type="email" name="email" id="email" placeholder="Email" [(ngModel)]="autho.email">
       </div>
       <p></p>
     </div>
@@ -19,14 +19,13 @@
       <label for="senha">Senha<span>*</span></label>
       <div class="field-box">
         <i class="fa-solid fa-lock"></i>
-        <input type="password" name="senha" id="password" placeholder="Senha">
-        <!-- <i class="fa-solid fa-eye"></i> -->
+        <input type="password" name="senha" id="password" placeholder="Senha" [(ngModel)]="autho.password">
         <i id="eye" #eyeIcon class="fa-solid fa-eye-slash" (click)="visibilidade(this.eyeIcon)"></i>
       </div>
       <p></p>
     </div>
     <a [routerLink]="['../signUp']">Não tenho conta, <span>Me Registrar</span></a>
-    <button>Entrar</button>
+    <button (click)="login()">Entrar</button>
   </div>
 </div>
 

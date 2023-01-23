@@ -1,3 +1,22 @@
 <div class="container">
-  <p>{{myAccount}}</p>
+  <div class="about-header">
+    <div class="side-left">
+      <img src="" alt="">
+    </div>
+    <div class="side-right">
+      <h2>{{myAccount.nome}}</h2>
+      <p>{{myAccount.id}}</p>
+    </div>
+  </div>
+  <p>{{myAccount.email}}</p>
+  <p>{{myAccount.contato}}</p>
+  <div class="enderecos">
+    <div>Adicionar</div>
+    <div *ngFor="let i of myAccount.enderecos">
+      <h3>Nome do endereço: {{i.nomeDoEndereco}}</h3>
+      <p>cep: {{i.cep}}</p>
+      <p>Número da casa: {{i.numeroDaCasa}}</p>
+      <p>localidade: {{i.localidade}}</p>
+    </div>
+  </div>
 </div>

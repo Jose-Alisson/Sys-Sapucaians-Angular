@@ -1,8 +1,14 @@
+import { SignUpService } from './../../shared/services/signUp/sign-up.service';
 import { AccountService } from './../../shared/services/account/account-service.service';
 import { Endereco } from './../../model/endereco.model';
 import { Router } from '@angular/router';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Usuario } from 'src/app/model/usuario.model';
 
 @Component({
@@ -11,13 +17,9 @@ import { Usuario } from 'src/app/model/usuario.model';
   styleUrls: ['./sign-up.component.scss', '../sign-in/sign-in.component.scss'],
 })
 export class SignUpComponent implements OnInit, AfterViewInit {
-
   forms: FormGroup[] = [new FormGroup({}), new FormGroup({})];
 
-  errorVisible: boolean[] = [
-    false,
-    false
-  ]
+  errorVisible: boolean[] = [false, true];
 
   count = 1;
 
@@ -26,10 +28,10 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     nomeDoEndereco: '',
     cep: '',
     numeroDaCasa: '',
-    localidade: ''
-  }
+    localidade: '',
+  };
 
-  usuario:Usuario = {
+  usuario: Usuario = {
     id: 0,
     foto: '',
     nome: '',
@@ -37,29 +39,36 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     senha: '',
     contato: '',
     pedidos: [],
-    enderecos: [this.endereco]
-  }
+    enderecos: [],
+  };
 
-  constructor(private formBuild: FormBuilder, private router:Router, private accountService: AccountService) {}
+  constructor(
+    private formBuild: FormBuilder,
+    private signUpService: SignUpService
+  ) {}
 
   ngAfterViewInit(): void {
     document.querySelector('.btn-prosseguir')?.addEventListener('click', () => {
       if (this.forms[this.count - 1] !== undefined) {
         if (this.forms[this.count - 1].valid) {
-          console.log(this.forms[this.count - 1])
           this.alternar(1);
         }
         this.errorVisible[this.count - 1] = true;
-        console.log(this.errorVisible[this.count - 1])
-      }
-      else {
-        this.exibir = false
+      } else {
+        this.exibir = false;
         this.alternar(1);
       }
 
-      if(this.count >= 5){
-        this.accountService.usuario = this.usuario
-        this.router.navigate(['dashboard'])
+      if (this.count >= 5) {
+        if (
+          this.endereco.nomeDoEndereco != '' ||
+          this.endereco.cep != '' ||
+          this.endereco.nomeDoEndereco != '' ||
+          this.endereco.localidade != ''
+        ) {
+          this.usuario.enderecos.push(this.endereco)
+        }
+        this.create();
       }
     });
   }
@@ -68,19 +77,19 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.alternar(-1);
   }
 
-  alternar(value:number) {
+  alternar(value: number) {
     this.count += value;
     try {
-      (<HTMLInputElement>document.getElementById('st-' + this.count)).checked = true;
-    } catch (error) {
-    }
+      (<HTMLInputElement>document.getElementById('st-' + this.count)).checked =
+        true;
+    } catch (error) {}
   }
 
   ngOnInit(): void {
     this.forms[0] = this.formBuild.group({
       email: [null, [Validators.email, Validators.required]],
       password: [null, [Validators.required, Validators.minLength(6)]],
-      confirmPassword: [null, [Validators.required]]
+      confirmPassword: [null, [Validators.required]],
     });
 
     this.forms[1] = this.formBuild.group({
@@ -98,29 +107,42 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getEmailElement(): FormControl{
-    return this.forms[0].get('email') as FormControl
+  getEmailElement(): FormControl {
+    return this.forms[0].get('email') as FormControl;
   }
 
   getPasswordElement(): FormControl {
-    return this.forms[0].get('password') as FormControl
+    return this.forms[0].get('password') as FormControl;
   }
 
-  getConfirmPasswordElement(): FormControl{
-    return this.forms[0].get('confirmPassword') as FormControl
+  getConfirmPasswordElement(): FormControl {
+    return this.forms[0].get('confirmPassword') as FormControl;
   }
 
-  isEqual(){
-    return this.getConfirmPasswordElement().value === this.getPasswordElement().value
+  isEqual() {
+    return (
+      this.getConfirmPasswordElement().value === this.getPasswordElement().value
+    );
   }
 
-  exibir = false
+  exibir = false;
 
-  isExibirAll(){
-    return this.errorVisible[this.count - 1]
+  isExibirAll() {
+    return this.errorVisible[this.count - 1];
   }
 
-  getNomeElement(): FormControl{
-    return this.forms[1].get('nome') as FormControl
+  getNomeElement(): FormControl {
+    return this.forms[1].get('nome') as FormControl;
+  }
+
+  create() {
+    this.signUpService.create(this.usuario);
+  }
+
+  isValid(){
+    if (this.forms[this.count - 1] !== undefined) {
+      return (this.forms[this.count - 1].invalid && this.isExibirAll())
+    }
+    return false;
   }
 }

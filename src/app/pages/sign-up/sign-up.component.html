@@ -118,7 +118,7 @@
         </div>
     </div>
     <a [routerLink]="['../signIn']">Já tenho uma conta, <span>Entrar</span></a>
-    <button class="btn-prosseguir">Prosseguir</button>
+    <button class="btn-prosseguir" [disabled]="isValid()">Prosseguir</button>
     <button class="btn-voltar" *ngIf="count > 1 && count < 4" (click)="voltar()">Voltar</button>
   </div>
 </div>
