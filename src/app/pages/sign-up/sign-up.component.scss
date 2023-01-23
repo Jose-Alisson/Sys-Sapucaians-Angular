@@ -1,10 +1,10 @@
 
 
-.card-content > a{
-  width: 100%;
-  display: block;
-  text-align: center;
-}
+// .card-content > a{
+//   width: 100%;
+//   display: block;
+//   text-align: center;
+// }
 
 .step-group{
   overflow-x: hidden;
@@ -23,6 +23,7 @@
   width: 25%;
   overflow-y: scroll;
   padding: 0px 5px 0px 0px;
+  background: rgb(240,240,240);
 }
 
 .step::-webkit-scrollbar{
@@ -46,6 +47,7 @@
 }
 
 .btn-voltar{
+  font-weight: 500;
   background: var(--color-6) !important;
   color: var(--color-1) !important;
 }

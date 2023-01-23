@@ -94,18 +94,20 @@ label span {
   color: var(--color-6);
 }
 
-.invalid{
-  background: var(--color-6);
-  padding: 4px;
-  border-radius: 6px;
-  position: relative;
+.card-box:has(.invalid) {
+
+  .field-box{
+    border-color: var(--color-6);
+    background: var(--color-6) !important;
+
+    i {
+      color: var(--color-1);
+    }
+  }
 }
 
-.invalid::before{
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  transform: rotate(45deg) translateY(-50%);
-  top: 0;
+.invalid{
+  color: var(--color-6);
+  font-size: 14px;
 }
+

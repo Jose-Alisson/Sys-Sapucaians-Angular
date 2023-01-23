@@ -46,10 +46,11 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     document.querySelector('.btn-prosseguir')?.addEventListener('click', () => {
       if (this.forms[this.count - 1] !== undefined) {
         if (this.forms[this.count - 1].valid) {
+          console.log(this.forms[this.count - 1])
           this.alternar(1);
         }
-
         this.errorVisible[this.count - 1] = true;
+        console.log(this.errorVisible[this.count - 1])
       }
       else {
         this.exibir = false
