@@ -336,7 +336,7 @@
 }
 
 .box p {
-  color: var(--color-4);
+  color: var(--color-1);
 }
 
 .din-box {
@@ -347,7 +347,7 @@
 
 .din-box p {
   margin-bottom: 5px;
-  color: #28a745;//var(--color-3);
+  color: var(--color-3);
 }
 
 .din-box input {
@@ -357,18 +357,16 @@
   border: 1px var(--color-9) solid;
 }
 
-.address-group{
-  width: 100%;
-  overflow-x: scroll;
+.address-group::-webkit-scrollbar{
+  height: 5px;
 }
 
 .address-content{
-  width: 400%;
   display: flex;
 }
 
-.address-group::-webkit-scrollbar{
-  height: 5px;
+.card-address{
+  margin: 5px 5px 0px 0px;
 }
 
 .address-group::-webkit-scrollbar-thumb{
@@ -379,7 +377,7 @@
   width: 200px;
   border-radius: 6px;
   padding: 2px;
-  background: var(--color-3);
+  background: var(--color-4);
 }
 
 .btn-green {
