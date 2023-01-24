@@ -9,7 +9,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 })
 export class CartComponent implements OnInit, AfterViewInit {
 
-  endrecos: Endereco[] = [
+  enderecos: Endereco[] = [
 
   ]
 
@@ -75,7 +75,7 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   definirEndereco(addressId:number){
-    this.enderecoAtual = this.endrecos.find(({id}) => id === addressId)!
+    this.enderecoAtual = this.enderecos.find(({id}) => id === addressId)!
   }
 
   mudarEndereco(){
@@ -85,7 +85,7 @@ export class CartComponent implements OnInit, AfterViewInit {
   max = "0/150"
 
   ngOnInit(): void {
-    this.endrecos = this.account.usuario.enderecos
+    this.enderecos = this.account.usuario.enderecos
   }
 
   moneyPay(){
@@ -101,5 +101,14 @@ export class CartComponent implements OnInit, AfterViewInit {
       return false
     }
     return true
+  }
+
+  generateColor() {
+    let red = Math.floor(Math.random() * 255)
+    let green = Math.floor(Math.random() * 255)
+    let blue = Math.floor(Math.random() * 255)
+
+    let color =   'rgb(' + red +',' + green + ',' + blue  +')'
+    return {'background': color}
   }
 }

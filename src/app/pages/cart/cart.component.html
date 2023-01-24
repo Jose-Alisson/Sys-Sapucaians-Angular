@@ -90,14 +90,18 @@
           <p>Selecione um dos seus endereços</p>
           <div class="select-content-address">
             <ul class="options">
-              <li><i class="fa-solid fa-shop"></i>Local</li>
-              <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
-              <li><i class="fa-solid fa-shop"></i>Local</li>
-              <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
-              <li><i class="fa-solid fa-shop"></i>Local</li>
-              <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
-              <li><i class="fa-solid fa-shop"></i>Local</li>
-              <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
+              <li *ngFor="let a of enderecos" (click)="definirEndereco(a.id)">
+                <div class="black-box" [ngStyle]="generateColor()" >
+                  <div class="address-header">
+                    <p>
+                      <strong>{{ a.nomeDoEndereco }}</strong>
+                    </p>
+                  </div>
+                  <p>{{ a.cep }},</p>
+                  <p>{{ a.numeroDaCasa }},</p>
+                  <p>{{ a.localidade }}</p>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
