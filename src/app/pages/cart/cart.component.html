@@ -7,6 +7,7 @@
     </div>
   </div>
 </div>
+<div id="fade" class="desatived"></div>
 <div id="modal" class="desatived">
   <div class="modal-header">
     <p style="color: var(--color-4); margin-left: 10px">Meu Pedido</p>
@@ -32,13 +33,13 @@
         <h2>Observação</h2>
         <p>Adicione uma Observação em seu pedido.</p>
         <div class="obs">
-          <textarea cols="30" rows="10" maxlength="150">...</textarea>
+          <textarea cols="30" rows="10" [maxLength]="150">...</textarea>
           <p style="float: right">{{ max }}</p>
         </div>
       </div>
       <div class="step">
         <h2>Checagem</h2>
-        <p>Adicione as informaçoes de dinheiro e endereço ao seu pedido.</p>
+        <p>Adicione as informaçoes de pagamento e endereço ao seu pedido.</p>
         <br />
         <p>Adicone uma forma de pagamento</p>
         <div class="wrapper">
@@ -64,7 +65,7 @@
         <p>Adicione uma forma de despache</p>
         <div class="wrapper">
           <div class="select-btn">
-            <span>Forma de despache</span>
+            <span id="formOfDispatch">Forma de despache</span>
             <i class="fa-solid fa-sort-up"></i>
           </div>
           <div style="z-index: 2" class="select-content">
@@ -74,6 +75,14 @@
             </ul>
           </div>
         </div>
+        <div class="box" *ngIf="despache()">
+          <p>Selecione um endereço</p>
+          <div class="address-group">
+
+          </div>
+        </div>
+        <br>
+        <button class="btn-green">Fazer meu Pedido</button>
       </div>
     </div>
   </div>

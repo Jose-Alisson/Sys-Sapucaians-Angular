@@ -1,3 +1,4 @@
+import { Endereco } from './../../model/endereco.model';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,15 +9,22 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 export class CartComponent implements OnInit, AfterViewInit {
   constructor() {}
 
+  endreços: Endereco[] = [
+
+  ]
+
   ngAfterViewInit(): void {
+    let fade = document.getElementById('fade')
     let modal = document.querySelector('#modal')
 
     document.querySelector('.btn-add')?.addEventListener('click', () => {
       modal?.classList.remove('desatived')
+      fade?.classList.remove('desatived')
     })
 
     document.querySelector('.close')?.addEventListener('click', () => {
       modal?.classList.add('desatived')
+      fade?.classList.add('desatived')
     })
 
     let stepNavgation = document.querySelector('.step-navgation');
@@ -62,5 +70,9 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   moneyPay(){
     return document.getElementById('formPay')?.innerText === "Dinheiro"
+  }
+
+  despache(){
+    return document.getElementById('formOfDispatch')?.innerText === "Meu endereço"
   }
 }
