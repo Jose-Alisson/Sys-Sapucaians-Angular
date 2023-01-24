@@ -357,30 +357,53 @@
   border: 1px var(--color-9) solid;
 }
 
+.address-group{
+  width: 100%;
+  overflow-y: scroll;
+  padding: 2.5px 1px;
+}
+
 .address-group::-webkit-scrollbar{
   height: 5px;
-}
-
-.address-content{
-  display: flex;
-}
-
-.card-address{
-  margin: 5px 5px 0px 0px;
+  width: 5px;
 }
 
 .address-group::-webkit-scrollbar-thumb{
-  background-color: var(--color-6);
+  background: var(--color-6);
+  border-radius: 20px;
 }
 
-.card-address{
-  width: 200px;
-  border-radius: 6px;
-  padding: 2px;
+.address-content{
+  width: 600px;
+  display: flex;
+}
+
+.address{
   background: var(--color-4);
+  width: 200px;
+  margin-left: 5px;
+  border-radius: 6px;
+  padding: 5px;
 }
 
-.btn-green {
+.address .address-header{
+  padding-bottom: 5px;
+  border-bottom: 1px var(--color-9) solid ;
+  margin-bottom: 5px;
+}
+
+.box-mudar-address{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.address-defined p{
+  color: var(--color-4);
+}
+
+.btn-green, .btn-red {
   background: #28a745;
   border: #28a745;
   padding: 7px 15px;
@@ -390,6 +413,13 @@
   margin: auto;
 }
 
+
+.btn-red {
+  background: var(--color-6);
+  border: var(--color-6);
+  color: var(--color-4);
+  margin: 0px;
+}
 
 @media screen and (max-width: 420px) {
   #modal{

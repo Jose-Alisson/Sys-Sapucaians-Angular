@@ -1,6 +1,6 @@
 import { AccountService } from './../../shared/services/account/account-service.service';
 import { Endereco } from './../../model/endereco.model';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-cart',
@@ -9,10 +9,11 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit, AfterViewInit {
 
-
   endrecos: Endereco[] = [
 
   ]
+
+  enderecoAtual!:Endereco
 
   constructor(private account:AccountService) {}
 
@@ -67,6 +68,14 @@ export class CartComponent implements OnInit, AfterViewInit {
     })
   }
 
+  definirEndereco(addressId:number){
+    this.enderecoAtual = this.endrecos.find(({id}) => id === addressId)!
+  }
+
+  mudarEndereco(){
+    this.enderecoAtual = undefined!
+  }
+
   max = "0/150"
 
   ngOnInit(): void {
@@ -79,5 +88,12 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   despache(){
     return document.getElementById('formOfDispatch')?.innerText === "Meu endereço"
+  }
+
+  isEnderecoDefinido(){
+    if(this.enderecoAtual === undefined){
+      return false
+    }
+    return true
   }
 }
