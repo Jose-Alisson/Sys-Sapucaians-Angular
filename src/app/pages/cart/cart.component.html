@@ -58,7 +58,13 @@
         <div class="box" *ngIf="moneyPay()">
           <div class="din-box">
             <p>Troco para</p>
-            <input type="text" placeholder="R$ 00,00" prefix="R$" mask="00,00||000,00" [showMaskTyped]="true">
+            <input
+              type="text"
+              placeholder="R$ 00,00"
+              prefix="R$"
+              mask="00,00||000,00"
+              [showMaskTyped]="true"
+            />
           </div>
         </div>
         <br />
@@ -78,10 +84,17 @@
         <div class="box" *ngIf="despache()">
           <p>Selecione um endereço</p>
           <div class="address-group">
-
+            <div class="address-content">
+              <div class="card-address" *ngFor="let endreco of endrecos">
+                <p>{{ endreco.nomeDoEndereco }}</p>
+                <p>{{ endreco.cep }}</p>
+                <p>{{ endreco.numeroDaCasa }}</p>
+                <p>{{ endreco.localidade }}</p>
+              </div>
+            </div>
           </div>
         </div>
-        <br>
+        <br />
         <button class="btn-green">Fazer meu Pedido</button>
       </div>
     </div>

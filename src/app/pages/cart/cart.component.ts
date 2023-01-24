@@ -1,3 +1,4 @@
+import { AccountService } from './../../shared/services/account/account-service.service';
 import { Endereco } from './../../model/endereco.model';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 
@@ -7,11 +8,13 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit, AfterViewInit {
-  constructor() {}
 
-  endreços: Endereco[] = [
+
+  endrecos: Endereco[] = [
 
   ]
+
+  constructor(private account:AccountService) {}
 
   ngAfterViewInit(): void {
     let fade = document.getElementById('fade')
@@ -66,7 +69,9 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   max = "0/150"
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.endrecos = this.account.usuario.enderecos
+  }
 
   moneyPay(){
     return document.getElementById('formPay')?.innerText === "Dinheiro"

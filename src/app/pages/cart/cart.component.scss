@@ -357,6 +357,31 @@
   border: 1px var(--color-9) solid;
 }
 
+.address-group{
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.address-content{
+  width: 400%;
+  display: flex;
+}
+
+.address-group::-webkit-scrollbar{
+  height: 5px;
+}
+
+.address-group::-webkit-scrollbar-thumb{
+  background-color: var(--color-6);
+}
+
+.card-address{
+  width: 200px;
+  border-radius: 6px;
+  padding: 2px;
+  background: var(--color-3);
+}
+
 .btn-green {
   background: #28a745;
   border: #28a745;

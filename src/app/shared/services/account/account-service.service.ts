@@ -22,6 +22,20 @@ export class AccountService {
         numeroDaCasa: '90',
         localidade: 'ur3',
       },
+       {
+        id: 0,
+        nomeDoEndereco: 'Minha Casa',
+        cep: '51345080',
+        numeroDaCasa: '90',
+        localidade: 'ur3',
+      },
+      {
+        id: 0,
+        nomeDoEndereco: 'Minha Casa',
+        cep: '51345080',
+        numeroDaCasa: '90',
+        localidade: 'ur3',
+      },
     ],
   }
 
