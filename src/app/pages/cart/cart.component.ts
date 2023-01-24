@@ -9,6 +9,16 @@ export class CartComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   ngAfterViewInit(): void {
+    let modal = document.querySelector('#modal')
+
+    document.querySelector('.btn-add')?.addEventListener('click', () => {
+      modal?.classList.remove('desatived')
+    })
+
+    document.querySelector('.close')?.addEventListener('click', () => {
+      modal?.classList.add('desatived')
+    })
+
     let stepNavgation = document.querySelector('.step-navgation');
     let liList = stepNavgation?.querySelectorAll('li');
     liList?.forEach((li) => {
@@ -21,6 +31,12 @@ export class CartComponent implements OnInit, AfterViewInit {
         li.classList.add('active');
       });
     });
+
+    let obs = document.querySelector('.obs')?.querySelector('textarea')
+
+    obs?.addEventListener("keyup", () => {
+      this.max = obs?.value.length + "/" + obs?.maxLength
+    })
 
     let wrappers = document.querySelectorAll('.wrapper')
     wrappers.forEach(w => {
@@ -38,26 +54,13 @@ export class CartComponent implements OnInit, AfterViewInit {
         })
       })
     })
-
-    let textArea = (<HTMLTextAreaElement> document.getElementById('textArea'))
-    textArea?.addEventListener('keyup', () => {
-      this.max = "" + textArea?.value.length + "/" + textArea.maxLength
-    })
   }
 
   max = "0/150"
 
   ngOnInit(): void {}
 
-  active() {
-    document.getElementById('modal')?.classList.remove('desatived');
-  }
-
-  desative() {
-    document.getElementById('modal')?.classList.add('desatived');
-  }
-
-  formaDePagamento(forma:string){
-    return document.getElementById('pagamento')?.innerText == forma
+  moneyPay(){
+    return document.getElementById('formPay')?.innerText === "Dinheiro"
   }
 }

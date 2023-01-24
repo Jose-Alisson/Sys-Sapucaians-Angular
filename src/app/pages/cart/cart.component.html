@@ -2,105 +2,101 @@
   <div class="show-cart-controll">
     <div class="hidden" style="width: 30px"></div>
     <h1>Meus pedidos</h1>
-    <div class="btn-add" (click)="active()">
+    <div class="btn-add">
       <i class="fa-solid fa-plus"></i>
     </div>
   </div>
 </div>
 <div id="modal" class="desatived">
   <div class="modal-header">
-    <p style="color: var(--color-1); margin-left: 10px;">Meu Pedido</p>
-    <div class="close" (click)="desative()">
+    <p style="color: var(--color-4); margin-left: 10px">Meu Pedido</p>
+    <div class="close">
       <i class="fa-solid fa-xmark"></i>
     </div>
   </div>
   <div class="step-group">
     <div class="step-content">
-      <input type="radio" name="st" id="st-1" checked="true" />
+      <input type="radio" name="st" id="st-1" />
       <input type="radio" name="st" id="st-2" />
       <input type="radio" name="st" id="st-3" />
-
+      <input type="radio" name="st" id="st-4" />
       <div class="step current">
-        <div class="field-seach">
-          <input type="text" name="seach" id="field-seach" placeholder="Produto">
-          <button><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
-        <div class="step-result">
+        <div class="seach-field">
+          <input type="text" placeholder="Pizza" />
+          <span class="seach-icon"
+            ><i class="fa-solid fa-magnifying-glass"></i
+          ></span>
         </div>
       </div>
       <div class="step">
         <h2>Observação</h2>
-        <div class="box">
-          <p>Adicione uma observação ao seu pedido.</p>
-          <textarea name="" id="textArea" cols="30" rows="10" maxlength="150"></textarea>
-          <p style="text-align: right;width: 100%;font-size: 14px;">{{max}}</p>
+        <p>Adicione uma Observação em seu pedido.</p>
+        <div class="obs">
+          <textarea cols="30" rows="10" maxlength="150">...</textarea>
+          <p style="float: right">{{ max }}</p>
         </div>
       </div>
       <div class="step">
         <h2>Checagem</h2>
-        <div class="box">
-           <p>Adicione uma forma de pagamento</p>
-           <div class="wrapper">
-            <div class="select-btn">
-              <span id="pagamento">Forma de pagamento</span>
-              <i class="fa-solid fa-sort-up"></i>
-            </div>
-            <div style="z-index: 3;" class="select-content">
-              <ul class="options">
-                <li><i class="fa-solid fa-sack-dollar"></i>Dinheiro</li>
-                <li><i class="fa-solid fa-credit-card"></i>Cartão</li>
-                <li><i class="fa-solid fa-right-left"></i>Pix</li>
-              </ul>
-            </div>
-           </div>
+        <p>Adicione as informaçoes de dinheiro e endereço ao seu pedido.</p>
+        <br />
+        <p>Adicone uma forma de pagamento</p>
+        <div class="wrapper">
+          <div class="select-btn">
+            <span id="formPay">Forma de pagamento</span>
+            <i class="fa-solid fa-sort-up"></i>
+          </div>
+          <div style="z-index: 3" class="select-content">
+            <ul class="options">
+              <li><i class="fa-solid fa-sack-dollar"></i>Dinheiro</li>
+              <li><i class="fa-solid fa-credit-card"></i>Cartão</li>
+              <li><i class="fa-solid fa-right-left"></i>Pix</li>
+            </ul>
+          </div>
         </div>
-        <div class="box" *ngIf="formaDePagamento('Dinheiro')">
+        <div class="box" *ngIf="moneyPay()">
           <div class="din-box">
             <p>Troco para</p>
             <input type="text" placeholder="R$ 00,00" prefix="R$" mask="00,00||000,00" [showMaskTyped]="true">
           </div>
         </div>
-       <div class="box">
+        <br />
         <p>Adicione uma forma de despache</p>
         <div class="wrapper">
           <div class="select-btn">
             <span>Forma de despache</span>
             <i class="fa-solid fa-sort-up"></i>
           </div>
-          <div style="z-index: 2;" class="select-content">
+          <div style="z-index: 2" class="select-content">
             <ul class="options">
               <li><i class="fa-solid fa-shop"></i>Local</li>
               <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
             </ul>
           </div>
-         </div>
-       </div>
-       <div class="box transparent">
-        <button class="btn-green">Fazer meu pedido</button>
-      </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="step-navgation">
-      <ul>
-        <li class="list active">
-          <label for="st-1">
-            <span class="icon"><i class="fa-solid fa-list"></i></span>
-            <span class="text">Pedido</span>
-          </label>
-        </li>
-        <li class="list">
-          <label for="st-2">
-            <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <span class="text">Observação</span>
-          </label>
-        </li>
-        <li class="list">
-          <label for="st-3">
-            <span class="icon"><i class="fa-solid fa-check"></i></span>
-            <span class="text">Checagem</span>
-          </label>
-        </li>
-      </ul>
-    </div>
+    <ul>
+      <li class="list active">
+        <label for="st-1">
+          <span class="icon"><i class="fa-solid fa-list"></i></span>
+          <span class="text">Pedido</span>
+        </label>
+      </li>
+      <li class="list">
+        <label for="st-2">
+          <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <span class="text">Observação</span>
+        </label>
+      </li>
+      <li class="list">
+        <label for="st-3">
+          <span class="icon"><i class="fa-solid fa-check"></i></span>
+          <span class="text">Checagem</span>
+        </label>
+      </li>
+    </ul>
+  </div>
 </div>

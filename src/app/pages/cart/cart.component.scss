@@ -1,3 +1,7 @@
+*:not(i){
+  font-family: 'Poppins', sans-serif;
+}
+
 .show-cart-controll {
   width: 95%;
   margin: auto;
@@ -9,10 +13,12 @@
   border-radius: 10px;
   padding: 20px 15px;
 }
+
 .show-cart-controll h1 {
   color: var(--color-4);
   text-align: center;
 }
+
 .show-cart-controll .btn-add {
   display: flex;
   flex-direction: column;
@@ -26,23 +32,25 @@
 }
 
 .desatived {
-  display: none;
+  display: none !important;
 }
 
 #modal {
+  display: flex;
+  flex-flow: column;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
+  width: 100%;
   height: 100%;
-  background: green;
   max-width: 100%;
   max-height: 100%;
   background: var(--color-4);
   animation: reactive 0.2s linear;
   overflow-x: hidden;
 }
+
 @keyframes reactive {
   0% {
     opacity: 0;
@@ -57,6 +65,7 @@
     transform: translate(-50%, -50%) scale(1, 1);
   }
 }
+
 #modal .modal-header {
   width: 100%;
   height: 55px;
@@ -64,15 +73,11 @@
   margin: auto;
   display: flex;
   padding: 10px;
-  border-bottom: 1px var(--color-9) solid;
-  box-shadow: 2px 7px 40px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px var(--color-1) solid;
+  box-shadow: 2px 7px 30px rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
-  //background: var(--color-1);
+  background: var(--color-1);
   justify-content: space-between;
-}
-
-#modal .modal-header h2 {
-  color: var(--color-4);
 }
 
 #modal .modal-header .close {
@@ -86,83 +91,118 @@
   height: 25px;
   margin: 5px 5px 5px 5px;
 }
-.step-group {
-  width: 100%;
-  height: calc(100% - 45px - 70px);
-  overflow-x: hidden;
-  position: relative;
+
+.step-group{
+  flex-grow: 1;
+  flex-basis: auto;
+  overflow: hidden;
 }
-.step-content {
-  display: flex;
+
+.step-content{
   width: 400%;
+  height: 100%;
+  display: flex;
+  overflow-y: hidden;
 }
+
 .step-content input[name="st"] {
   display: none;
 }
+
 .step {
+  position: relative;
   transition: 0.2s;
   width: 25%;
+  overflow-y: scroll;
+  padding: 0px 5px 0px 10px;
+  position: relative;
 }
+
+.step::-webkit-scrollbar{
+  width: 5px;
+}
+
+.step::-webkit-scrollbar-thumb{
+  background: var(--color-3);
+}
+
 #st-1:checked ~ .current {
   margin-left: 0;
 }
+
 #st-2:checked ~ .current {
   margin-left: -25%;
 }
+
 #st-3:checked ~ .current {
   margin-left: -50%;
 }
+
 #st-4:checked ~ .current {
   margin-left: -75%;
 }
-.field-seach {
-  margin-top: 5px !important;
-  width: 95%;
-  margin: auto;
-  background: var(--color-1);
+
+.seach-field{
   display: flex;
-  border-radius: 20px;
-  border: 1px var(--color-1) solid;
+  position: relative;
+
 }
-.field-seach input {
-  border-radius: 20px 0px 0px 20px;
+
+.seach-field input {
   flex-grow: 1;
-  background: var(--color-4);
-  padding: 10px 14px;
   outline: none;
   border: 0;
-  color: var(--color-1);
+  font-size: 14px;
+  padding: 13px 14px;
+  border: 1px var(--color-9) solid;
+  border-radius: 100px;
 }
-.field-seach button {
-  background: var(--color-4);
-  width: 55px;
-  border-radius: 0px 20px 20px 0px;
-  border: 0;
-}
-.field-seach i {
-  color: var(--color-1);
-}
-.step h2 {
-  text-align: center;
-  font-weight: 600;
-}
-.step-navgation {
+
+.seach-field span{
   position: absolute;
-  bottom: 0;
-  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-1);
+  padding: 10px;
+  border-radius: 32px;
+  top: 50%;
+  right: 5.5px;
+  transform: translateY(-50%);
+}
+
+.seach-field i {
+  font-size: 18px;
+  color: var(--color-4);
+}
+
+.obs textarea{
+  width: 100%;
+  height: 150px;
+  padding: 5px;
+  border-radius: 6px;
+  background: var(--color-1);
+  color: var(--color-4);
+  resize: none;
+}
+
+.step-navgation {
+  display: flex;
   background: var(--color-1);
   justify-content: center;
   width: 100%;
   height: 70px;
 }
+
 .step-navgation ul {
   width: 90%;
-  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
 }
+
 .step-navgation ul li {
   list-style: none;
   width: 70px;
@@ -170,6 +210,7 @@
   position: relative;
   z-index: 1;
 }
+
 .step-navgation ul li label {
   position: relative;
   display: flex;
@@ -180,6 +221,7 @@
   text-align: center;
   font-weight: 500;
 }
+
 .step-navgation ul li label .icon {
   position: relative;
   display: block;
@@ -188,10 +230,12 @@
   transition: 0.05s;
   color: rgba(255, 255, 255, 0.5);
 }
+
 .step-navgation ul li.active label .icon {
   transform: translateY(-8px);
   color: var(--color-3);
 }
+
 .step-navgation ul li label .text {
   position: absolute;
   font-weight: 600;
@@ -203,29 +247,12 @@
   text-transform: uppercase;
   transform: translateY(0px);
 }
+
 .step-navgation ul li.active label .text {
   opacity: 1;
   transform: translateY(13px);
 }
-.step .box {
-  width: 90%;
-  background: var(--color-1);
-  margin: auto;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 7px 15px;
-  display: flex;
-  flex-direction: column;
-}
-.step .box p {
-  color: var(--color-4);
-}
-.step .box:not(:last-child) {
-  margin-bottom: 15px;
-}
+
 .wrapper {
   margin-top: 5px;
   width: 100%;
@@ -233,7 +260,7 @@
 }
 
 .select-btn {
-  background: #fff;
+  background: var(--color-1);
   height: 35px;
   padding: 0px 12px;
   border-radius: 7px;
@@ -242,21 +269,29 @@
   justify-content: space-between;
   display: flex;
 }
+
+.select-btn span {
+  color: var(--color-4);
+}
+
 .select-content {
   display: none;
   position: absolute;
   padding: 20px;
-  background: rgb(230, 230, 230);
+  background: var(--color-1);
   margin-top: 15px;
   width: 100%;
   border-radius: 7px;
 }
+
 .wrapper.active .select-content {
   display: block;
 }
+
 .select-content > i {
   align-items: center;
 }
+
 .options li {
   height: 32px;
   border-radius: 5px;
@@ -264,45 +299,52 @@
   cursor: pointer;
   align-items: center;
   list-style: none;
+  color: var(--color-4);
 }
+
 .options li i {
   margin: 0px 5px;
 }
+
 .select-btn i {
+  color: var(--color-4);
   transition: transform 0.3s linear;
 }
+
 .wrapper.active .select-btn i {
   transform: rotate(-180deg);
 }
+
 .options li:hover {
   background: var(--color-3);
 }
 
-.din-box{
+.box{
+  margin-top: 5px;
+  background: var(--color-1);
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.din-box {
   display: flex;
   width: 100%;
   flex-direction: column;
 }
 
-//.din-box p{
-  //color: var(--color-3) !important;
-//}
+.din-box p {
+  margin-bottom: 5px;
+  color: var(--color-3);
+}
 
-.din-box input{
+.din-box input {
   outline: none;
   padding: 7px 15px;
   border-radius: 7px;
   border: 1px var(--color-9) solid;
 }
 
-.box textarea{
-  outline: none;
-  width: 100%;
-  border: 0;
-  border-radius: 7px;
-}
-
-.btn-green{
+.btn-green {
   background: #28a745;
   border: #28a745;
   padding: 7px 15px;
@@ -310,10 +352,4 @@
   text-transform: uppercase;
   border-radius: 7px;
   margin: auto;
-}
-
-@media screen and (max-height: 375px) {
-  #modal {
-    height: 600px;
-  }
 }
