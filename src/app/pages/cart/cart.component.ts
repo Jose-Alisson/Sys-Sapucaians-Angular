@@ -52,6 +52,8 @@ export class CartComponent implements OnInit, AfterViewInit {
 
     let wrappers = document.querySelectorAll('.wrapper')
     wrappers.forEach(w => {
+
+
       let selectBtn = w.querySelector('.select-btn')
       selectBtn?.addEventListener('click', () => {
         w.classList.toggle('active')
@@ -66,6 +68,10 @@ export class CartComponent implements OnInit, AfterViewInit {
         })
       })
     })
+  }
+
+  active(element: HTMLDivElement){
+      element.classList.toggle('active')
   }
 
   definirEndereco(addressId:number){

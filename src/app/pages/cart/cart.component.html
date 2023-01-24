@@ -40,56 +40,73 @@
       <div class="step">
         <h2>Checagem</h2>
         <p>Adicione as informaçoes de pagamento e endereço ao seu pedido.</p>
-        <br />
-        <p>Adicone uma forma de pagamento</p>
-        <div class="wrapper">
-          <div class="select-btn">
-            <span id="formPay">Forma de pagamento</span>
-            <i class="fa-solid fa-sort-up"></i>
+
+        <div class="box">
+          <p>Adicone uma forma de pagamento</p>
+          <div class="wrapper">
+            <div class="select-btn">
+              <span id="formPay">Forma de pagamento</span>
+              <i class="fa-solid fa-sort-up"></i>
+            </div>
+            <div style="z-index: 3" class="select-content">
+              <ul class="options">
+                <li><i class="fa-solid fa-sack-dollar"></i>Dinheiro</li>
+                <li><i class="fa-solid fa-credit-card"></i>Cartão</li>
+                <li><i class="fa-solid fa-right-left"></i>Pix</li>
+              </ul>
+            </div>
           </div>
-          <div style="z-index: 3" class="select-content">
-            <ul class="options">
-              <li><i class="fa-solid fa-sack-dollar"></i>Dinheiro</li>
-              <li><i class="fa-solid fa-credit-card"></i>Cartão</li>
-              <li><i class="fa-solid fa-right-left"></i>Pix</li>
-            </ul>
+          <div class="black-box" *ngIf="moneyPay()">
+            <div class="din-box">
+              <p>Troco para</p>
+              <input
+                type="text"
+                placeholder="R$ 00,00"
+                prefix="R$"
+                mask="00,00||000,00"
+                [showMaskTyped]="true"
+              />
+            </div>
           </div>
         </div>
-        <div class="box" *ngIf="moneyPay()">
-          <div class="din-box">
-            <p>Troco para</p>
-            <input
-              type="text"
-              placeholder="R$ 00,00"
-              prefix="R$"
-              mask="00,00||000,00"
-              [showMaskTyped]="true"
-            />
+
+        <div class="box">
+          <p>Adicione uma forma de despache</p>
+          <div class="wrapper">
+            <div class="select-btn">
+              <span id="formOfDispatch">Forma de despache</span>
+              <i class="fa-solid fa-sort-up"></i>
+            </div>
+            <div style="z-index: 2" class="select-content">
+              <ul class="options">
+                <li><i class="fa-solid fa-shop"></i>Local</li>
+                <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
+              </ul>
+            </div>
           </div>
         </div>
-        <br />
-        <p>Adicione uma forma de despache</p>
-        <div class="wrapper">
-          <div class="select-btn">
-            <span id="formOfDispatch">Forma de despache</span>
-            <i class="fa-solid fa-sort-up"></i>
-          </div>
-          <div style="z-index: 2" class="select-content">
+
+        <div class="black-box" *ngIf="!isEnderecoDefinido() && despache()">
+          <p>Selecione um dos seus endereços</p>
+          <div class="select-content-address">
             <ul class="options">
+              <li><i class="fa-solid fa-shop"></i>Local</li>
+              <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
+              <li><i class="fa-solid fa-shop"></i>Local</li>
+              <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
+              <li><i class="fa-solid fa-shop"></i>Local</li>
+              <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
               <li><i class="fa-solid fa-shop"></i>Local</li>
               <li><i class="fa-solid fa-house-chimney"></i>Meu endereço</li>
             </ul>
           </div>
         </div>
-        <div class="box" *ngIf="despache() && !isEnderecoDefinido()">
+
+        <!-- <div class="box" >
           <p style="color: var(--color-3)">Selecione um dos seus endereços</p>
           <div class="address-group">
             <div class="address-content">
-              <div
-                class="address"
-                *ngFor="let a of endrecos"
-                (click)="definirEndereco(a.id)"
-              >
+              <div class="address" *ngFor="let a of endrecos" (click)="definirEndereco(a.id)" >
                 <div class="address-header">
                   <p>
                     <strong>{{ a.nomeDoEndereco }}</strong>
@@ -102,7 +119,9 @@
             </div>
           </div>
         </div>
-        <div class="box" *ngIf="isEnderecoDefinido() && despache()">
+-->
+
+        <div class="black-box" *ngIf="isEnderecoDefinido() && despache()">
           <div class="box-mudar-address">
             <div class="address-defined">
               <p>{{ enderecoAtual.nomeDoEndereco }}</p>
@@ -110,8 +129,10 @@
             <button class="btn-red" (click)="mudarEndereco()">Mudar</button>
           </div>
         </div>
-        <br />
-        <button class="btn-green">Fazer meu Pedido</button>
+
+        <div class="box">
+          <button class="btn-green">Fazer meu Pedido</button>
+        </div>
       </div>
     </div>
   </div>
