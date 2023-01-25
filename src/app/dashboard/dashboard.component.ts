@@ -1,7 +1,7 @@
-import { AccountService } from './../shared/services/account/account-service.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, switchMap } from 'rxjs';
+import { SignInService } from '../shared/services/sign-in.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +13,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   array: string[] = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private accountService: AccountService) {
+  constructor(
+    private router: Router, private activatedRoute: ActivatedRoute, private signIn: SignInService ) {
+
+      if (signIn.socialUser === undefined) {
+      router.navigate(['account']);
+      return;
+    }
+
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .pipe(map(() => activatedRoute))
@@ -27,10 +34,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       .subscribe((event) => {
         this.title = event['title'];
       });
-
-      if(accountService.usuario === undefined){
-        router.navigate(['account'])
-      }
   }
 
   ngOnInit(): void {}
@@ -46,18 +49,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
     });
 
-    menu?.querySelectorAll('li').forEach(li => {
-      li.addEventListener('click', function(){
-        menu?.querySelectorAll('li').forEach(data => {
-          if(data.classList.contains('actived')){
-            data.classList.remove('actived')
+    menu?.querySelectorAll('li').forEach((li) => {
+      li.addEventListener('click', function () {
+        menu?.querySelectorAll('li').forEach((data) => {
+          if (data.classList.contains('actived')) {
+            data.classList.remove('actived');
           }
-        })
-        if(!li.classList.contains('actived')){
-          li.classList.add('actived')
+        });
+        if (!li.classList.contains('actived')) {
+          li.classList.add('actived');
         }
-      })
-    })
+      });
+    });
   }
 
   merge() {

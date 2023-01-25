@@ -1,4 +1,6 @@
-import { AccountService } from './../../shared/services/account/account-service.service';
+
+
+import { SignInService } from 'src/app/shared/services/sign-in.service';
 import { Endereco } from './../../model/endereco.model';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
@@ -15,7 +17,7 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   enderecoAtual!:Endereco
 
-  constructor(private account:AccountService) {}
+  constructor(private signIn: SignInService) {}
 
   ngAfterViewInit(): void {
     let fade = document.getElementById('fade')
@@ -85,7 +87,7 @@ export class CartComponent implements OnInit, AfterViewInit {
   max = "0/150"
 
   ngOnInit(): void {
-    this.enderecos = this.account.usuario.enderecos
+    this.enderecos = this.signIn.userFromPs.enderecos
   }
 
   moneyPay(){

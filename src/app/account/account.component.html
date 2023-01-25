@@ -21,9 +21,15 @@
             Login com Facebook
           </button>
 
-          <button type="button" class="login-with-google-btn" (click)="loginWithGoogle()"  >
+          <asl-google-signin-button
+    [shape]="'circle'"
+    [width]="'320px'"
+    [size]="'large'"
+    [type]="'standard'"
+  ></asl-google-signin-button>
+          <!--<button type="button" class="login-with-google-btn" (click)="loginWithGoogle()"  >
             Login com Google
-          </button>
+          </button> -->
         </div>
       </div>
       <div class="card-footer">

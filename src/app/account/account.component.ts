@@ -1,4 +1,5 @@
-import { SignInService } from './../shared/services/signIn/sign-in.service';
+import { Router } from '@angular/router';
+import { SignInService } from './../shared/services/sign-in.service';
 import {
   FacebookLoginProvider,
   GoogleLoginProvider,
@@ -12,22 +13,33 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
   styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent implements OnInit, AfterViewInit {
-
-  constructor(private authService: SocialAuthService, private signInService: SignInService) {}
+  constructor(
+    private router: Router,
+    private authService: SocialAuthService,
+    private signInService: SignInService
+  ) {}
 
   loginWithGoogle() {
-    document.querySelector('asl-google-signin-button') ?.querySelector('div')?.lastElementChild?.querySelector('div')?.click();
-    alert(document.querySelector('asl-google-signin-button') ?.querySelector('div')?.lastElementChild?.querySelector('div'))
-   console.log(document.querySelector('asl-google-signin-button'))
+    document
+      .querySelector('asl-google-signin-button')
+      ?.querySelector('div')
+      ?.lastElementChild?.querySelector('div')
+      ?.click();
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
+
+    this.signInService.setUser(this.authService).subscribe({
+      next:any => {
+        this.router.navigate(['dashboard'])
+      }
+    })
+    /*
     this.authService.authState.subscribe((user) => {
-      alert(user.email)
-    });
+      this.router.navigate(['dashboard'])
+    });*/
   }
 
   signInWithFB(): void {
@@ -36,5 +48,9 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   sair() {
     this.authService.signOut();
+  }
+
+  cascadClick(element: HTMLElement) {
+    element.childNodes;
   }
 }

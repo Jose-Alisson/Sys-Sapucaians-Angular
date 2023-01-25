@@ -1,5 +1,8 @@
+import { SocialUser } from '@abacritt/angularx-social-login';
+import { Router } from '@angular/router';
+;
+import { SignInService } from 'src/app/shared/services/sign-in.service';
 import { Usuario } from './../../model/usuario.model';
-import { AccountService } from './../../shared/services/account/account-service.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,13 +12,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
-  myAccount!: Usuario
+  userFromPs!: Usuario
 
-  constructor(private account : AccountService) {
-    this.myAccount = account.usuario
+  socialUser!: SocialUser
+
+  constructor(private router: Router,private signIn : SignInService) {
+
+    if(signIn.socialUser === undefined){
+      router.navigate(['account'])
+      return
+    }
+
+    this.socialUser = signIn.socialUser
+    this.userFromPs = signIn.userFromPs
   }
 
   ngOnInit(): void {
   }
-
 }

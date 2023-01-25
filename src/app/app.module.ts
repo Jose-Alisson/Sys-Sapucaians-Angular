@@ -18,6 +18,7 @@ import { AccountComponent } from './account/account.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -55,6 +56,7 @@ export const appRoutes: Routes = [
     SocialLoginModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule
   ],
   providers: [
     {
