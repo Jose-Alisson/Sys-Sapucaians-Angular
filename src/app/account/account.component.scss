@@ -1,3 +1,8 @@
+
+*:not(i){
+  font-family: 'Poppins', sans-serif;
+}
+
 .container {
   background: linear-gradient(45deg, var(--color-1), var(--color-2));
   display: flex;
@@ -43,6 +48,11 @@
 }
 
 .card-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   flex-grow: 1;
   flex-basis: auto;
 }
@@ -66,7 +76,34 @@
   font-family: 'Poppins', sans-serif;
 }
 
-@media screen and (max-width: 400px){
+.logo{
+  width: 70px;
+  height: 70px;
+}
+
+.logo img{
+  width: 100%;
+  height: 100%;
+}
+
+.card-header, .login-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-header  h1{
+  font-family: 'Avvenir Bold', sans-serif;
+  align-items: center;
+}
+
+.login-content > p{
+  font-size: 14px;
+}
+
+@media screen and (max-width: 414px){
   .side-left{
     display: none;
   }
@@ -74,4 +111,33 @@
   .side-right{
     width: 100vw;
   }
+}
+
+.fb-login {
+  width: 320px;
+  background-color: #1777F2;
+  padding: 0.5rem 0.01rem;
+  color:white;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  align-items: center;
+}
+
+.fb-login-logo {
+  height: 1rem;
+  padding-left: 1rem;
+  vertical-align: middle;
+}
+
+.box{
+  margin-bottom: 10px;
+}
+
+.fb-inner {
+  text-align: center;
+  margin: auto;
+  vertical-align: middle;
 }

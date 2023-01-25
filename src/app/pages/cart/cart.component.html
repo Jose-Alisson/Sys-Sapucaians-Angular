@@ -91,7 +91,7 @@
           <div class="select-content-address">
             <ul class="options">
               <li *ngFor="let a of enderecos" (click)="definirEndereco(a.id)">
-                <div class="black-box" [ngStyle]="generateColor()" >
+                <div class="green-box">
                   <div class="address-header">
                     <p>
                       <strong>{{ a.nomeDoEndereco }}</strong>
@@ -125,7 +125,7 @@
         </div>
 -->
 
-        <div class="black-box" *ngIf="isEnderecoDefinido() && despache()">
+        <div style="padding-left: 10px;" class="black-box" *ngIf="isEnderecoDefinido() && despache()">
           <div class="box-mudar-address">
             <div class="address-defined">
               <p>{{ enderecoAtual.nomeDoEndereco }}</p>

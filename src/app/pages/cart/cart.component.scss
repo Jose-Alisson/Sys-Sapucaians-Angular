@@ -288,7 +288,7 @@
   position: absolute;
   padding:10px;
   background: var(--color-1);
-  margin-top: 15px;
+  margin-top: 5px;
   width: 100%;
   border-radius: 7px;
 }
@@ -342,11 +342,15 @@
   background: var(--color-3);
 }
 
-.black-box{
+.black-box, .green-box{
   margin-top: 5px;
   background: var(--color-1);
   padding: 5px;
   border-radius: 6px;
+}
+
+.green-box{
+  background: #28a745;
 }
 
 .black-box p {
@@ -411,7 +415,7 @@
 
 .address-header{
   padding-bottom: 5px;
-  border-bottom: 1px var(--color-9) solid ;
+  border-bottom: 1px var(--color-1) solid ;
   margin-bottom: 5px;
 }
 

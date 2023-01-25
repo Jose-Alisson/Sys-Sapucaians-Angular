@@ -5,17 +5,39 @@
   </div>
   <div class="side-right">
     <div class="card">
-      <div class="card-content">
-        <router-outlet></router-outlet>
+      <br />
+      <div class="card-header">
+        <div class="logo">
+          <img src="assets//iconePizzaria.png" alt="" />
+        </div>
+        <h1>Bem-vindo a</h1>
+        <h1>Pizzaria Sapucaian's</h1>
       </div>
-      <div class="line"></div>
-      <asl-google-signin-button
-        [size]="'large'"
-        [type]="'standard'"
-        [theme]="'filled_black'"
-        [logo_alignment]="'left'"
-      ></asl-google-signin-button>
-      <br>
+      <br />
+      <div class="card-content">
+        <div class="box">
+          <p>Faça login com um dos seguintes</p>
+        </div>
+        <div class="box">
+          <div class="fb-login" (click)="signInWithFB()">
+            <img class="fb-login-logo" src="assets//facebook_logo.png" />
+            <span class="fb-inner" >&nbsp;&nbsp;Login with Facebook</span >
+          </div>
+        </div>
+        <div class="box">
+          <asl-google-signin-button
+            [shape]="'circle'"
+            [width]="'320px'"
+            [size]="'large'"
+            [type]="'standard'"
+          ></asl-google-signin-button>
+        </div>
+      </div>
+      <div class="card-footer">
+        <p style="text-align: center;font-size: 14px;color: gray;">
+          Usaremos sua conta tanto da google como da facebook para anexar o fornecimento de dados sobre o seu pedido e delivery
+        </p>
+      </div>
     </div>
   </div>
 </div>
