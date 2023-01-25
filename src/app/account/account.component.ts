@@ -16,7 +16,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
   constructor(private authService: SocialAuthService, private signInService: SignInService) {}
 
   loginWithGoogle() {
-    document .querySelector('asl-google-signin-button') ?.querySelector('div')  ?.lastElementChild?.querySelector('div') ?.click();
+    document.querySelector('asl-google-signin-button') ?.querySelector('div')?.lastElementChild?.querySelector('div')?.click();
+   console.log(document.querySelector('asl-google-signin-button'))
   }
 
   ngAfterViewInit(): void {
@@ -24,7 +25,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.authService.authState.subscribe((user) => {
-
+      alert(user.email)
     });
   }
 
