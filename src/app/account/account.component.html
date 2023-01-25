@@ -13,31 +13,33 @@
         <h1>Bem-vindo a</h1>
         <h1>Pizzaria Sapucaian's</h1>
       </div>
-      <br />
       <div class="card-content">
-        <div class="box">
+        <div class="login-wrapper">
           <p>Faça login com um dos seguintes</p>
-        </div>
-        <div class="box">
-          <div class="fb-login" (click)="signInWithFB()">
-            <img class="fb-login-logo" src="assets//facebook_logo.png" />
-            <span class="fb-inner" >&nbsp;&nbsp;Login with Facebook</span >
-          </div>
-        </div>
-        <div class="box">
-          <asl-google-signin-button
-            [shape]="'circle'"
-            [width]="'320px'"
-            [size]="'large'"
-            [type]="'standard'"
-          ></asl-google-signin-button>
+          <button type="button" class="login-with-facebook-btn" (click)="signInWithFB()">
+            <img src="assets//facebook_logo.png" height="18px" width="18px" style="position: absolute;left:12px;top: 11px;" alt="">
+            Login com Facebook
+          </button>
+
+          <button type="button" class="login-with-google-btn" (click)="loginWithGoogle()"  >
+            Login com Google
+          </button>
         </div>
       </div>
       <div class="card-footer">
-        <p style="text-align: center;font-size: 14px;color: gray;">
-          Usaremos sua conta tanto da google como da facebook para anexar o fornecimento de dados sobre o seu pedido e delivery
+        <p style="text-align: center; font-size: 14px; color: gray">
+          Usaremos sua conta tanto da google como da facebook para anexar o
+          fornecimento de dados sobre o seu pedido e delivery
         </p>
       </div>
     </div>
   </div>
+</div>
+<div class="hidden">
+  <asl-google-signin-button
+    [shape]="'circle'"
+    [width]="'320px'"
+    [size]="'large'"
+    [type]="'standard'"
+  ></asl-google-signin-button>
 </div>
