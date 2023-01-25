@@ -16,10 +16,6 @@
       <div class="card-content">
         <div class="login-wrapper">
           <p>Faça login com um dos seguintes</p>
-          <button type="button" class="login-with-facebook-btn" (click)="signInWithFB()">
-            <img src="assets//facebook_logo.png" height="18px" width="18px" style="position: absolute;left:12px;top: 11px;" alt="">
-            Login com Facebook
-          </button>
 
           <asl-google-signin-button
     [shape]="'circle'"
@@ -27,6 +23,12 @@
     [size]="'large'"
     [type]="'standard'"
   ></asl-google-signin-button>
+
+          <button type="button" class="login-with-facebook-btn" (click)="signInWithFB()">
+            <img src="assets//facebook_logo.png" height="18px" width="18px" style="position: absolute;left:12px;top: 11px;" alt="">
+            Login com Facebook
+          </button>
+
           <!--<button type="button" class="login-with-google-btn" (click)="loginWithGoogle()"  >
             Login com Google
           </button> -->

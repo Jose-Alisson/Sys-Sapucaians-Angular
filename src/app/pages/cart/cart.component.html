@@ -85,7 +85,6 @@
             </div>
           </div>
         </div>
-
         <div class="black-box" *ngIf="!isEnderecoDefinido() && despache()">
           <p>Selecione um dos seus endereços</p>
           <div class="select-content-address">
@@ -105,26 +104,6 @@
             </ul>
           </div>
         </div>
-
-        <!-- <div class="box" >
-          <p style="color: var(--color-3)">Selecione um dos seus endereços</p>
-          <div class="address-group">
-            <div class="address-content">
-              <div class="address" *ngFor="let a of endrecos" (click)="definirEndereco(a.id)" >
-                <div class="address-header">
-                  <p>
-                    <strong>{{ a.nomeDoEndereco }}</strong>
-                  </p>
-                </div>
-                <p>{{ a.cep }},</p>
-                <p>{{ a.numeroDaCasa }},</p>
-                <p>{{ a.localidade }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
--->
-
         <div style="padding-left: 10px;" class="black-box" *ngIf="isEnderecoDefinido() && despache()">
           <div class="box-mudar-address">
             <div class="address-defined">
@@ -133,7 +112,6 @@
             <button class="btn-red" (click)="mudarEndereco()">Mudar</button>
           </div>
         </div>
-
         <div class="box">
           <button class="btn-green">Fazer meu Pedido</button>
         </div>

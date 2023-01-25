@@ -1,11 +1,44 @@
 <div class="container">
   <div class="about-header">
     <div class="side-left">
-     <img src="{{socialUser.photoUrl}}" alt="">
+     <img height="60px" width="60px" src="{{socialUser.photoUrl}}" alt="">
     </div>
     <div class="side-right">
       <h2>{{socialUser.firstName}}</h2>
       <p>{{socialUser.email}}</p>
     </div>
+  </div>
+  <div class="myDatas">
+    <div class="case">
+      <div class="data">
+        <i class="fa-brands fa-whatsapp"></i>
+        <p>{{userFromPs.contato}}</p>
+      </div>
+      <div class="action-icon">
+        <i class="fa-solid fa-pencil"></i>
+      </div>
+    </div>
+    <div class="case">
+      <div class="black-box">
+        <p>Selecione um dos seus endereços</p>
+        <div class="select-content-address">
+          <ul class="options">
+            <li *ngFor="let a of userFromPs.enderecos">
+              <div class="green-box">
+                <div class="address-header">
+                  <p>
+                    <strong>{{ a.nomeDoEndereco }}</strong>
+                  </p>
+                </div>
+                <p>{{ a.cep }},</p>
+                <p>{{ a.numeroDaCasa }},</p>
+                <p>{{ a.localidade }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <button (click)="sair()">Sair da conta</button>
   </div>
 </div>

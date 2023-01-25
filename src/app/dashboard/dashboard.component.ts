@@ -13,13 +13,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   array: string[] = [];
 
-  constructor(
-    private router: Router, private activatedRoute: ActivatedRoute, private signIn: SignInService ) {
-
-      if (signIn.socialUser === undefined) {
-      router.navigate(['account']);
-      return;
-    }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private signIn: SignInService ) {
 
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))

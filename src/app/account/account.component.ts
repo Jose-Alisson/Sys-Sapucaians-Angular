@@ -30,16 +30,9 @@ export class AccountComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
-
-    this.signInService.setUser(this.authService).subscribe({
-      next:any => {
-        this.router.navigate(['dashboard'])
-      }
+    this.signInService.authUser().subscribe(d => {
+      history.back()
     })
-    /*
-    this.authService.authState.subscribe((user) => {
-      this.router.navigate(['dashboard'])
-    });*/
   }
 
   signInWithFB(): void {

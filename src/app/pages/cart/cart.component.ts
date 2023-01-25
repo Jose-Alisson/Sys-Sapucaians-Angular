@@ -17,7 +17,10 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   enderecoAtual!:Endereco
 
-  constructor(private signIn: SignInService) {}
+  constructor(private signIn: SignInService) {
+    signIn.checkUser()
+  }
+
 
   ngAfterViewInit(): void {
     let fade = document.getElementById('fade')
