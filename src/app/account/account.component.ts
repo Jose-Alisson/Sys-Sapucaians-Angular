@@ -17,6 +17,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   loginWithGoogle() {
     document.querySelector('asl-google-signin-button') ?.querySelector('div')?.lastElementChild?.querySelector('div')?.click();
+    alert(document.querySelector('asl-google-signin-button') ?.querySelector('div')?.lastElementChild?.querySelector('div'))
    console.log(document.querySelector('asl-google-signin-button'))
   }
 
