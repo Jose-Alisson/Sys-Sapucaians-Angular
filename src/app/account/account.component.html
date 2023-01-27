@@ -18,14 +18,24 @@
           <p>Faça login com um dos seguintes</p>
 
           <asl-google-signin-button
-    [shape]="'circle'"
-    [width]="'320px'"
-    [size]="'large'"
-    [type]="'standard'"
-  ></asl-google-signin-button>
+            [shape]="'circle'"
+            [width]="'320px'"
+            [size]="'large'"
+            [type]="'standard'"
+          ></asl-google-signin-button>
 
-          <button type="button" class="login-with-facebook-btn" (click)="signInWithFB()">
-            <img src="assets//facebook_logo.png" height="18px" width="18px" style="position: absolute;left:12px;top: 11px;" alt="">
+          <button
+            type="button"
+            class="login-with-facebook-btn"
+            (click)="signInWithFB()"
+          >
+            <img
+              src="assets//facebook_logo.png"
+              height="18px"
+              width="18px"
+              style="position: absolute; left: 12px; top: 11px"
+              alt=""
+            />
             Login com Facebook
           </button>
 

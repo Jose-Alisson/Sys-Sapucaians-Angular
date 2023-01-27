@@ -85,23 +85,20 @@
             </div>
           </div>
         </div>
+
         <div class="black-box" *ngIf="!isEnderecoDefinido() && despache()">
           <p>Selecione um dos seus endereços</p>
-          <div class="select-content-address">
-            <ul class="options">
-              <li *ngFor="let a of enderecos" (click)="definirEndereco(a.id)">
-                <div class="green-box">
-                  <div class="address-header">
-                    <p>
-                      <strong>{{ a.nomeDoEndereco }}</strong>
-                    </p>
-                  </div>
-                  <p>{{ a.cep }},</p>
-                  <p>{{ a.numeroDaCasa }},</p>
-                  <p>{{ a.localidade }}</p>
+          <div class="carrocel-address">
+            <div class= "sliders-address">
+              <div class="slider" *ngFor="let a of enderecos" (click)="definirEndereco(a.id)">
+                <div class="title">
+                  <p>{{a.nomeDoEndereco}}</p>
                 </div>
-              </li>
-            </ul>
+                <p>{{a.cep}}</p>
+                <p>{{a.numeroDaCasa}}</p>
+                <p>{{a.localidade}}</p>
+              </div>
+            </div>
           </div>
         </div>
         <div style="padding-left: 10px;" class="black-box" *ngIf="isEnderecoDefinido() && despache()">

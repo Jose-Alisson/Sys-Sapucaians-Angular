@@ -43,19 +43,19 @@ export class SignInService {
     ],
   };
 
-  socialUser!: SocialUser /*= {
+  socialUser: SocialUser = {
     provider: 'GOOGLE',
     id: '61256153',
     email: 'JoseAlisson@gmail.com',
     name: 'Alisson',
     photoUrl: 'http://localhost:4200/assets/iconePizzaria.png',
-    firstName: 'JoSe Alisson',
+    firstName: 'Jose Alisson',
     lastName: '',
     authToken: '',
     idToken: '',
     authorizationCode: '',
     response: undefined,
-  };*/
+  };
 
   constructor(
     private http: HttpClient,
