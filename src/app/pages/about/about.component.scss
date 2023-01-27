@@ -1,4 +1,9 @@
 
+.container{
+display: flex;
+  flex-flow: column;
+}
+
 .about-header {
   margin-top: 10px;
   display: flex;
@@ -22,10 +27,62 @@
   color: var(--color-3);
 }
 
-.case{
+.case, .carrocel-address{
   padding: 7px 14px;
   width: 95%;
   margin: auto;
-  box-shadow: 0px 0px 3px black,2px 2px 7px rgba( 0,0,0,0.3);
   border-radius: 6px;
+}
+
+.carrocel-address{
+  background: var(--color-1);
+}
+
+.carrocel-header{
+  padding: 5px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.carrocel-header p {
+  color: var(--color-4);
+}
+
+.carrocel-header .add-btn {
+  width:  32px;
+  height: 32px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 100px;
+  background: var(--color-3);
+}
+
+.carrocel-content{
+  max-height: 60vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  justify-content: center;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(auto-fit, 220px);
+}
+
+.card-address{
+  padding: 5px;
+  width: 220px;
+  border-radius: 6px;
+  background: var(--color-3);
+}
+
+.card-address .title{
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px var(--color-1) solid;
+}
+
+.about-container{
+  flex-basis:  auto;
+  flex-grow: 1;
 }

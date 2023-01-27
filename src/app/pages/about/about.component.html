@@ -1,40 +1,46 @@
 <div class="container">
-  <div class="about-header">
-    <div class="side-left">
-      <img height="60px" width="60px" src="{{ socialUser.photoUrl }}" alt="" />
+  <div class="about-container">
+    <div class="about-header">
+      <div class="side-left">
+        <img
+          height="60px"
+          width="60px"
+          src="{{ socialUser.photoUrl }}"
+          alt=""
+        />
+      </div>
+      <div class="side-right">
+        <h2>{{ socialUser.firstName }}</h2>
+        <p>{{ socialUser.email }}</p>
+      </div>
+      <i class="fa-solid fa-pencil"></i>
     </div>
-    <div class="side-right">
-      <h2>{{ socialUser.firstName }}</h2>
-      <p>{{ socialUser.email }}</p>
-    </div>
-    <i class="fa-solid fa-pencil"></i>
-  </div>
 
-  <div class="case">
-    <div class="data">
-      <i class="fa-brands fa-whatsapp"></i>
-      &nbsp;
-      <p>{{ userFromPs.contato }}</p>
+    <div class="case">
+      <div class="data">
+        <i class="fa-brands fa-whatsapp"></i>
+        &nbsp;
+        <p>{{ userFromPs.contato }}</p>
+      </div>
     </div>
-  </div>
 
-  <div class="black-box">
-    <p>Selecione um dos seus endereços</p>
-    <div class="sel963,*-9">
-      <ul class="options">
-        <li *ngFor="let a of userFromPs.enderecos">
-          <div class="green-box">
-            <div class="address-header">
-              <p>
-                <strong>{{ a.nomeDoEndereco }}</strong>
-              </p>
-            </div>
-            <p>{{ a.cep }},</p>
-            <p>{{ a.numeroDaCasa }},</p>
-            <p>{{ a.localidade }}</p>
+    <div class="carrocel-address">
+      <div class="carrocel-header">
+        <p><strong>Meus Endereços</strong></p>
+        <div class="add-btn">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+      </div>
+      <div class="carrocel-content">
+        <div class="card-address" *ngFor="let a of userFromPs.enderecos">
+          <div class="title">
+            <p>{{ a.nomeDoEndereco }}</p>
           </div>
-        </li>
-      </ul>
+          <p>{{ a.cep }}</p>
+          <p>{{ a.numeroDaCasa }}</p>
+          <p>{{ a.localidade }}</p>
+        </div>
+      </div>
     </div>
   </div>
   <button (click)="sair()">Sair da conta</button>
