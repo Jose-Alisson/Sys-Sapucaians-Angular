@@ -66,12 +66,12 @@ display: flex;
   justify-content: center;
   display: grid;
   grid-gap: 5px;
-  grid-template-columns: repeat(auto-fit, 220px);
+  grid-template-columns: repeat(auto-fit, 250px);
 }
 
 .card-address{
   padding: 5px;
-  width: 220px;
+  width: auto;
   border-radius: 6px;
   background: var(--color-3);
 }
@@ -85,4 +85,17 @@ display: flex;
 .about-container{
   flex-basis:  auto;
   flex-grow: 1;
+}
+
+.sair{
+  padding: 7px 14px;
+  width: 90%;
+  background: var(--color-6);
+  border: 0;
+  margin-bottom: 5px;
+  color: var(--color-4);
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 6px;
+  margin: auto;
 }

@@ -46,3 +46,14 @@ section{
   height: 100%;
   overflow: hidden;
 }
+
+app-dashboard{
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+main{
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
