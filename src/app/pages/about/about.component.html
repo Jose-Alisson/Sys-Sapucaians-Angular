@@ -33,12 +33,11 @@
         <i class="fa-solid fa-caret-up"></i>
       </div>
       <div class="carrocel-content">
-         <div class="card-address card-address-plus">
-            <button id="btn-add">Adicionar</button>
-            <button id="btn-edit">Editar</button>
-          </div>
+        <div class="card-address-plus">
+          <button id="btn-add">Adicionar</button>
+          <!-- <button id="btn-edit">Editar</button> -->
+        </div>
         <div class="cards-wrapper">
-
           <div class="card-address" *ngFor="let a of userFromPs.enderecos">
             <div class="title">
               <p>
@@ -64,5 +63,35 @@
     "
   >
     <button class="sair" (click)="sair()">Sair da conta</button>
+  </div>
+</div>
+<div id="fade" class="desatived"></div>
+<div id="modal-add-addrss" class="desatived">
+  <div class="modal-header">
+    <p style="color: var(--color-4); margin-left: 10px">Meu Endereço</p>
+    <div class="close">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+  </div>
+  <div class="modal-content">
+    <h2>Adicionar Endereço</h2>
+    <div class="address-fields">
+      <input type="text">
+      <input type="text">
+      <input type="text">
+      <input type="text">
+    </div>
+    <button id="btn-add">Adicionar</button>
+  </div>
+</div>
+<div id="modal-add-addrss" class="desatived">
+  <div class="modal-header">
+    <p style="color: var(--color-4); margin-left: 10px">Meu Endereço</p>
+    <div class="close">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+  </div>
+  <div class="modal-content">
+
   </div>
 </div>
