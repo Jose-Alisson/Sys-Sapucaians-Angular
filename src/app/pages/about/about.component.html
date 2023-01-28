@@ -24,24 +24,38 @@
       </div>
     </div>
 
-    <div class="carrocel-address">
-      <div class="carrocel-header">
+    <div #addresses class="carrocel-address" >
+      <div class="carrocel-header" (click)="this.addresses.classList.toggle('active')">
         <p><strong>Meus Endereços</strong></p>
-        <div class="add-btn">
-          <i class="fa-solid fa-plus"></i>
-        </div>
+        <i class="fa-solid fa-caret-up"></i>
       </div>
       <div class="carrocel-content">
-        <div class="card-address" *ngFor="let a of userFromPs.enderecos">
-          <div class="title">
-            <p>{{ a.nomeDoEndereco }}</p>
+        <div class="cards-wrapper">
+          <div class="card-address card-address-plus">
+            <i class="fa-solid fa-plus"></i>
           </div>
-          <p>{{ a.cep }}</p>
-          <p>{{ a.numeroDaCasa }}</p>
-          <p>{{ a.localidade }}</p>
+          <div class="card-address" *ngFor="let a of userFromPs.enderecos">
+            <div class="title">
+              <p><strong> {{ a.nomeDoEndereco }} </strong> </p>
+              <i class="fa-solid fa-pencil"></i>
+            </div>
+            <p>{{ a.cep }}</p>
+            <p>{{ a.numeroDaCasa }}</p>
+            <p>{{ a.localidade }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <button class="sair" (click)="sair()">Sair da conta</button>
+  <div
+    style="
+      height: 39px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-items: center;
+    "
+  >
+    <button class="sair" (click)="sair()">Sair da conta</button>
+  </div>
 </div>
