@@ -131,17 +131,27 @@ display: flex;
 }
 
 .card-address-plus{
-  background: #28a745;
+  background: var(--color-1);
 }
 
 .card-address-plus{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  background: var(--color-1);
 }
 
-.card-address-plus i {
-  font-size: 54px;
+.card-address-plus button {
+  background: #28a745;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  font-weight: 500;
   color: var(--color-4);
+  margin-left: 5px;
+}
+
+.card-address-plus #btn-edit{
+  background: var(--color-6);
 }

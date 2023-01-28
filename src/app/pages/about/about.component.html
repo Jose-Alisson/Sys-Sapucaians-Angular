@@ -24,19 +24,26 @@
       </div>
     </div>
 
-    <div #addresses class="carrocel-address" >
-      <div class="carrocel-header" (click)="this.addresses.classList.toggle('active')">
+    <div #addresses class="carrocel-address">
+      <div
+        class="carrocel-header"
+        (click)="this.addresses.classList.toggle('active')"
+      >
         <p><strong>Meus Endereços</strong></p>
         <i class="fa-solid fa-caret-up"></i>
       </div>
       <div class="carrocel-content">
-        <div class="cards-wrapper">
-          <div class="card-address card-address-plus">
-            <i class="fa-solid fa-plus"></i>
+         <div class="card-address card-address-plus">
+            <button id="btn-add">Adicionar</button>
+            <button id="btn-edit">Editar</button>
           </div>
+        <div class="cards-wrapper">
+
           <div class="card-address" *ngFor="let a of userFromPs.enderecos">
             <div class="title">
-              <p><strong> {{ a.nomeDoEndereco }} </strong> </p>
+              <p>
+                <strong> {{ a.nomeDoEndereco }} </strong>
+              </p>
               <i class="fa-solid fa-pencil"></i>
             </div>
             <p>{{ a.cep }}</p>
