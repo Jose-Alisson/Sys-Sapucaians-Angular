@@ -17,7 +17,7 @@
         <div class="login-wrapper">
           <p>Faça login com um dos seguintes</p>
 
-          <asl-google-signin-button
+          <asl-google-signin-button (click)="redirect()"
             [shape]="'circle'"
             [width]="'320px'"
             [size]="'large'"

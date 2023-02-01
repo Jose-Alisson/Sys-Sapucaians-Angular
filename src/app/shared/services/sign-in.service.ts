@@ -8,54 +8,35 @@ import {
 import { Injectable, Injector } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { Observable, identity, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignInService {
-  userFromPs: Usuario = {
-    id: 0,
-    contato: '(81) 9 73127515',
-    pedidos: [],
-    enderecos: [
-      {
-        id: 0,
-        nomeDoEndereco: 'Minha Casa',
-        cep: '51345080',
-        numeroDaCasa: '90',
-        localidade: 'Ur3',
-      },
-      {
-        id: 1,
-        nomeDoEndereco: 'Igreja',
-        cep: '51345090',
-        numeroDaCasa: '47',
-        localidade: 'Ur2',
-      },
-      {
-        id: 2,
-        nomeDoEndereco: 'Trabalho',
-        cep: '51348906',
-        numeroDaCasa: '73',
-        localidade: 'Ur12',
-      },
-    ],
-  };
+  private URL_API = 'https://75db-45-6-136-56.sa.ngrok.io/user';
 
-  socialUser: SocialUser = {
-    provider: 'GOOGLE',
-    id: '61256153',
-    email: 'JoseAlisson@gmail.com',
-    name: 'Alisson',
-    photoUrl: 'http://localhost:4200/assets/iconePizzaria.png',
+  userFromPs!: Usuario /*= {
+    contato: '73127515',
+    email: 'alissonbarbosa.9982@gmail.com',
+    enderecos: [],
+    id: 1,
+    provedorr: 'GOOGLE',
+  };*/
+
+  socialUser!: SocialUser/* = {
+    email: 'alissonbarbosa.9982@gmail.com',
     firstName: 'Jose Alisson',
-    lastName: '',
+    id: '101583479341555375341',
+    idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjI3NDA1MmEyYjY0NDg3NDU3NjRlNzJjMzU5MDk3MWQ5MGNmYjU4NWEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJuYmYiOjE2NzUyMTA1MjgsImF1ZCI6IjQ0MzEyNTA4NTU4NS1wZmFsZjZlbXRiNmYyNWV2MzJwMHZncHRram51ZWJqcC5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjEwMTU4MzQ3OTM0MTU1NTM3NTM0MSIsImVtYWlsIjoiYWxpc3NvbmJhcmJvc2EuOTk4MkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXpwIjoiNDQzMTI1MDg1NTg1LXBmYWxmNmVtdGI2ZjI1ZXYzMnAwdmdwdGtqbnVlYmpwLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwibmFtZSI6Ikpvc2UgQWxpc3NvbiBCYXJib3NhIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FFZEZUcDdNM3k5SEg3dWpZV3Etc2ZOYTBnODdROEV4c0xGMHJ4UmtZTy1sPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6Ikpvc2UgQWxpc3NvbiIsImZhbWlseV9uYW1lIjoiQmFyYm9zYSIsImlhdCI6MTY3NTIxMDgyOCwiZXhwIjoxNjc1MjE0NDI4LCJqdGkiOiIzN2Y1ODRhNTk2Y2JmYjgzNWM2NDM3MWU5ZjNhMGQzNjJlZDUxYjQ1In0.G7NdYFN_VFLcLTVoXOL8V_hZBOSMY4Qu5xyoEdwQ9gxg9um46zu9ZVt-LsJZseli8o1cZxrD8nZfLOo6jewG8TeVYN_N94VI-5bXE5a1zn8BZSfHJQJPqYaJLyQWpdOqmtO8PfcKCvY93G3QAtdzSAEw-Tcg_JOl1eIEHi5_WshCCQoMHCOms1jgCHuwSOqsva94INpA0nbMEVnXAZk9ycGdBidJV6F4nfE2ZSoT4Q47M4bQ_qGhj-otiwwkeMrLM338lzURkPRfW9WCmcgcrSKtKzOCH6HSqOe5LT_gKT3t8_x0zsNwrf_66KdaVueOZLOm9kq1fwCV3clF2HnSaA',
+    lastName: 'Barbosa',
+    name: 'Jose Alisson Barbosa',
+    photoUrl: 'https://lh3.googleusercontent.com/a/AEdFTp7M3y9HH7ujYWq-sfNa0g87Q8ExsLF0rxRkYO-l=s96-c',
+    provider: 'GOOGLE',
+    response: {},
     authToken: '',
-    idToken: '',
-    authorizationCode: '',
-    response: undefined,
-  };
+    authorizationCode: ''
+  };*/
 
   constructor(
     private http: HttpClient,
@@ -63,28 +44,35 @@ export class SignInService {
     private router: Router
   ) {}
 
-  authUser() {
-    return this.authService.authState.pipe(
-      map((user) => {
-        this.socialUser = user;
-      })
-    );
-  }
-
-  checkUser(): boolean {
-    if (this.socialUser === undefined) {
-      this.router.navigate(['account']);
+  redirect() {
+    if (this.setSocialUser != undefined && this.userFromPs != undefined) {
       return false;
     }
-
-    this.authService.authState.subscribe((user) => {
-      this.socialUser = user;
-    });
-
     return true;
   }
 
-  sair(){
-    this.authService.signOut()
+  salvar() {
+    return this.http.post<Usuario>(this.URL_API + '/save', this.userFromPs);
+  }
+
+  salvarEAtualizar() {
+    return this.http.post<Usuario>(this.URL_API + '/save', this.userFromPs).pipe(map(data => {
+      this.userFromPs = data
+    }))
+  }
+
+  getUsuarioFromDb(user: SocialUser) {
+    return this.http.post<Usuario>(this.URL_API + '/autoSign', {
+      email: user.email,
+      provedorr: user.provider,
+    });
+  }
+
+  setUserFromPs(user: Usuario) {
+    this.userFromPs = user;
+  }
+
+  setSocialUser(social: SocialUser) {
+    this.socialUser = social;
   }
 }

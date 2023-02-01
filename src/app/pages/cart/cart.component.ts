@@ -11,16 +11,12 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 })
 export class CartComponent implements OnInit, AfterViewInit {
 
-  enderecos: Endereco[] = [
-
-  ]
+  enderecos: Endereco[] = []
 
   enderecoAtual!:Endereco
 
   constructor(private signIn: SignInService) {
-    signIn.checkUser()
   }
-
 
   ngAfterViewInit(): void {
     let fade = document.getElementById('fade')

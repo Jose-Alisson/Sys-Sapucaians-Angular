@@ -17,7 +17,28 @@ export class AccountComponent implements OnInit, AfterViewInit {
     private router: Router,
     private authService: SocialAuthService,
     private signInService: SignInService
-  ) {}
+  ) {
+    this.authService.authState.subscribe((socialUser) => {
+      this.signInService.getUsuarioFromDb(socialUser).subscribe((userDb) => {
+        this.signInService.setUserFromPs(userDb);
+
+        if (socialUser.response != undefined && socialUser.response != null) {
+          socialUser.photoUrl = socialUser.response.picture.data.url
+          this.signInService.setSocialUser(socialUser);
+          console.log(socialUser)
+        } else {
+          this.signInService.setSocialUser(socialUser);
+        }
+
+        //console.log(socialUser)
+        //console.log(userDb)
+
+        this.router.navigate(['dashboard']);
+      });
+    });
+  }
+
+  redirect() {}
 
   loginWithGoogle() {
     document
@@ -29,11 +50,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {}
 
-  ngOnInit(): void {
-    this.signInService.authUser().subscribe(d => {
-      history.back()
-    })
-  }
+  ngOnInit(): void {}
 
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
