@@ -28,6 +28,14 @@
             ><i class="fa-solid fa-magnifying-glass"></i
           ></span>
         </div>
+        <div class="produtos">
+          <div class="produto" *ngFor="let p of produtos">
+            <p>{{p.nomeDoProduto}}</p>
+            <p>{{p.descricao}}</p>
+            <p>{{p.preco}}</p>
+            <input type="number" name="" id="">
+          </div>
+        </div>
       </div>
       <div class="step">
         <h2>Observação</h2>

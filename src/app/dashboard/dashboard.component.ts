@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, switchMap } from 'rxjs';
-import { SignInService } from '../shared/services/sign-in.service';
+import { SignInService } from '../shared/services/signIn/sign-in.service';
 
 @Component({
   selector: 'app-dashboard',

@@ -1,24 +1,18 @@
-import {
-  FacebookLoginProvider,
-  GoogleSigninButtonDirective,
-  SocialAuthServiceConfig,
-} from '@abacritt/angularx-social-login';
-import { SocialLoginModule } from '@abacritt/angularx-social-login';
-
-import { AboutComponent } from './pages/about/about.component';
+import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AboutComponent } from './pages/about/about.component';
 
-import { AppComponent } from './app.component';
-import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HomeComponent } from './pages/home/home.component';
-import { CartComponent } from './pages/cart/cart.component';
-import { AccountComponent } from './account/account.component';
-import { NgxMaskModule } from 'ngx-mask';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { NgxMaskModule } from 'ngx-mask';
+import { AccountComponent } from './account/account.component';
+import { AppComponent } from './app.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -37,8 +31,6 @@ export const appRoutes: Routes = [
     component: AccountComponent,
   },
 ];
-
-
 
 @NgModule({
   declarations: [
@@ -66,8 +58,7 @@ export const appRoutes: Routes = [
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '443125085585-pfalf6emtb6f25ev32p0vgptkjnuebjp.apps.googleusercontent.com'  ),
+            provider: new GoogleLoginProvider('443125085585-pfalf6emtb6f25ev32p0vgptkjnuebjp.apps.googleusercontent.com'),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,

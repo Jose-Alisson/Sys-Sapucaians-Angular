@@ -2,7 +2,7 @@ import { filter } from 'rxjs';
 import { Endereco } from './../../model/endereco.model';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Router } from '@angular/router';
-import { SignInService } from 'src/app/shared/services/sign-in.service';
+import { SignInService } from 'src/app/shared/services/signIn/sign-in.service';
 import { Usuario } from './../../model/usuario.model';
 import {
   Component,

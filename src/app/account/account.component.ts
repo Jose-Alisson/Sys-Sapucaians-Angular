@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { SignInService } from './../shared/services/sign-in.service';
+import { SignInService } from './../shared/services/signIn/sign-in.service';
 import {
   FacebookLoginProvider,
   GoogleLoginProvider,
@@ -18,7 +18,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
     private authService: SocialAuthService,
     private signInService: SignInService
   ) {
-    this.authService.authState.subscribe((socialUser) => {
+    /*this.authService.authState.subscribe((socialUser) => {
       this.signInService.getUsuarioFromDb(socialUser).subscribe((userDb) => {
         this.signInService.setUserFromPs(userDb);
 
@@ -29,13 +29,11 @@ export class AccountComponent implements OnInit, AfterViewInit {
         } else {
           this.signInService.setSocialUser(socialUser);
         }
-
-        //console.log(socialUser)
-        //console.log(userDb)
-
         this.router.navigate(['dashboard']);
       });
-    });
+    });*/
+
+    this.signInService.initLogin().subscribe()
   }
 
   redirect() {}

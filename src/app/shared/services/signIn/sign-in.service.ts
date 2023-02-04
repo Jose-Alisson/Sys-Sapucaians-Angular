@@ -16,7 +16,7 @@ import { Observable, identity, map } from 'rxjs';
 export class SignInService {
   private URL_API = 'https://75db-45-6-136-56.sa.ngrok.io/user';
 
-  userFromPs!: Usuario /*= {
+  userFromPs!: Usuario; /*= {
     contato: '73127515',
     email: 'alissonbarbosa.9982@gmail.com',
     enderecos: [],
@@ -24,7 +24,7 @@ export class SignInService {
     provedorr: 'GOOGLE',
   };*/
 
-  socialUser!: SocialUser/* = {
+  socialUser!: SocialUser; /* = {
     email: 'alissonbarbosa.9982@gmail.com',
     firstName: 'Jose Alisson',
     id: '101583479341555375341',
@@ -40,9 +40,34 @@ export class SignInService {
 
   constructor(
     private http: HttpClient,
-    private authService: SocialAuthService,
+    private socialAuthService: SocialAuthService,
     private router: Router
-  ) {}
+  ) {
+
+  }
+
+  initLogin() {
+    return this.socialAuthService.authState
+      .pipe(
+        map((socialUser) => {
+          this.getUsuarioFromDb(socialUser).subscribe((userDb) => {
+            this.setUserFromPs(userDb);
+
+            if (
+              socialUser.response != undefined &&
+              socialUser.response != null
+            ) {
+              socialUser.photoUrl = socialUser.response.picture.data.url;
+              this.setSocialUser(socialUser);
+              console.log(socialUser);
+            } else {
+              this.setSocialUser(socialUser);
+            }
+            this.router.navigate(['dashboard']);
+          });
+        })
+      )
+  }
 
   redirect() {
     if (this.setSocialUser != undefined && this.userFromPs != undefined) {
@@ -56,9 +81,13 @@ export class SignInService {
   }
 
   salvarEAtualizar() {
-    return this.http.post<Usuario>(this.URL_API + '/save', this.userFromPs).pipe(map(data => {
-      this.userFromPs = data
-    }))
+    return this.http
+      .post<Usuario>(this.URL_API + '/save', this.userFromPs)
+      .pipe(
+        map((data) => {
+          this.userFromPs = data;
+        })
+      );
   }
 
   getUsuarioFromDb(user: SocialUser) {

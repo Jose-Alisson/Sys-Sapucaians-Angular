@@ -1,8 +1,11 @@
+import { ProdutoService } from './../../shared/services/produto/produto.service';
+import { Pedido } from './../../model/pedido.model';
 
 
-import { SignInService } from 'src/app/shared/services/sign-in.service';
+import { SignInService } from 'src/app/shared/services/signIn/sign-in.service';
 import { Endereco } from './../../model/endereco.model';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Produto } from 'src/app/model/Produto.model';
 
 @Component({
   selector: 'app-cart',
@@ -11,11 +14,15 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 })
 export class CartComponent implements OnInit, AfterViewInit {
 
+  produtos:Produto[] = []
+
+  pediddo: Pedido = new Pedido()
+
   enderecos: Endereco[] = []
 
   enderecoAtual!:Endereco
 
-  constructor(private signIn: SignInService) {
+  constructor(private signIn: SignInService,private produtoService: ProdutoService) {
   }
 
   ngAfterViewInit(): void {
@@ -87,6 +94,9 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.enderecos = this.signIn.userFromPs.enderecos
+    this.produtoService.getProductAll().subscribe(data => {
+      this.produtos = data
+    })
   }
 
   moneyPay(){
