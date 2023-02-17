@@ -20,9 +20,10 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   enderecos: Endereco[] = []
 
-  enderecoAtual!:Endereco
+  enderecoAtual:Endereco = new Endereco()
 
   constructor(private signIn: SignInService,private produtoService: ProdutoService) {
+
   }
 
   ngAfterViewInit(): void {
@@ -76,6 +77,9 @@ export class CartComponent implements OnInit, AfterViewInit {
         })
       })
     })
+
+    this.enderecos = this.signIn.userFromPs.enderecos
+
   }
 
   active(element: HTMLDivElement){
@@ -93,7 +97,6 @@ export class CartComponent implements OnInit, AfterViewInit {
   max = "0/150"
 
   ngOnInit(): void {
-    this.enderecos = this.signIn.userFromPs.enderecos
     this.produtoService.getProductAll().subscribe(data => {
       this.produtos = data
     })

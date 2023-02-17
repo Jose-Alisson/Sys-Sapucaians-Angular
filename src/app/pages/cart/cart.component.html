@@ -30,10 +30,30 @@
         </div>
         <div class="produtos">
           <div class="produto" *ngFor="let p of produtos">
-            <p>{{p.nomeDoProduto}}</p>
-            <p>{{p.descricao}}</p>
-            <p>{{p.preco}}</p>
-            <input type="number" name="" id="">
+            <div class="produto-logo">
+              <img src="assets//20-2.png" alt="">
+            </div>
+            <div class="side-left">
+                <div class="produto-title">
+                  <h3>{{p.nomeDoProduto}}</h3>
+                </div>
+                <div class="produto-description">
+                  <p>{{p.descricao}}</p>
+                </div>
+                <div class="produto-preco">
+                  <p>{{p.preco}}</p>
+                </div>
+              </div>
+              <div class="side-right">
+                <div class="add-btn">
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+                <div class="quat">
+                  <i class="fa-solid fa-caret-up"></i>
+                  <P>1</P>
+                  <i class="fa-solid fa-caret-down"></i>
+                </div>
+            </div>
           </div>
         </div>
       </div>

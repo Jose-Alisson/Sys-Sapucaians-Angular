@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   array: string[] = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private signIn: SignInService ) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private signInService: SignInService ) {
 
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -30,7 +30,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.signInService.initLogin().subscribe()
+  }
 
   ngAfterViewInit() {
     let menuburguer = document.querySelector('.menu-burguer');

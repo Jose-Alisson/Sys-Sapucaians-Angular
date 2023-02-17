@@ -7,11 +7,11 @@ import { Injectable } from '@angular/core';
 })
 export class ProdutoService {
 
-  private URL_API = "https://75db-45-6-136-56.sa.ngrok.io/produto"
+  private URL_API = "http://localhost:8081/produto"
 
   constructor(private http: HttpClient) {}
 
   getProductAll(){
-    return this.http.post<Produto[]>(this.URL_API + '/findAll', {})
+    return this.http.get<Produto[]>(this.URL_API + '/findAll')
   }
 }

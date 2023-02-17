@@ -50,8 +50,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
-  height: 600px;
+  width: 80%;
+  height: 90%;
   max-width: 100%;
   max-height: 100%;
   background: var(--color-4);
@@ -410,6 +410,7 @@
 @media screen and (max-width: 420px) {
   #modal{
     height: 100%;
+    width: 100%;
     border-radius: 0px;
   }
 }
@@ -453,4 +454,55 @@
   margin-bottom: 5px;
   padding-bottom: 5px;
   border-bottom:  1px var(--color-1)  solid;
+}
+
+.produtos{
+  display: flex;
+  flex-direction: column;
+}
+
+.produto{
+  position: relative;
+  width: 100%;
+  background: var(--color-1);
+  border-radius: 6px;
+  padding: 2px;
+  display: flex;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.4);
+}
+
+.produto h3, .produto p {
+  position: relative;
+  color: var(--color-4);
+  font-weight: 500;
+  z-index: 5;
+}
+
+.produto::before{
+  position: absolute;
+  border-radius: 6px 0px 0px 6px;
+  top: 0;
+  left: 0;
+  width: 25%;
+  height: 100%;
+  content: '';
+  z-index: 3;
+  clip-path: polygon(0 0, 92% 0, 61% 100%, 0% 100%);
+  background: var(--color-3);
+}
+
+.produto-logo{
+  width: 25%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.produto-logo img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  position: relative;
+  z-index: 5;
 }
