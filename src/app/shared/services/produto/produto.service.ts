@@ -1,3 +1,7 @@
+import { URl_API } from './../../../../environments/environment';
+
+import * as $ from 'jquery';
+
 import { Produto } from './../../../model/Produto.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -7,11 +11,11 @@ import { Injectable } from '@angular/core';
 })
 export class ProdutoService {
 
-  private URL_API = "http://localhost:8081/produto"
+  private URL_API_P = URl_API + '/produto';
 
   constructor(private http: HttpClient) {}
 
   getProductAll(){
-    return this.http.get<Produto[]>(this.URL_API + '/findAll')
+    return this.http.post<Produto[]>(this.URL_API_P + '/findAll', {})
   }
 }
