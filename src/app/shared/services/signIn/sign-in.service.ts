@@ -1,3 +1,4 @@
+import { UrlApiService } from './../UrlApi/url-api.service';
 import { Router } from '@angular/router';
 import { Usuario } from 'src/app/model/usuario.model';
 import {
@@ -14,12 +15,14 @@ import {  map } from 'rxjs';
   providedIn: 'root',
 })
 export class SignInService {
-  private URL_API = 'http://localhost:8081/user';
+
+  private URL_API = this.urlApi.URl_API + '/user';
 
   userFromPs!: Usuario;
   socialUser!: SocialUser;
 
   constructor(
+    private urlApi:UrlApiService,
     private http: HttpClient,
     private socialAuthService: SocialAuthService,
     private router: Router
