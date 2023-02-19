@@ -1,11 +1,12 @@
 import { ProdutoService } from './../../shared/services/produto/produto.service';
 import { Pedido } from './../../model/pedido.model';
 
-
 import { SignInService } from 'src/app/shared/services/signIn/sign-in.service';
 import { Endereco } from './../../model/endereco.model';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Produto } from 'src/app/model/Produto.model';
+
+import * as $ from 'jquery'
 
 @Component({
   selector: 'app-cart',
@@ -14,31 +15,33 @@ import { Produto } from 'src/app/model/Produto.model';
 })
 export class CartComponent implements OnInit, AfterViewInit {
 
-  produtos:Produto[] = []
+  @ViewChild('seach')
+  seach!: HTMLInputElement
 
+  produtos: Produto[] = [];
   pediddo: Pedido = new Pedido()
+  enderecos: Endereco[] = [];
+  enderecoAtual!: Endereco;
+  categoriaAtual: string = '';
 
-  enderecos: Endereco[] = []
-
-  enderecoAtual:Endereco = new Endereco()
-
-  constructor(private signIn: SignInService,private produtoService: ProdutoService) {
-
-  }
+  constructor(
+    private signIn: SignInService,
+    private produtoService: ProdutoService
+  ) {}
 
   ngAfterViewInit(): void {
-    let fade = document.getElementById('fade')
-    let modal = document.querySelector('#modal')
+    let fade = document.getElementById('fade');
+    let modal = document.querySelector('#modal');
 
     document.querySelector('.btn-add')?.addEventListener('click', () => {
-      modal?.classList.remove('desatived')
-      fade?.classList.remove('desatived')
-    })
+      modal?.classList.remove('desatived');
+      fade?.classList.remove('desatived');
+    });
 
     document.querySelector('.close')?.addEventListener('click', () => {
-      modal?.classList.add('desatived')
-      fade?.classList.add('desatived')
-    })
+      modal?.classList.add('desatived');
+      fade?.classList.add('desatived');
+    });
 
     let stepNavgation = document.querySelector('.step-navgation');
     let liList = stepNavgation?.querySelectorAll('li');
@@ -53,67 +56,81 @@ export class CartComponent implements OnInit, AfterViewInit {
       });
     });
 
-    let obs = document.querySelector('.obs')?.querySelector('textarea')
+    let obs = document.querySelector('.obs')?.querySelector('textarea');
 
-    obs?.addEventListener("keyup", () => {
-      this.max = obs?.value.length + "/" + obs?.maxLength
-    })
+    obs?.addEventListener('keyup', () => {
+      this.max = obs?.value.length + '/' + obs?.maxLength;
+    });
 
-    let wrappers = document.querySelectorAll('.wrapper')
-    wrappers.forEach(w => {
-
-
-      let selectBtn = w.querySelector('.select-btn')
+    let wrappers = document.querySelectorAll('.wrapper');
+    wrappers.forEach((w) => {
+      let selectBtn = w.querySelector('.select-btn');
       selectBtn?.addEventListener('click', () => {
-        w.classList.toggle('active')
-      })
+        w.classList.toggle('active');
+      });
 
-      w.querySelectorAll('li').forEach(li => {
+      w.querySelectorAll('li').forEach((li) => {
         li.addEventListener('click', () => {
-          selectBtn?.querySelectorAll('span').forEach(span => {
-            w.classList.remove('active')
-            span.innerText = li.innerText
-          })
-        })
-      })
-    })
+          selectBtn?.querySelectorAll('span').forEach((span) => {
+            w.classList.remove('active');
+            span.innerText = li.innerText;
+          });
+        });
+      });
+    });
 
-    this.enderecos = this.signIn.userFromPs.enderecos
-
+    this.enderecos = this.signIn.userFromPs.enderecos;
   }
 
-  active(element: HTMLDivElement){
-      element.classList.toggle('active')
+  active(element: HTMLDivElement) {
+    element.classList.toggle('active');
   }
 
-  definirEndereco(addressId:number){
-    this.enderecoAtual = this.enderecos.find(({id}) => id === addressId)!
+  definirEndereco(addressId: number) {
+    this.enderecoAtual = this.enderecos.find(({ id }) => id === addressId)!;
   }
 
-  mudarEndereco(){
-    this.enderecoAtual = undefined!
+  mudarEndereco() {
+    this.enderecoAtual = undefined!;
   }
 
-  max = "0/150"
+  max = '0/150';
 
   ngOnInit(): void {
-    this.produtoService.getProductAll().subscribe(data => {
-      this.produtos = data
-    })
+    this.produtoService.getProductAll().subscribe((data) => {
+      this.produtos = data;
+    });
   }
 
-  moneyPay(){
-    return document.getElementById('formPay')?.innerText === "Dinheiro"
+  moneyPay() {
+    return document.getElementById('formPay')?.innerText === 'Dinheiro';
   }
 
-  despache(){
-    return document.getElementById('formOfDispatch')?.innerText === "Meu endereço"
+  despache() {
+    return (
+      document.getElementById('formOfDispatch')?.innerText === 'Meu endereço'
+    );
   }
 
-  isEnderecoDefinido(){
-    if(this.enderecoAtual === undefined){
-      return false
+  isEnderecoDefinido() {
+    if (this.enderecoAtual === undefined) {
+      return false;
     }
-    return true
+    return true;
+  }
+
+  editCategory(categoria: HTMLInputElement) {
+    this.categoriaAtual = categoria.value
+    $("#seach").val("categoria:" + categoria.value)
+  }
+
+  seachProduct(seach: HTMLInputElement) {
+    const regex = new RegExp('\\bcategoria:\\b', 'i');
+
+    if(regex.test(seach.value)){
+      this.categoriaAtual = seach.value.replace(' ','').split(':')[1]
+    } else {
+      this.categoriaAtual = ''
+    }
   }
 }

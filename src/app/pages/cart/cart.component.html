@@ -23,12 +23,19 @@
       <input type="radio" name="st" id="st-4" />
       <div class="step current">
         <div class="seach-field">
-          <input type="text" placeholder="Pizza" />
+          <input type="text" placeholder="Pizza" id="seach" #seach (keyup)="seachProduct(this.seach)"/>
           <span class="seach-icon"
             ><i class="fa-solid fa-magnifying-glass"></i
           ></span>
         </div>
-        <div class="produtos">
+        <div class="category" *ngIf="categoriaAtual === '';else products">
+           <h2>Categoria</h2>
+          <div class="category-container">
+            <input type="button" #btnEditCategoryPizza value="Pizzas" (click)="editCategory(this.btnEditCategoryPizza)">
+          <input type="button" #btnEditCategoryRefri value="Refrigerante" (click)="editCategory(this.btnEditCategoryRefri)">
+          </div>
+        </div>
+        <ng-template #products class="produtos">
           <div class="produto" *ngFor="let p of produtos">
             <div class="produto-logo">
               <img src="assets//20-2.png" alt="">
@@ -55,7 +62,7 @@
                 </div>
             </div>
           </div>
-        </div>
+        </ng-template>
       </div>
       <div class="step">
         <h2>Observação</h2>

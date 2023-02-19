@@ -4,6 +4,7 @@ export class Produto{
   nomeDoProduto: string = ""
   descricao: string = ""
   preco: number = 0
+  categoria:string = ""
   quantidade:number = 0
   emEstoque:number = 0
 }
