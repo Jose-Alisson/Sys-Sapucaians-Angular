@@ -539,3 +539,28 @@
   position: relative;
   z-index: 5;
 }
+
+.produto .side-right .add-btn {
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 100%;
+  background: var(--color-6);
+}
+
+.produto .side-right .add-btn i {
+  justify-content: center;
+  align-items: center;
+  color: var(--color-4);
+}
+
+.produto .side-right .quat i {
+  color: var(--color-4);
+}
+
+.produto-description p {
+  font-size: 13px;
+}
