@@ -23,9 +23,9 @@
       <input type="radio" name="st" id="st-4" />
       <div class="step current">
         <div class="seach-field">
-          <input type="text" placeholder="Pizza" id="seach" #seach (keyup)="seachProduct(this.seach)"/>
+          <input type="text" placeholder="Pizza" id="seach" #seach (keyup)="seachProduct(this.seach, this.icon)"/>
           <span class="seach-icon"
-            ><i class="fa-solid fa-magnifying-glass"></i
+            ><i class="fa-solid fa-magnifying-glass" #icon></i
           ></span>
         </div>
         <div class="category" *ngIf="categoriaAtual === '';else products">

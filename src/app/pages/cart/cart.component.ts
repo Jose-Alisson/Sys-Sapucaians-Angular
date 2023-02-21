@@ -6,7 +6,7 @@ import { Endereco } from './../../model/endereco.model';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Produto } from 'src/app/model/Produto.model';
 
-import * as $ from 'jquery'
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-cart',
@@ -14,12 +14,12 @@ import * as $ from 'jquery'
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit, AfterViewInit {
-
   @ViewChild('seach')
-  seach!: HTMLInputElement
+  seach!: HTMLInputElement;
 
+  todosProdutos: Produto[] = [];
   produtos: Produto[] = [];
-  pediddo: Pedido = new Pedido()
+  pediddo: Pedido = new Pedido();
   enderecos: Endereco[] = [];
   enderecoAtual!: Endereco;
   categoriaAtual: string = '';
@@ -98,7 +98,7 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.produtoService.getProductAll().subscribe((data) => {
-      this.produtos = data;
+      this.todosProdutos = data;
     });
   }
 
@@ -120,17 +120,48 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   editCategory(categoria: HTMLInputElement) {
-    this.categoriaAtual = categoria.value
-    $("#seach").val("categoria:" + categoria.value)
+    this.categoriaAtual = categoria.value;
+    $('#seach').val('categoria:' + categoria.value);
   }
 
-  seachProduct(seach: HTMLInputElement) {
+
+  seachProduct(seach: HTMLInputElement,  icon:HTMLElement) {
     const regex = new RegExp('\\bcategoria:\\b', 'i');
 
-    if(regex.test(seach.value)){
-      this.categoriaAtual = seach.value.replace(' ','').split(':')[1]
+    if (seach.value.length === 0) {
+      this.categoriaAtual = '';
+
+      if(icon.classList.contains('fa-broom')){
+        icon.classList.remove('fa-broom')
+        icon.classList.add('fa-magnifying-glass')
+      }
+
+      icon.addEventListener('click', () => {});
+    } else if (regex.test(seach.value)) {
+
+      if(icon.classList.contains('fa-magnifying-glass')){
+        icon.classList.remove('fa-magnifying-glass')
+        icon.classList.add('fa-broom')
+      }
+      icon.addEventListener('click', () => {
+        seach.value = '';
+        this.categoriaAtual = '';
+      });
+      this.categoriaAtual = ' ';
+      this.categoriaAtual = seach.value.split(':')[1].replace(' ', '');
     } else {
-      this.categoriaAtual = ''
+      if(icon.classList.contains('fa-magnifying-glass')){
+        icon.classList.remove('fa-magnifying-glass')
+        icon.classList.add('fa-broom')
+      }
+      icon.addEventListener('click', () => {
+        seach.value = '';
+        this.categoriaAtual = '';
+      });
+      this.categoriaAtual = ' ';
+      this.produtos = this.todosProdutos.filter((product) =>
+        product.nomeDoProduto.toLowerCase().includes(seach.value.toLowerCase())
+      );
     }
   }
 }
