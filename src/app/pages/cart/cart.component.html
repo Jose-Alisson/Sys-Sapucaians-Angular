@@ -23,22 +23,31 @@
       <input type="radio" name="st" id="st-4" />
       <div class="step current">
         <div class="seach-field">
-          <input type="text" placeholder="Pizza" id="seach" #seach (keyup)="seachProduct(this.seach, this.icon)"/>
+          <input type="text" placeholder="Pizza" id="seach" #seach (keyup)="seachProduct(this.seach)"/>
           <span class="seach-icon"
             ><i class="fa-solid fa-magnifying-glass" #icon></i
           ></span>
         </div>
-        <div class="category" *ngIf="categoriaAtual === '';else products">
+        <div class="categorys" *ngIf="categoriaAtual === '';else products">
            <h2>Categoria</h2>
-          <div class="category-container">
-            <input type="button" #btnEditCategoryPizza value="Pizzas" (click)="editCategory(this.btnEditCategoryPizza)">
-          <input type="button" #btnEditCategoryRefri value="Refrigerante" (click)="editCategory(this.btnEditCategoryRefri)">
-          </div>
+           <div class="category">
+            <div class="category-header">
+              <span>Pizzas</span>
+              <span class="expand">
+                <i class="fa-solid fa-caret-up"></i>
+              </span>
+            </div>
+            <div class="category-wrapper">
+
+            </div>
+           </div>
         </div>
         <ng-template #products class="produtos">
           <div class="produto" *ngFor="let p of produtos">
             <div class="produto-logo">
-              <img src="assets//20-2.png" alt="">
+              <!-- <img src="assets//20-2.png" alt=""> -->
+              <img [src]="p.urlImagem" alt="">
+
             </div>
             <div class="side-left">
                 <div class="produto-title">
@@ -54,11 +63,6 @@
               <div class="side-right">
                 <div class="add-btn">
                   <i class="fa-solid fa-plus"></i>
-                </div>
-                <div class="quat">
-                  <i class="fa-solid fa-caret-up"></i>
-                  <P>1</P>
-                  <i class="fa-solid fa-caret-down"></i>
                 </div>
             </div>
           </div>

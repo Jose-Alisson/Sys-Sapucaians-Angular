@@ -1,12 +1,14 @@
-import { ProdutoService } from './../../shared/services/produto/produto.service';
 import { Pedido } from './../../model/pedido.model';
+import { ProdutoService } from './../../shared/services/produto/produto.service';
 
-import { SignInService } from 'src/app/shared/services/signIn/sign-in.service';
-import { Endereco } from './../../model/endereco.model';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Produto } from 'src/app/model/Produto.model';
+import { SignInService } from 'src/app/shared/services/signIn/sign-in.service';
+import { Endereco } from './../../model/endereco.model';
 
 import * as $ from 'jquery';
+import { ImagemService } from 'src/app/shared/services/imagem/imagem.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-cart',
@@ -26,7 +28,9 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   constructor(
     private signIn: SignInService,
-    private produtoService: ProdutoService
+    private produtoService: ProdutoService,
+    private imagemService: ImagemService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngAfterViewInit(): void {
@@ -98,7 +102,14 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.produtoService.getProductAll().subscribe((data) => {
-      this.todosProdutos = data;
+      let produtos: Produto[] = data
+      produtos.forEach(prod => {
+        this.imagemService.downloadImagem(prod.id).subscribe((blob: Blob) => {
+          const url = URL.createObjectURL(blob);
+          prod.urlImagem = this.sanitizer.bypassSecurityTrustUrl(url);
+        });
+      })
+      this.todosProdutos = produtos
     });
   }
 
@@ -124,40 +135,15 @@ export class CartComponent implements OnInit, AfterViewInit {
     $('#seach').val('categoria:' + categoria.value);
   }
 
-
-  seachProduct(seach: HTMLInputElement,  icon:HTMLElement) {
+  seachProduct(seach: HTMLInputElement) {
     const regex = new RegExp('\\bcategoria:\\b', 'i');
 
     if (seach.value.length === 0) {
       this.categoriaAtual = '';
-
-      if(icon.classList.contains('fa-broom')){
-        icon.classList.remove('fa-broom')
-        icon.classList.add('fa-magnifying-glass')
-      }
-
-      icon.addEventListener('click', () => {});
     } else if (regex.test(seach.value)) {
-
-      if(icon.classList.contains('fa-magnifying-glass')){
-        icon.classList.remove('fa-magnifying-glass')
-        icon.classList.add('fa-broom')
-      }
-      icon.addEventListener('click', () => {
-        seach.value = '';
-        this.categoriaAtual = '';
-      });
       this.categoriaAtual = ' ';
       this.categoriaAtual = seach.value.split(':')[1].replace(' ', '');
     } else {
-      if(icon.classList.contains('fa-magnifying-glass')){
-        icon.classList.remove('fa-magnifying-glass')
-        icon.classList.add('fa-broom')
-      }
-      icon.addEventListener('click', () => {
-        seach.value = '';
-        this.categoriaAtual = '';
-      });
       this.categoriaAtual = ' ';
       this.produtos = this.todosProdutos.filter((product) =>
         product.nomeDoProduto.toLowerCase().includes(seach.value.toLowerCase())

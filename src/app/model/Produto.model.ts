@@ -1,4 +1,8 @@
+import { SafeUrl } from "@angular/platform-browser";
+
 export class Produto{
+
+  urlImagem!: SafeUrl;
   id:number = 0
   foto:string = ""
   nomeDoProduto: string = ""
