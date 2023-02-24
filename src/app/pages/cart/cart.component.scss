@@ -35,7 +35,7 @@
   display: none !important;
 }
 
-#fade{
+#fade, .p-fade{
   position: absolute;
   top: 0;
   width: 100%;
@@ -75,7 +75,7 @@
   }
 }
 
-#modal .modal-header {
+#modal .modal-header{
   width: 100%;
   height: 55px;
   align-items: center;
@@ -89,7 +89,7 @@
   justify-content: space-between;
 }
 
-#modal .modal-header .close {
+#modal .modal-header .close, .modal-p .close{
   background: var(--color-6);
   border-radius: 200px;
   display: flex;
@@ -99,6 +99,12 @@
   width: 25px;
   height: 25px;
   margin: 5px 5px 5px 5px;
+}
+
+.modal-p{
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
 }
 
 .step-group{
@@ -408,7 +414,7 @@
 }
 
 @media screen and (max-width: 420px) {
-  #modal{
+  #modal, .modal-p{
     height: 100%;
     width: 100%;
     border-radius: 0px;
@@ -469,17 +475,42 @@
   text-align: center;
 }
 
+.categorys .category:nth-child(3) .category-header{
+  background: var(--color-12);
+}
+
 .category{
   margin-top: 10px;
-  background: var(--color-1);
-  padding: 7px 14px;
   border-radius: 7px;
+  position: relative;
 }
 
 .category-header{
   align-items: center;
   display: flex;
+  background: var(--color-1);
+  padding: 7px 14px;
+  border-radius: 7px;
   justify-content: space-between;
+}
+
+.category-wrapper{
+  overflow: hidden;
+  transition: max-height 1s;
+  height: 0px;
+}
+
+.category.active .category-wrapper{
+  height: auto;
+}
+
+.category .category-header .expand i{
+transition: transform 0.3s linear;
+}
+
+.category.active .category-header .expand i{
+
+  transform: rotate(-180deg);
 }
 
 .category-header span {
@@ -556,4 +587,37 @@
 
 .produto-description p {
   font-size: 13px;
+}
+
+.modal-p{
+  max-width: 500px;
+  width: 95%;
+  height: auto;
+  position: absolute;
+  border-radius: 7px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  animation: reactive 0.2s linear;
+  background: var(--color-1);
+  padding: 5px;
+}
+
+.modal-p img{
+  width: 100%;
+}
+
+.modal-p .modal-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.modal-content .modal-case{
+  color: var(--color-4);
+}
+
+.modal-content .modal-case.preco{
+  color: var(--color-3);
 }

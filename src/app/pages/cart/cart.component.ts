@@ -21,10 +21,13 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   todosProdutos: Produto[] = [];
   produtos: Produto[] = [];
+
   pediddo: Pedido = new Pedido();
   enderecos: Endereco[] = [];
   enderecoAtual!: Endereco;
-  categoriaAtual: string = '';
+  allView = '';
+
+  selectedProduto?: Produto;
 
   constructor(
     private signIn: SignInService,
@@ -83,7 +86,8 @@ export class CartComponent implements OnInit, AfterViewInit {
       });
     });
 
-    this.enderecos = this.signIn.userFromPs.enderecos;
+    this.enderecos = this.signIn.userFromPs?.enderecos;
+    console.log(this.todosProdutos);
   }
 
   active(element: HTMLDivElement) {
@@ -102,15 +106,19 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.produtoService.getProductAll().subscribe((data) => {
-      let produtos: Produto[] = data
-      produtos.forEach(prod => {
+      let produtos: Produto[] = data;
+      produtos.forEach((prod) => {
         this.imagemService.downloadImagem(prod.id).subscribe((blob: Blob) => {
           const url = URL.createObjectURL(blob);
           prod.urlImagem = this.sanitizer.bypassSecurityTrustUrl(url);
         });
-      })
-      this.todosProdutos = produtos
+      });
+      this.todosProdutos = produtos;
     });
+
+    this.produtos = this.todosProdutos;
+    this.selectedProduto = this.todosProdutos[0];
+    console.log(this.todosProdutos);
   }
 
   moneyPay() {
@@ -130,24 +138,39 @@ export class CartComponent implements OnInit, AfterViewInit {
     return true;
   }
 
-  editCategory(categoria: HTMLInputElement) {
-    this.categoriaAtual = categoria.value;
-    $('#seach').val('categoria:' + categoria.value);
+  getCategory(categoria: string): Produto[] {
+    return this.todosProdutos.filter(
+      (product) => product.categoria === categoria
+    );
   }
 
   seachProduct(seach: HTMLInputElement) {
-    const regex = new RegExp('\\bcategoria:\\b', 'i');
-
-    if (seach.value.length === 0) {
-      this.categoriaAtual = '';
-    } else if (regex.test(seach.value)) {
-      this.categoriaAtual = ' ';
-      this.categoriaAtual = seach.value.split(':')[1].replace(' ', '');
+    if (seach.value === '') {
+      this.allView = '';
+      this.produtos = this.todosProdutos;
     } else {
-      this.categoriaAtual = ' ';
+      this.allView = ' ';
       this.produtos = this.todosProdutos.filter((product) =>
         product.nomeDoProduto.toLowerCase().includes(seach.value.toLowerCase())
       );
     }
+  }
+
+  setProductView(index: number) {
+    document.querySelector('.modal-p')?.classList.remove('desatived')
+
+    if (this.allView === '') {
+      this.selectedProduto = this.todosProdutos[index];
+    } else {
+      this.selectedProduto = this.produtos[index];
+    }
+  }
+
+  productClose(){
+    document.querySelector('.modal-p')?.classList.add('desatived')
+  }
+
+  categoryActive(element: HTMLDivElement) {
+    element.classList.toggle('active');
   }
 }

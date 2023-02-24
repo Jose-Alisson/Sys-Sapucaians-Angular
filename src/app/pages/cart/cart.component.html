@@ -28,22 +28,31 @@
             ><i class="fa-solid fa-magnifying-glass" #icon></i
           ></span>
         </div>
-        <div class="categorys" *ngIf="categoriaAtual === '';else products">
-           <h2>Categoria</h2>
-           <div class="category">
-            <div class="category-header">
-              <span>Pizzas</span>
-              <span class="expand">
-                <i class="fa-solid fa-caret-up"></i>
-              </span>
+        <div *ngIf="allView ==='';else products">
+          <div class="produto" *ngFor="let p of todosProdutos; let i = index" (click)="setProductView(i);pFade.classList.toggle('desatived')">
+            <div class="produto-logo">
+              <img [src]="p.urlImagem" alt="">
             </div>
-            <div class="category-wrapper">
-
+            <div class="side-left">
+                <div class="produto-title">
+                  <h3>{{p.nomeDoProduto}}</h3>
+                </div>
+                <div class="produto-description">
+                  <p>{{p.descricao}}</p>
+                </div>
+                <div class="produto-preco">
+                  <p>{{p.preco}}</p>
+                </div>
+              </div>
+              <div class="side-right">
+                <div class="add-btn">
+                  <i class="fa-solid fa-plus"></i>
+                </div>
             </div>
-           </div>
+          </div>
         </div>
         <ng-template #products class="produtos">
-          <div class="produto" *ngFor="let p of produtos">
+          <div class="produto" *ngFor="let p of produtos;let i = index" (click)="setProductView(i);pFade.classList.toggle('desatived')">
             <div class="produto-logo">
               <!-- <img src="assets//20-2.png" alt=""> -->
               <img [src]="p.urlImagem" alt="">
@@ -129,7 +138,7 @@
           <p>Selecione um dos seus endereços</p>
           <div class="carrocel-address">
             <div class= "sliders-address">
-              <div class="slider" *ngFor="let a of enderecos" (click)="definirEndereco(a.id)">
+              <div class="slider" *ngFor="let a of enderecos!" (click)="definirEndereco(a.id)">
                 <div class="title">
                   <p>{{a.nomeDoEndereco}}</p>
                 </div>
@@ -175,5 +184,40 @@
         </label>
       </li>
     </ul>
+  </div>
+</div>
+<div class="p-fade" #pFade></div>
+<div class="modal-p">
+  <div class="modal-header">
+    <p style="color: var(--color-4); margin-left: 10px">Produto</p>
+    <div class="close" (click)="productClose();pFade.classList.toggle('desatived')">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+  </div>
+  <div class="show-case">
+    <img [src]="selectedProduto?.urlImagem" alt="">
+  </div>
+  <div class="modal-content">
+    <div class="modal-case">
+      <h3>{{selectedProduto?.nomeDoProduto}}</h3>
+    </div>
+    <div class="modal-case">
+      <p>{{selectedProduto?.descricao}}</p>
+    </div>
+    <div class="modal-case preco">
+      <p uiMoneyMask >{{selectedProduto?.preco | currency:'BRL':true:'1.2-2' }}</p>
+    </div>
+    <div class="modal-case">
+      <div class="quant">
+        <div class="side-left">
+          <i class="fa-solid fa-caret-left"></i>
+          <p>1</p>
+          <i class="fa-solid fa-caret-right"></i>
+        </div>
+        <div class="side-right">
+          <button><i class="fa-solid fa-cart-shopping"></i> Adicionar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

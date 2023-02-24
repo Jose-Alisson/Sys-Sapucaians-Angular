@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UrlApiService {
 
-  URl_API = "https://b444-45-6-136-57.sa.ngrok.io"
+  URl_API = "https://9f24-45-6-136-57.sa.ngrok.io"
 
   constructor() { }
 }
