@@ -621,3 +621,24 @@ transition: transform 0.3s linear;
 .modal-content .modal-case.preco{
   color: var(--color-3);
 }
+
+.quant .side-left{
+  display: flex;
+  width: 100px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quant{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.quant .side-right button{
+  padding: 7px 14px;
+  color: var(--color-4);
+  border-radius: 7px;
+  border: 0;
+  background: var(--color-12);
+}
