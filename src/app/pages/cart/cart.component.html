@@ -23,57 +23,77 @@
       <input type="radio" name="st" id="st-4" />
       <div class="step current">
         <div class="seach-field">
-          <input type="text" placeholder="Pizza" id="seach" #seach (keyup)="seachProduct(this.seach)"/>
+          <input
+            type="text"
+            placeholder="Pizza"
+            id="seach"
+            #seach
+            (keyup)="seachProduct(this.seach)"
+          />
           <span class="seach-icon"
             ><i class="fa-solid fa-magnifying-glass" #icon></i
           ></span>
         </div>
-        <div *ngIf="allView ==='';else products">
-          <div class="produto" *ngFor="let p of todosProdutos; let i = index" (click)="setProductView(i);pFade.classList.toggle('desatived')">
+        <div *ngIf="allView === ''; else products">
+          <div
+            class="produto"
+            *ngFor="let p of todosProdutos; let i = index"
+            (click)="setProductView(i); pFade.classList.toggle('desatived')"
+          >
             <div class="produto-logo">
-              <img [src]="p.urlImagem" alt="">
+              <img [src]="p.urlImagem" alt="" />
             </div>
-            <div class="side-left">
+            &nbsp;
+            <div class="side-right">
+              <div class="produto-side-up">
                 <div class="produto-title">
-                  <h3>{{p.nomeDoProduto}}</h3>
+                  <h3>{{ p.nomeDoProduto }}</h3>
                 </div>
                 <div class="produto-description">
-                  <p>{{p.descricao}}</p>
-                </div>
-                <div class="produto-preco">
-                  <p>{{p.preco}}</p>
+                  <p>{{ p.descricao }}</p>
                 </div>
               </div>
-              <div class="side-right">
-                <div class="add-btn">
-                  <i class="fa-solid fa-plus"></i>
+
+              <div class="produto-side-down">
+                <div class="produto-preco">
+                  <h3>{{ p.preco | currency : "BRL" : true : "1.2-2" }}</h3>
                 </div>
+                <!--
+                <div class="side-down-right">
+                  <div class="add-btn">
+                    <i class="fa-solid fa-plus"></i>
+                  </div>
+                </div>-->
+              </div>
             </div>
           </div>
         </div>
         <ng-template #products class="produtos">
-          <div class="produto" *ngFor="let p of produtos;let i = index" (click)="setProductView(i);pFade.classList.toggle('desatived')">
+          <div
+            class="produto"
+            *ngFor="let p of produtos; let i = index"
+            (click)="setProductView(i); pFade.classList.toggle('desatived')"
+          >
             <div class="produto-logo">
               <!-- <img src="assets//20-2.png" alt=""> -->
-              <img [src]="p.urlImagem" alt="">
-
+              <img [src]="p.urlImagem" alt="" />
             </div>
             <div class="side-left">
-                <div class="produto-title">
-                  <h3>{{p.nomeDoProduto}}</h3>
-                </div>
-                <div class="produto-description">
-                  <p>{{p.descricao}}</p>
-                </div>
-                <div class="produto-preco">
-                  <p>{{p.preco}}</p>
-                </div>
+              <div class="produto-title">
+                <h3>{{ p.nomeDoProduto }}</h3>
               </div>
-              <div class="side-right">
+              <div class="produto-description">
+                <p>{{ p.descricao }}</p>
+              </div>
+              <div class="produto-preco">
+                <p>{{ p.preco }}</p>
+              </div>
+            </div>
+            <!--<div class="side-right">
                 <div class="add-btn">
                   <i class="fa-solid fa-plus"></i>
                 </div>
-            </div>
+            </div> -->
           </div>
         </ng-template>
       </div>
@@ -137,19 +157,27 @@
         <div class="black-box" *ngIf="!isEnderecoDefinido() && despache()">
           <p>Selecione um dos seus endereços</p>
           <div class="carrocel-address">
-            <div class= "sliders-address">
-              <div class="slider" *ngFor="let a of enderecos!" (click)="definirEndereco(a.id)">
+            <div class="sliders-address">
+              <div
+                class="slider"
+                *ngFor="let a of enderecos!"
+                (click)="definirEndereco(a.id)"
+              >
                 <div class="title">
-                  <p>{{a.nomeDoEndereco}}</p>
+                  <p>{{ a.nomeDoEndereco }}</p>
                 </div>
-                <p>{{a.cep}}</p>
-                <p>{{a.numeroDaCasa}}</p>
-                <p>{{a.localidade}}</p>
+                <p>{{ a.cep }}</p>
+                <p>{{ a.numeroDaCasa }}</p>
+                <p>{{ a.localidade }}</p>
               </div>
             </div>
           </div>
         </div>
-        <div style="padding-left: 10px;" class="black-box" *ngIf="isEnderecoDefinido() && despache()">
+        <div
+          style="padding-left: 10px"
+          class="black-box"
+          *ngIf="isEnderecoDefinido() && despache()"
+        >
           <div class="box-mudar-address">
             <div class="address-defined">
               <p>{{ enderecoAtual.nomeDoEndereco }}</p>
@@ -186,33 +214,42 @@
     </ul>
   </div>
 </div>
-<div class="p-fade" #pFade></div>
-<div class="modal-p">
+<div class="p-fade desatived" #pFade></div>
+<div class="modal-p desatived">
   <div class="modal-header">
     <p style="color: var(--color-4); margin-left: 10px">Produto</p>
-    <div class="close" (click)="productClose();pFade.classList.toggle('desatived')">
+    <div
+      class="close"
+      (click)="productClose(); pFade.classList.toggle('desatived')"
+    >
       <i class="fa-solid fa-xmark"></i>
     </div>
   </div>
   <div class="show-case">
-    <img [src]="selectedProduto?.urlImagem" alt="">
+    <img [src]="selectedProduto?.urlImagem" alt="" />
   </div>
   <div class="modal-content">
     <div class="modal-case">
-      <h3>{{selectedProduto?.nomeDoProduto}}</h3>
+      <h3>{{ selectedProduto?.nomeDoProduto }}</h3>
     </div>
     <div class="modal-case">
-      <p>{{selectedProduto?.descricao}}</p>
+      <p>{{ selectedProduto?.descricao }}</p>
     </div>
     <div class="modal-case preco">
-      <p uiMoneyMask >{{selectedProduto?.preco | currency:'BRL':true:'1.2-2' }}</p>
+      <h3 uiMoneyMask>
+        {{ selectedProduto?.preco | currency : "BRL" : true : "1.2-2" }}
+      </h3>
     </div>
     <div class="modal-case quantidade">
       <div class="quant">
         <div class="side-left">
-          <i class="fa-solid fa-caret-left"></i>
+          <div class="circle-caret">
+            <i class="fa-solid fa-caret-left"></i>
+          </div>
           <p>1</p>
-          <i class="fa-solid fa-caret-right"></i>
+          <div class="circle-caret">
+            <i class="fa-solid fa-caret-right"></i>
+          </div>
         </div>
         <div class="side-right">
           <button><i class="fa-solid fa-cart-shopping"></i> Adicionar</button>
