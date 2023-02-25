@@ -1,18 +1,14 @@
+import { QuantidadeProduto } from './quantidade.model';
 import { Endereco } from './endereco.model';
 import { Produto } from "./Produto.model"
 
 export class Pedido{
-  id:number = 0
-  numeroDoPedido:number = 0
-  produtos:Produto[] = []
-  descricao:string = ""
-  endereco:Endereco = {
-    id: 0,
-    nomeDoEndereco: '',
-    cep: '',
-    numeroDaCasa: '',
-    localidade: ''
-  }
-  tipoDePagamento:string = ""
-  troco:string = ""
+
+  id!:number
+  numeroDoPedido!:number
+  produtos!:QuantidadeProduto[]
+  descricao!:string
+  endereco!:Endereco | undefined
+  tipoDePagamento!:string
+  troco!:string
 }

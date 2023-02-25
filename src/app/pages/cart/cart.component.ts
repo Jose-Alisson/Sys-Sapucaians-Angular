@@ -1,3 +1,5 @@
+import { PedidoService } from './../../shared/services/pedido/pedido.service';
+import { QuantidadeProduto } from './../../model/quantidade.model';
 import { Pedido } from './../../model/pedido.model';
 import { ProdutoService } from './../../shared/services/produto/produto.service';
 
@@ -16,24 +18,38 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit, AfterViewInit {
-  @ViewChild('seach')
-  seach!: HTMLInputElement;
+  pedido: Pedido = {
+    id: 0,
+    numeroDoPedido: 0,
+    produtos: [],
+    descricao: '',
+    tipoDePagamento: 'cartão',
+    troco: '',
+    endereco: undefined,
+  };
+
+  pedidos: Pedido[] = [];
 
   todosProdutos: Produto[] = [];
   produtos: Produto[] = [];
 
-  pediddo: Pedido = new Pedido();
   enderecos: Endereco[] = [];
   enderecoAtual!: Endereco;
-  allView = '';
 
-  selectedProduto?: Produto;
+  selectedProduto!: Produto;
+
+  quanatidadeProduto: QuantidadeProduto = {
+    id: 0,
+    produto: this.selectedProduto,
+    quantidade: 1,
+  };
 
   constructor(
     private signIn: SignInService,
     private produtoService: ProdutoService,
     private imagemService: ImagemService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private pedidoService: PedidoService
   ) {}
 
   ngAfterViewInit(): void {
@@ -81,6 +97,7 @@ export class CartComponent implements OnInit, AfterViewInit {
           selectBtn?.querySelectorAll('span').forEach((span) => {
             w.classList.remove('active');
             span.innerText = li.innerText;
+            this.pedido.tipoDePagamento = li.innerText;
           });
         });
       });
@@ -96,10 +113,12 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   definirEndereco(addressId: number) {
     this.enderecoAtual = this.enderecos.find(({ id }) => id === addressId)!;
+    this.pedido.endereco = this.enderecoAtual;
   }
 
   mudarEndereco() {
     this.enderecoAtual = undefined!;
+    this.pedido.endereco = undefined!;
   }
 
   max = '0/150';
@@ -114,11 +133,8 @@ export class CartComponent implements OnInit, AfterViewInit {
         });
       });
       this.todosProdutos = produtos;
+      this.produtos = this.todosProdutos;
     });
-
-    this.produtos = this.todosProdutos;
-    this.selectedProduto = this.todosProdutos[0];
-    console.log(this.todosProdutos);
   }
 
   moneyPay() {
@@ -146,10 +162,8 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   seachProduct(seach: HTMLInputElement) {
     if (seach.value === '') {
-      this.allView = '';
       this.produtos = this.todosProdutos;
     } else {
-      this.allView = ' ';
       this.produtos = this.todosProdutos.filter((product) =>
         product.nomeDoProduto.toLowerCase().includes(seach.value.toLowerCase())
       );
@@ -157,20 +171,59 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   setProductView(index: number) {
-    document.querySelector('.modal-p')?.classList.remove('desatived')
-
-    if (this.allView === '') {
-      this.selectedProduto = this.todosProdutos[index];
-    } else {
-      this.selectedProduto = this.produtos[index];
-    }
+    document.querySelector('.modal-p')?.classList.remove('desatived');
+    this.selectedProduto = this.produtos[index];
   }
 
-  productClose(){
-    document.querySelector('.modal-p')?.classList.add('desatived')
+  productClose() {
+    document.querySelector('.modal-p')?.classList.add('desatived');
   }
 
   categoryActive(element: HTMLDivElement) {
     element.classList.toggle('active');
+  }
+
+  almentarQuantidade() {
+    if (this.quanatidadeProduto.quantidade < 10) {
+      this.quanatidadeProduto.quantidade += 1;
+    }
+  }
+
+  diminuirQuantidade() {
+    if (this.quanatidadeProduto.quantidade > 1) {
+      this.quanatidadeProduto.quantidade -= 1;
+    }
+  }
+
+  adicionarProduto() {
+
+    let qp: QuantidadeProduto = {
+      id: 0,
+      produto: this.selectedProduto,
+      quantidade: this.quanatidadeProduto.quantidade,
+    };
+
+    this.pedido.produtos.push(qp);
+
+    this.quanatidadeProduto = {
+      id: 0,
+      produto: this.selectedProduto,
+      quantidade: 1,
+    };
+  }
+
+  criarPedido() {
+    console.log(this.pedido);
+
+    this.pedidoService
+      .selvar(this.pedido)
+
+      .subscribe((data) => {
+        this.pedidos.push(data);
+      });
+  }
+
+  setEntLocal() {
+    this.enderecoAtual = undefined!;
   }
 }
