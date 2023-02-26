@@ -194,6 +194,21 @@ export class CartComponent implements OnInit, AfterViewInit {
     }
   }
 
+  almentarQuantidadeProdPedido(index:number) {
+    if (this.pedido.produtos[index].quantidade  < 10) {
+      this.pedido.produtos[index].quantidade += 1;
+    }
+  }
+
+  diminuirQuantidadeProdPedido(index:number) {
+
+    if (this.pedido.produtos[index].quantidade > 1) {
+      this.pedido.produtos[index].quantidade -= 1;
+    } else {
+      this.pedido.produtos.splice(index, 1);
+    }
+  }
+
   adicionarProduto() {
 
     let qp: QuantidadeProduto = {
@@ -236,5 +251,15 @@ export class CartComponent implements OnInit, AfterViewInit {
     } else {
        return this.enderecos?.length * 200;
     }
+  }
+
+  getSubTotal(){
+    let valor = 0
+
+    this.pedido.produtos.forEach(p => {
+      valor += (p.quantidade * p.produto!.preco)
+    })
+
+    return valor
   }
 }

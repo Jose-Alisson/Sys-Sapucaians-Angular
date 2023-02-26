@@ -61,9 +61,41 @@
 
       </div>
       <div class="step">
-        <div class="cart-list">
-          <div class="cart-list-header">
-            <i class="fa-solid fa-caret-up"></i>
+        <h1>SubTotal {{ getSubTotal() | currency : "BRL" : true : "1.2-2" }}</h1>
+        <div class="produtos">
+          <div class="produto" *ngFor="let p of pedido.produtos; let i = index"
+            >
+            <div class="produto-logo">
+              <img [src]="p.produto?.urlImagem" alt="" />
+            </div>
+            &nbsp;
+            <div class="side-right">
+              <div class="produto-side-up">
+                <div class="produto-title">
+                  <h3>{{ p.produto?.nomeDoProduto }}</h3>
+                </div>
+                <div class="produto-description">
+                  <p>{{ p.produto?.descricao }}</p>
+                </div>
+              </div>
+              <div class="produto-side-down">
+                <div class="produto-preco">
+                  <h3>{{ p.produto?.preco | currency : "BRL" : true : "1.2-2" }}</h3>
+                </div>
+                <div class="prod-list">
+                <div class="side-left">
+                  <div class="circle-caret" (click)="diminuirQuantidadeProdPedido(i)">
+                    <i class="fa-solid fa-caret-left"></i>
+                  </div>
+                  <p>{{p.quantidade}}</p>
+                  <div class="circle-caret" (click)="almentarQuantidadeProdPedido(i)">
+                    <i class="fa-solid fa-caret-right"></i>
+                  </div>
+                </div>
+              </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
