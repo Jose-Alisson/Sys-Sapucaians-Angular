@@ -132,13 +132,6 @@ export class CartComponent implements OnInit, AfterViewInit {
         });
       });
       this.todosProdutos = produtos;
-
-      while(this.todosProdutos.length < 5){
-        produtos.forEach(p => {
-          this.todosProdutos.push(p)
-        })
-      }
-
       this.produtos = this.todosProdutos;
     });
   }

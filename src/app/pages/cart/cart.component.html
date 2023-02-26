@@ -28,7 +28,7 @@
             <i class="fa-solid fa-magnifying-glass" #icon></i>
           </span>
         </div>
-        <div>
+        <div class="produtos">
           <div class="produto" *ngFor="let p of produtos; let i = index"
             (click)="setProductView(i); pFade.classList.toggle('desatived')">
             <div class="produto-logo">
@@ -58,6 +58,9 @@
             </div>
           </div>
         </div>
+
+      </div>
+      <div class="step">
         <div class="cart-list">
           <div class="cart-list-header">
             <i class="fa-solid fa-caret-up"></i>
@@ -151,12 +154,18 @@
       </li>
       <li class="list">
         <label for="st-2">
+          <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
+          <span class="text">Lista</span>
+        </label>
+      </li>
+      <li class="list">
+        <label for="st-3">
           <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
           <span class="text">Observação</span>
         </label>
       </li>
       <li class="list">
-        <label for="st-3">
+        <label for="st-4">
           <span class="icon"><i class="fa-solid fa-check"></i></span>
           <span class="text">Checagem</span>
         </label>
