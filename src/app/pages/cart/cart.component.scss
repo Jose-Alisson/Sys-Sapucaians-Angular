@@ -695,6 +695,7 @@ transition: transform 0.3s linear;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: var(--color-4);
   background: var(--color-2);
 }
 
@@ -711,4 +712,32 @@ transition: transform 0.3s linear;
 
 .step-header h1 {
   color: var(--color-4);
+}
+
+.step-prod-header{
+  background: var(--color-1);
+  padding: 7px 14px;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.step-prod-header h1 {
+  font-family: 'Avenir Bold', sans-serif;
+  color: var(--color-4);
+}
+
+.cart-empty{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+  height: calc(100% - 43px);
+}
+
+.cart-empty i {
+  font-size: 48px;
 }

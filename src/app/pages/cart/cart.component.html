@@ -10,7 +10,7 @@
 <div id="fade" class="desatived"></div>
 <div id="modal" class="desatived">
   <div class="modal-header">
-    <p style="color: var(--color-4); margin-left: 10px">Meu Pedido</p>
+    <p style="color: var(--color-4); margin-left: 10px">Meu Pedido - {{title}}</p>
     <div class="close">
       <i class="fa-solid fa-xmark"></i>
     </div>
@@ -61,8 +61,15 @@
 
       </div>
       <div class="step">
-        <h1>SubTotal {{ getSubTotal() | currency : "BRL" : true : "1.2-2" }}</h1>
-        <div class="produtos">
+        <div class="step-prod-header">
+          <h1>SubTotal {{ getSubTotal() | currency : "BRL" : true : "1.2-2" }}</h1>
+        </div>
+        <div class="cart-empty" *ngIf="pedido.produtos.length === 0;else produts">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <h2>Carrinho Vazio😥</h2>
+        </div>
+        <ng-template #produts>
+          <div class="produtos">
           <div class="produto" *ngFor="let p of pedido.produtos; let i = index"
             >
             <div class="produto-logo">
@@ -98,6 +105,10 @@
             </div>
           </div>
         </div>
+
+        </ng-template>
+
+
       </div>
       <div class="step">
         <h2>Observação</h2>
@@ -181,13 +192,13 @@
       <li class="list active">
         <label for="st-1">
           <span class="icon"><i class="fa-solid fa-list"></i></span>
-          <span class="text">Pedido</span>
+          <span class="text">Produtos</span>
         </label>
       </li>
       <li class="list">
         <label for="st-2">
           <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
-          <span class="text">Lista</span>
+          <span class="text">Carrinho</span>
         </label>
       </li>
       <li class="list">

@@ -38,6 +38,8 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   selectedProduto?: Produto;
 
+  title = ""
+
   quanatidadeProduto: QuantidadeProduto = {
     id: 0,
     produto: this.selectedProduto,
@@ -103,7 +105,18 @@ export class CartComponent implements OnInit, AfterViewInit {
     });
 
     this.enderecos = this.signIn.userFromPs?.enderecos;
-    console.log(this.todosProdutos);
+
+    let stepNavegation = document.querySelectorAll('.step-navgation ul li')
+    stepNavegation.forEach(li => {
+      li.addEventListener('click', () => {
+        let text = (<HTMLSpanElement>li.querySelector('label .text'))?.innerText;
+        let primeiraLetra = text.charAt(0).toUpperCase();
+        let restoDaString = text.slice(1).toLowerCase();
+        let minhaNovaString = primeiraLetra + restoDaString;
+        this.title = minhaNovaString
+      })
+    })
+
   }
 
   active(element: HTMLDivElement) {
