@@ -58,6 +58,11 @@
             </div>
           </div>
         </div>
+        <div class="cart-list">
+          <div class="cart-list-header">
+            <i class="fa-solid fa-caret-up"></i>
+          </div>
+        </div>
       </div>
       <div class="step">
         <h2>Observação</h2>
@@ -79,9 +84,9 @@
             </div>
             <div style="z-index: 3" class="select-content">
               <ul class="options">
-                <li><i class="fa-solid fa-sack-dollar"></i>Dinheiro</li>
-                <li><i class="fa-solid fa-credit-card"></i>Cartão</li>
-                <li><i class="fa-solid fa-right-left"></i>Pix</li>
+                <li (click)="definirTipoDePagameto('Dinheiro')"><i class="fa-solid fa-sack-dollar" ></i>Dinheiro</li>
+                <li (click)="definirTipoDePagameto('Cartão')"><i class="fa-solid fa-credit-card" ></i>Cartão</li>
+                <li (click)="definirTipoDePagameto('Pix')"><i class="fa-solid fa-right-left" ></i>Pix</li>
               </ul>
             </div>
           </div>
@@ -110,8 +115,8 @@
         <div class="black-box" *ngIf="!isEnderecoDefinido() && despache()">
           <p>Selecione um dos seus endereços</p>
           <div class="carrocel-address">
-            <div class="sliders-address">
-                <div class="slider" *ngFor="let a of enderecos!" (click)="definirEndereco(a.id)">
+            <div class="sliders-address" [style]="'width:'+ getAddressWidth() + 'px'">
+                <div class="slider" *ngFor="let a of enderecos!;let ie = index" (click)="definirEndereco(a.id)">
                   <div class="title">
                     <p>{{ a.nomeDoEndereco }}</p>
                   </div>

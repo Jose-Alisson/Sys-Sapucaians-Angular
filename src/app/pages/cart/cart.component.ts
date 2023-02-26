@@ -36,7 +36,7 @@ export class CartComponent implements OnInit, AfterViewInit {
   enderecos: Endereco[] = [];
   enderecoAtual!: Endereco;
 
-  selectedProduto!: Produto;
+  selectedProduto?: Produto;
 
   quanatidadeProduto: QuantidadeProduto = {
     id: 0,
@@ -86,7 +86,7 @@ export class CartComponent implements OnInit, AfterViewInit {
     });
 
     let wrappers = document.querySelectorAll('.wrapper');
-    wrappers.forEach((w) => {
+    wrappers.forEach((w,i) => {
       let selectBtn = w.querySelector('.select-btn');
       selectBtn?.addEventListener('click', () => {
         w.classList.toggle('active');
@@ -97,7 +97,6 @@ export class CartComponent implements OnInit, AfterViewInit {
           selectBtn?.querySelectorAll('span').forEach((span) => {
             w.classList.remove('active');
             span.innerText = li.innerText;
-            this.pedido.tipoDePagamento = li.innerText;
           });
         });
       });
@@ -133,6 +132,13 @@ export class CartComponent implements OnInit, AfterViewInit {
         });
       });
       this.todosProdutos = produtos;
+
+      while(this.todosProdutos.length < 5){
+        produtos.forEach(p => {
+          this.todosProdutos.push(p)
+        })
+      }
+
       this.produtos = this.todosProdutos;
     });
   }
@@ -225,5 +231,17 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   setEntLocal() {
     this.enderecoAtual = undefined!;
+  }
+
+  definirTipoDePagameto(tipoPagamento: string){
+    this.pedido.tipoDePagamento = tipoPagamento
+  }
+
+  getAddressWidth(){
+    if(this.enderecos === undefined ){
+      return 0
+    } else {
+       return this.enderecos?.length * 200;
+    }
   }
 }
