@@ -38,7 +38,7 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   selectedProduto?: Produto;
 
-  title = ""
+  title = '';
 
   quanatidadeProduto: QuantidadeProduto = {
     id: 0,
@@ -88,7 +88,7 @@ export class CartComponent implements OnInit, AfterViewInit {
     });
 
     let wrappers = document.querySelectorAll('.wrapper');
-    wrappers.forEach((w,i) => {
+    wrappers.forEach((w, i) => {
       let selectBtn = w.querySelector('.select-btn');
       selectBtn?.addEventListener('click', () => {
         w.classList.toggle('active');
@@ -106,17 +106,17 @@ export class CartComponent implements OnInit, AfterViewInit {
 
     this.enderecos = this.signIn.userFromPs?.enderecos;
 
-    let stepNavegation = document.querySelectorAll('.step-navgation ul li')
-    stepNavegation.forEach(li => {
+    let stepNavegation = document.querySelectorAll('.step-navgation ul li');
+    stepNavegation.forEach((li) => {
       li.addEventListener('click', () => {
-        let text = (<HTMLSpanElement>li.querySelector('label .text'))?.innerText;
+        let text = (<HTMLSpanElement>li.querySelector('label .text'))
+          ?.innerText;
         let primeiraLetra = text.charAt(0).toUpperCase();
         let restoDaString = text.slice(1).toLowerCase();
         let minhaNovaString = primeiraLetra + restoDaString;
-        this.title = minhaNovaString
-      })
-    })
-
+        this.title = minhaNovaString;
+      });
+    });
   }
 
   active(element: HTMLDivElement) {
@@ -207,14 +207,13 @@ export class CartComponent implements OnInit, AfterViewInit {
     }
   }
 
-  almentarQuantidadeProdPedido(index:number) {
-    if (this.pedido.produtos[index].quantidade  < 10) {
+  almentarQuantidadeProdPedido(index: number) {
+    if (this.pedido.produtos[index].quantidade < 10) {
       this.pedido.produtos[index].quantidade += 1;
     }
   }
 
-  diminuirQuantidadeProdPedido(index:number) {
-
+  diminuirQuantidadeProdPedido(index: number) {
     if (this.pedido.produtos[index].quantidade > 1) {
       this.pedido.produtos[index].quantidade -= 1;
     } else {
@@ -223,7 +222,6 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   adicionarProduto() {
-
     let qp: QuantidadeProduto = {
       id: 0,
       produto: this.selectedProduto,
@@ -254,25 +252,40 @@ export class CartComponent implements OnInit, AfterViewInit {
     this.enderecoAtual = undefined!;
   }
 
-  definirTipoDePagameto(tipoPagamento: string){
-    this.pedido.tipoDePagamento = tipoPagamento
+  definirTipoDePagameto(tipoPagamento: string) {
+    this.pedido.tipoDePagamento = tipoPagamento;
   }
 
-  getAddressWidth(){
-    if(this.enderecos === undefined ){
-      return 0
+  getAddressWidth() {
+    if (this.enderecos === undefined) {
+      return 0;
     } else {
-       return this.enderecos?.length * 200;
+      return this.enderecos?.length * 200;
     }
   }
 
-  getSubTotal(){
-    let valor = 0
+  getSubTotal() {
+    let valor = 0;
 
-    this.pedido.produtos.forEach(p => {
-      valor += (p.quantidade * p.produto!.preco)
-    })
+    this.pedido.produtos.forEach((p) => {
+      valor += p.quantidade * p.produto!.preco;
+    });
 
-    return valor
+    return valor;
+  }
+
+  setImageStyle(img: HTMLImageElement) {
+    /*console.log(img.height +'/'+ img.width)
+    if(img.height > img.width){
+      img.style.maxHeight = "240px !important"
+      img.style.width = "auto"
+    }*/
+  }
+
+  getImageStyle(img: HTMLImageElement) {
+    if (img.height >= img.width) {
+      return 'max-height: 240px !important; width: auto !important;';
+    }
+    return "content:'' ";
   }
 }

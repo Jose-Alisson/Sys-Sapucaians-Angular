@@ -30,7 +30,7 @@
         </div>
         <div class="produtos">
           <div class="produto" *ngFor="let p of produtos; let i = index"
-            (click)="setProductView(i); pFade.classList.toggle('desatived')">
+            (click)="setProductView(i); pFade.classList.toggle('desatived'); setImageStyle(this.viewProduct)">
             <div class="produto-logo">
               <img [src]="p.urlImagem" alt="" />
             </div>
@@ -224,8 +224,8 @@
       <i class="fa-solid fa-xmark"></i>
     </div>
   </div>
-  <div class="show-case">
-    <img [src]="selectedProduto?.urlImagem" alt="" />
+  <div class="show-case" >
+    <img [src]="selectedProduto?.urlImagem" #viewProduct alt="" [style]="getImageStyle(this.viewProduct)" />
   </div>
   <div class="modal-content">
     <div class="modal-case">
