@@ -19,6 +19,6 @@ export class ProdutoService {
   constructor(private UrlApi: UrlApiService, private http: HttpClient, private imagemService: ImagemService, private sanitizer: DomSanitizer) {}
 
   getProductAll() {
-    return this.http.post<Produto[]>(this.URL_API_P + '/findAll', {});
+    return this.http.post<Produto[]>(this.URL_API_P + '/findAll/ngrok', {});
   }
 }
