@@ -6,6 +6,12 @@
       <i class="fa-solid fa-plus"></i>
     </div>
   </div>
+
+  <div class="pedidos">
+    <div class="pedido" *ngFor="let pedid of pedidos">
+      <h1>{{pedid.id}}</h1>
+    </div>
+  </div>
 </div>
 <div id="fade" class="desatived"></div>
 <div id="modal" class="desatived">
@@ -113,10 +119,9 @@
       <div class="step">
         <div class="step-prod-header obs" style="margin-bottom: 10px;">
           <h2>Observação</h2>
-          <p>Adicione uma Observação em seu pedido.</p>
         </div>
         <div class="obs">
-          <textarea cols="30" rows="10" [maxLength]="150" [(ngModel)]="pedido.descricao" value="...">...</textarea>
+          <textarea cols="30" rows="10" [maxLength]="150" [(ngModel)]="pedido.descricao" placeholder="Adicione uma observação ao seu pedido."></textarea>
           <p style="float: right">{{ max }}</p>
         </div>
       </div>

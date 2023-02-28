@@ -13,7 +13,6 @@ export class PedidoService {
   constructor(private http: HttpClient, private urlApi: UrlApiService) { }
 
   selvar(pedido: Pedido){
-
     return this.http.post<Pedido>(this.URL_API_S + '/save', pedido)
   }
 

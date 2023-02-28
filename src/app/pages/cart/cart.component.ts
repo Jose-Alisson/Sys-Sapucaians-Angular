@@ -104,6 +104,8 @@ export class CartComponent implements OnInit, AfterViewInit {
       });
     });
 
+
+
     this.enderecos = this.signIn.userFromPs?.enderecos;
 
     let stepNavegation = document.querySelectorAll('.step-navgation ul li');
