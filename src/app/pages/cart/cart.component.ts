@@ -280,6 +280,10 @@ export class CartComponent implements OnInit, AfterViewInit {
     return valor;
   }
 
+  getTotal(){
+    return this.getSubTotal()
+  }
+
   setImageStyle(img: HTMLImageElement) {
     /*console.log(img.height +'/'+ img.width)
     if(img.height > img.width){

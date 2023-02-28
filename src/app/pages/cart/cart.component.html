@@ -191,6 +191,9 @@
         <div class="box">
           <button class="btn-green" (click)="criarPedido()">Fazer meu Pedido</button>
         </div>
+        <div class="total">
+          <h2>Total {{ getTotal() | currency : "BRL" : true : "1.2-2" }}</h2>
+        </div>
       </div>
     </div>
   </div>

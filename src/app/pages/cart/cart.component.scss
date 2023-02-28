@@ -721,7 +721,7 @@ transition: transform 0.3s linear;
   color: var(--color-4);
 }
 
-.step-prod-header{
+.step-prod-header, .total{
   background: var(--color-1);
   padding: 7px 14px;
   border-radius: 7px;
@@ -741,7 +741,7 @@ transition: transform 0.3s linear;
   border:  2px var(--color-3) solid;
 }
 
-.step-prod-header h1, .step-prod-header h2 {
+.step-prod-header h1, .step-prod-header h2, .total h2 {
   font-family: 'Avenir Bold', sans-serif;
   color: var(--color-4);
 }
@@ -764,4 +764,9 @@ transition: transform 0.3s linear;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.total{
+  position: absolute;
+  bottom: 10px;
 }
