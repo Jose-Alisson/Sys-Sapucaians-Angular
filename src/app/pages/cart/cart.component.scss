@@ -730,7 +730,13 @@ transition: transform 0.3s linear;
   flex-direction: column;
 }
 
-.step-prod-header h1 {
+.step-prod-header.obs p{
+  color: var(--color-3);
+  text-align: center;
+}
+
+
+.step-prod-header h1, .step-prod-header h2 {
   font-family: 'Avenir Bold', sans-serif;
   color: var(--color-4);
 }

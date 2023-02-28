@@ -111,10 +111,12 @@
 
       </div>
       <div class="step">
-        <h2>Observação</h2>
-        <p>Adicione uma Observação em seu pedido.</p>
+        <div class="step-prod-header obs" style="margin-bottom: 10px;">
+          <h2>Observação</h2>
+          <p>Adicione uma Observação em seu pedido.</p>
+        </div>
         <div class="obs">
-          <textarea cols="30" rows="10" [maxLength]="150" [(ngModel)]="pedido.descricao">...</textarea>
+          <textarea cols="30" rows="10" [maxLength]="150" [(ngModel)]="pedido.descricao" value="...">...</textarea>
           <p style="float: right">{{ max }}</p>
         </div>
       </div>
