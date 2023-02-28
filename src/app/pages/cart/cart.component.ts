@@ -40,6 +40,8 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   title = '';
 
+  viewCategory = true;
+
   quanatidadeProduto: QuantidadeProduto = {
     id: 0,
     produto: this.selectedProduto,
@@ -176,8 +178,10 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   seachProduct(seach: HTMLInputElement) {
     if (seach.value === '') {
+      this.viewCategory = true
       this.produtos = this.todosProdutos;
     } else {
+      this.viewCategory = false
       this.produtos = this.todosProdutos.filter((product) =>
         product.nomeDoProduto.toLowerCase().includes(seach.value.toLowerCase())
       );
@@ -289,5 +293,9 @@ export class CartComponent implements OnInit, AfterViewInit {
       return 'max-height: 240px !important; width: auto !important;';
     }
     return "content:'' ";
+  }
+
+  setMaxValue(obs: HTMLTextAreaElement){
+    this.max = obs?.value.length + '/' + obs?.maxLength;
   }
 }

@@ -16,7 +16,7 @@
 <div id="fade" class="desatived"></div>
 <div id="modal" class="desatived">
   <div class="modal-header">
-    <p style="color: var(--color-4); margin-left: 10px">Meu Pedido - {{title}}</p>
+    <p style="color: var(--color-4); margin-left: 10px">Meu Pedido</p>
     <div class="close">
       <i class="fa-solid fa-xmark"></i>
     </div>
@@ -121,15 +121,16 @@
           <h2>Observação</h2>
         </div>
         <div class="obs">
-          <textarea cols="30" rows="10" [maxLength]="150" [(ngModel)]="pedido.descricao" placeholder="Adicione uma observação ao seu pedido."></textarea>
+          <textarea cols="30" rows="10" [maxLength]="150" [(ngModel)]="pedido.descricao" placeholder="Adicione uma observação ao seu pedido." #obs (keyup)="setMaxValue(this.obs)"></textarea>
           <p style="float: right">{{ max }}</p>
         </div>
       </div>
       <div class="step">
-        <h2>Checagem</h2>
+        <div class="step-prod-header obs" style="margin-bottom: 10px;">
+          <h2>checagem</h2>
+        </div>
         <p>Adicione as informaçoes de pagamento e endereço ao seu pedido.</p>
         <div class="box">
-          <p>Adicone uma forma de pagamento</p>
           <div class="wrapper">
             <div class="select-btn">
               <span id="formPay">Forma de pagamento</span>
@@ -151,7 +152,6 @@
           </div>
         </div>
         <div class="box">
-          <p>Adicione uma forma de despache</p>
           <div class="wrapper">
             <div class="select-btn">
               <span id="formOfDispatch">Forma de despache</span>
