@@ -150,7 +150,10 @@ export class CartComponent implements OnInit, AfterViewInit {
       });
       this.todosProdutos = produtos;
       this.produtos = this.todosProdutos;
+      this.setRandomProduct();
     });
+
+
   }
 
   moneyPay() {
@@ -301,5 +304,14 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   setMaxValue(obs: HTMLTextAreaElement){
     this.max = obs?.value.length + '/' + obs?.maxLength;
+  }
+
+  randomNameproduct = 'Pizza'
+
+  setRandomProduct(){
+    if(this.todosProdutos.length === 0){
+      this.randomNameproduct =  'Pizza'
+    }
+     this.randomNameproduct =  this.todosProdutos[Math.floor(Math.random() * this.todosProdutos.length - 1)].nomeDoProduto!
   }
 }

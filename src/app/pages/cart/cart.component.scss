@@ -2,6 +2,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
+*:disabled {
+  opacity:  0.7;
+}
+
 .show-cart-controll {
   width: 95%;
   margin: auto;
@@ -379,7 +383,7 @@
 .din-box input {
   outline: none;
   padding: 7px 15px;
-  border-radius: 7px;
+  border-radius: 6px;
   border: 1px var(--color-9) solid;
 }
 
@@ -407,6 +411,7 @@
   text-transform: uppercase;
   border-radius: 7px;
   margin: auto;
+  transition: 0.2s;
 }
 
 .btn-red {
@@ -478,7 +483,7 @@
   text-align: center;
 }
 
-.categorys .category:nth-child(3) .category-header{
+.categorys .category:nth-child(2) .category-header{
   background: var(--color-12);
 }
 
@@ -639,7 +644,7 @@ transition: transform 0.3s linear;
   animation: reactive 0.2s linear;
   background: var(--color-1);
   padding: 8px;
-  box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 3px 7px rgba(255, 255, 255, 0.2);
 }
 
 .modal-p img{
@@ -744,6 +749,19 @@ transition: transform 0.3s linear;
 .step-prod-header h1, .step-prod-header h2, .total h2 {
   font-family: 'Avenir Bold', sans-serif;
   color: var(--color-4);
+}
+
+
+.step-prod-header.obs  p {
+  color: var(--color-3);
+  text-align: center;
+  font-size: 13px;
+}
+
+@media screen and (max-width: 380x){
+  .step-prod-header.obs  p {
+    font-size: 16px;
+  }
 }
 
 .cart-empty{

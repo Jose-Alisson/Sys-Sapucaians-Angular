@@ -33,7 +33,9 @@ export class AccountComponent implements OnInit, AfterViewInit {
       });
     });*/
 
-    this.signInService.initLogin().subscribe()
+    this.signInService.initLogin().subscribe( data => {
+      router.navigate(['dashboard'])
+    })
   }
 
   redirect() {}
@@ -48,7 +50,9 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.signInService.initLogin().subscribe()
+  }
 
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
@@ -56,6 +60,10 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   sair() {
     this.authService.signOut();
+    this.signInService.initLogin().subscribe( data => {
+      console.log(data)
+      this.router.navigate(['dashboard'])
+    })
   }
 
   cascadClick(element: HTMLElement) {
