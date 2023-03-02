@@ -174,9 +174,13 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   getCategory(categoria: string): Produto[] {
-    return this.todosProdutos.filter(
+    this.produtos =
+    
+    this.todosProdutos.filter(
       (product) => product.categoria === categoria
     );
+    return this.produtos
+
   }
 
   seachProduct(seach: HTMLInputElement) {
