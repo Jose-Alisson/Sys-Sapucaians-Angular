@@ -11,6 +11,7 @@ import { Endereco } from './../../model/endereco.model';
 import * as $ from 'jquery';
 import { ImagemService } from 'src/app/shared/services/imagem/imagem.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { exValoresDaTaxa } from '../about/about.component';
 
 @Component({
   selector: 'app-cart',
@@ -100,15 +101,14 @@ export class CartComponent implements OnInit, AfterViewInit {
         li.addEventListener('click', () => {
           selectBtn?.querySelectorAll('span').forEach((span) => {
             w.classList.remove('active');
-            span.innerText = li.innerText;
+            span.innerText =  li.innerText;
           });
         });
       });
     });
 
-
-
     this.enderecos = this.signIn.userFromPs?.enderecos;
+
 
     let stepNavegation = document.querySelectorAll('.step-navgation ul li');
     stepNavegation.forEach((li) => {
@@ -284,7 +284,13 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   getTotal(){
-    return this.getSubTotal()
+    let valor = this.getSubTotal()
+
+    if(this.enderecoAtual != undefined){
+
+        valor += exValoresDaTaxa.find(taxa => taxa.localidade === this.enderecoAtual.localidade)?.preco!
+    }
+    return valor;
   }
 
   setImageStyle(img: HTMLImageElement) {
@@ -300,6 +306,10 @@ export class CartComponent implements OnInit, AfterViewInit {
       return 'max-height: 240px !important; width: auto !important;';
     }
     return "content:'' ";
+  }
+
+  setCategory(category :string){
+    this.produtos = this.todosProdutos.filter(produto => produto.categoria === category)
   }
 
   setMaxValue(obs: HTMLTextAreaElement){

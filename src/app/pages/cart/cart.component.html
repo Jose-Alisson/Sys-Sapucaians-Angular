@@ -54,9 +54,9 @@
                   class="produto"
                   *ngFor="let p of getCategory('Pizza'); let i = index"
                   (click)="
+                    setCategory('Pizza');
                     setProductView(i);
                     pFade.classList.toggle('desatived');
-                    setImageStyle(this.viewProduct)
                   "
                 >
                   <div class="produto-logo">
@@ -74,7 +74,7 @@
                     </div>
                     <div class="produto-side-down">
                       <div class="produto-preco">
-                        <h3>
+                        <h3 uiMoneyMask>
                           {{ p.preco | currency : "BRL" : true : "1.2-2" }}
                         </h3>
                       </div>
@@ -103,9 +103,9 @@
                   class="produto"
                   *ngFor="let p of getCategory('Refrigerate'); let i = index"
                   (click)="
+                    setCategory('Refrigerate');
                     setProductView(i);
                     pFade.classList.toggle('desatived');
-                    setImageStyle(this.viewProduct)
                   "
                 >
                   <div class="produto-logo">
@@ -123,7 +123,7 @@
                     </div>
                     <div class="produto-side-down">
                       <div class="produto-preco">
-                        <h3>
+                        <h3  uiMoneyMask>
                           {{ p.preco | currency : "BRL" : true : "1.2-2" }}
                         </h3>
                       </div>
@@ -166,7 +166,7 @@
                 </div>
                 <div class="produto-side-down">
                   <div class="produto-preco">
-                    <h3>{{ p.preco | currency : "BRL" : true : "1.2-2" }}</h3>
+                    <h3 uiMoneyMask>{{ p.preco | currency : "BRL" : true : "1.2-2" }}</h3>
                   </div>
                   <!--
                 <div class="side-down-right">
@@ -183,7 +183,7 @@
       <div class="step">
         <div class="step-prod-header">
           <h1>
-            SubTotal {{ getSubTotal() | currency : "BRL" : true : "1.2-2" }}
+            SubTotal <span uiMoneyMask>{{ getSubTotal() | currency : "BRL" : true : "1.2-2" }}</span>
           </h1>
         </div>
         <div
@@ -214,7 +214,7 @@
                 </div>
                 <div class="produto-side-down">
                   <div class="produto-preco">
-                    <h3>
+                    <h3 uiMoneyMask>
                       {{ p.produto?.preco | currency : "BRL" : true : "1.2-2" }}
                     </h3>
                   </div>
@@ -260,17 +260,9 @@
       </div>
       <div class="step">
         <div class="step-prod-header obs" style="margin-bottom: 10px">
-          <h2 *ngIf="enderecoAtual != undefined; else vsbt">
-            SubTotal {{ getTotal() | currency : "BRL" : true : "1.2-2" }}
+          <h2>
+            Total <span uiMoneyMask>{{ getTotal() | currency : "BRL" : true : "1.2-2" }}</span>
           </h2>
-          <ng-template #vsbt>
-            <h2 uiMoneyMask>
-              Total {{ getTotal() | currency : "BRL" : true : "1.2-2" }}
-            </h2>
-          </ng-template>
-          <p *ngIf="enderecoAtual != undefined">
-            Comine com nósco o valor da taxa de entrega.
-          </p>
         </div>
         <p>Adicione as informaçoes de pagamento e endereço ao seu pedido.</p>
         <div class="box">

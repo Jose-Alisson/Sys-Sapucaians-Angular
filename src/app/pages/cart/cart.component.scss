@@ -275,6 +275,8 @@
   transform: translateY(13px);
 }
 
+////////////////////////////
+
 .wrapper {
   margin-top: 5px;
   width: 100%;
@@ -344,6 +346,8 @@
 .options li:hover {
   background: var(--color-2);
 }
+
+//////////////////////
 
 .black-box, .green-box{
   margin-top: 5px;
@@ -751,6 +755,9 @@ transition: transform 0.3s linear;
   color: var(--color-4);
 }
 
+.step-prod-header h1 span, .step-prod-header h2 span{
+  color: var(--color-3);
+}
 
 .step-prod-header.obs  p {
   color: var(--color-3);
@@ -770,7 +777,7 @@ transition: transform 0.3s linear;
   justify-content: center;
   align-items: center;
   opacity: 0.5;
-  height: calc(100% - 43px);
+  height: calc(100% - 49px);
 }
 
 .cart-empty i {

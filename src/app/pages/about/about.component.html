@@ -19,16 +19,27 @@
       <div class="data">
         <i class="fa-brands fa-whatsapp"></i>
         &nbsp;
-        <p  *ngIf="getUserFromPs().contato != null;else tamTel">(81) 9 {{ getUserFromPs().contato |  mask: '0000-0000|0 0000-0000'}}</p>
+        <p *ngIf="getUserFromPs().contato != null || getUserFromPs().contato === ''; else tamTel">
+          (81) 9 {{ getUserFromPs().contato | mask : "0000-0000|0 0000-0000" }}
+        </p>
         <ng-template #tamTel>
           <p>(00) 0 0000-0000</p>
         </ng-template>
       </div>
-      <i class="fa-solid fa-pencil" (click)="this.phone.classList.toggle('desatived');this.fade.classList.remove('desatived')"></i>
+      <i
+        class="fa-solid fa-pencil"
+        (click)="
+          this.phone.classList.toggle('desatived');
+          this.fade.classList.remove('desatived')
+        "
+      ></i>
     </div>
 
     <div #addresses class="carrocel-address">
-      <div class="carrocel-header" (click)="this.addresses.classList.toggle('active')" >
+      <div
+        class="carrocel-header"
+        (click)="this.addresses.classList.toggle('active')"
+      >
         <p><strong>Meus Endereços</strong></p>
         <i class="fa-solid fa-caret-up"></i>
       </div>
@@ -37,9 +48,15 @@
           <button id="btn-add" (click)="limpar()">Adicionar</button>
         </div>
         <div class="cards-wrapper">
-          <div class="card-address" *ngFor="let a of  getUserFromPs().enderecos; let i = index" (click)="editarEndereco(i)">
+          <div
+            class="card-address"
+            *ngFor="let a of getUserFromPs().enderecos; let i = index"
+            (click)="editarEndereco(i)"
+          >
             <div class="title">
-              <p><strong> {{ a.nomeDoEndereco }} </strong></p>
+              <p>
+                <strong> {{ a.nomeDoEndereco }} </strong>
+              </p>
               <i class="fa-solid fa-pencil"></i>
             </div>
             <p>{{ a.cep }}</p>
@@ -50,7 +67,15 @@
       </div>
     </div>
   </div>
-  <div style=" height: 39px; display: flex; flex-direction: column; align-items: center; justify-items: center; ">
+  <div
+    style="
+      height: 39px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-items: center;
+    "
+  >
     <button class="sair" (click)="sair()">Sair da conta</button>
   </div>
 </div>
@@ -63,27 +88,49 @@
     </div>
   </div>
   <div class="modal-content">
-    <h2>Adicionar Endereço</h2>
+    <div class="modal-header-title">
+      <h2>Adicionar Endereço</h2>
+    </div>
     <div class="address-fields">
       <div class="text-field">
-        <label for="nameAddress">Nome do Endereço</label>
-        <input type="text" name="" id="nameAddress" placeholder="Nome do endereço" [(ngModel)]="endereco.nomeDoEndereco">
+        <label for="nameAddress">Nome da Rua</label>
+        <input type="text" name="" id="nameAddress" placeholder="Nome da Rua" [(ngModel)]="endereco.nomeDoEndereco" />
       </div>
       <div class="text-field">
-        <label for="cep">Cep (Opcional) </label>
-        <input type="text" name="" id="cep" placeholder="cep" [(ngModel)]="endereco.cep" mask="00000-000"
-        [showMaskTyped]="true">
+        <label for="cep">Cep (Opcional)</label>
+        <input type="text" name="" id="cep" placeholder="cep" [(ngModel)]="endereco.cep" mask="00000-000" [showMaskTyped]="true"/>
       </div>
       <div class="text-field">
         <label for="noth">Número da Residencia</label>
-        <input type="text" name="" id="noth" placeholder="Número da residencia" [(ngModel)]="endereco.numeroDaCasa">
+        <input type="text" name="" id="noth" placeholder="Número da residencia" [(ngModel)]="endereco.numeroDaCasa" />
       </div>
       <div class="text-field">
-        <label for="">Localidade</label>
-        <input type="text" name="" id="locality" placeholder="Ex: Ur2" [(ngModel)]="endereco.localidade">
+        <div class="wrapper">
+          <div class="select-btn">
+            <span id="formPay">Localidade</span>
+            <i class="fa-solid fa-sort-up"></i>
+          </div>
+          <div style="z-index: 3" class="select-content">
+            <ul class="options">
+              <li *ngFor="let taxa of valoresDaTaxa">
+                <span>
+                  {{ taxa.localidade }}
+                </span>
+                 &nbsp;
+                 <span class="price">{{ taxa.preco | currency : "BRL" : true : "1.2-2"}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-    <button id="btn-add" (click)="adicionarEndereco()" style="margin-left: 0px !important;">Adicionar</button>
+    <button
+      id="btn-add"
+      (click)="adicionarEndereco()"
+      style="margin-left: 0px !important"
+    >
+      Adicionar
+    </button>
   </div>
 </div>
 
@@ -95,27 +142,74 @@
     </div>
   </div>
   <div class="modal-content">
-    <h2>Editar Endereço</h2>
+    <div class="modal-header-title">
+      <h2>Editar Endereço</h2>
+    </div>
     <div class="address-fields">
       <div class="text-field">
-        <label for="nameAddress">Nome do Endereço</label>
-        <input type="text" name="" id="nameAddress" placeholder="Nome do endereço" [(ngModel)]="endereco.nomeDoEndereco">
+        <label for="nameAddress">Nome da Rua</label>
+        <input
+          type="text"
+          name=""
+          id="nameAddress"
+          placeholder="Nome da Rua"
+          [(ngModel)]="endereco.nomeDoEndereco"
+        />
       </div>
       <div class="text-field">
         <label for="cep">Cep (Opcional)</label>
-        <input type="text" name="" id="cep" placeholder="cep" [(ngModel)]="endereco.cep">
+        <input
+          type="text"
+          name=""
+          id="cep"
+          placeholder="cep"
+          [(ngModel)]="endereco.cep"
+        />
       </div>
       <div class="text-field">
         <label for="noth">Número da Residencia</label>
-        <input type="text" name="" id="noth" placeholder="Número da residencia" [(ngModel)]="endereco.numeroDaCasa">
+        <input
+          type="text"
+          name=""
+          id="noth"
+          placeholder="Número da residencia"
+          [(ngModel)]="endereco.numeroDaCasa"
+        />
       </div>
       <div class="text-field">
-        <label for="">Localidade</label>
-        <input type="text" name="" id="locality" placeholder="Ex: Ur2" [(ngModel)]="endereco.localidade">
+        <div class="wrapper">
+          <div class="select-btn">
+            <span id="formPay">Localidade</span>
+            <i class="fa-solid fa-sort-up"></i>
+          </div>
+          <div style="z-index: 3" class="select-content">
+            <ul class="options">
+              <li *ngFor="let taxa of valoresDaTaxa">
+                <span>
+                  {{ taxa.localidade }}
+                </span>
+                 &nbsp;
+                 <span class="price">{{ taxa.preco | currency : "BRL" : true : "1.2-2"}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-    <button id="btn-add" (click)="salvarEndereco()" style="margin-left: 0px !important;">Salvar</button>
-    <button id="btn-remove" (click)="removeEndereco()" style="margin-left: 5px !important;">remover</button>
+    <button
+      id="btn-add"
+      (click)="salvarEndereco()"
+      style="margin-left: 0px !important"
+    >
+      Salvar
+    </button>
+    <button
+      id="btn-remove"
+      (click)="removeEndereco()"
+      style="margin-left: 5px !important"
+    >
+      remover
+    </button>
   </div>
 </div>
 
@@ -130,11 +224,26 @@
     <h2>Editar Número de Telefone</h2>
     <div class="telephone-fields">
       <div class="text-field">
-        <label for="phoneNumber" >Número de Telefone</label>
-        <input #phoneFiled type="text" name="" id="phoneNumber" [(ngModel)]="numeroDeTelefone" prefix="(81) 9 " mask="0000-0000"
-        [showMaskTyped]="true">
+        <label for="phoneNumber">Número de Telefone</label>
+        <input
+          #phoneFiled
+          type="text"
+          name=""
+          id="phoneNumber"
+          [(ngModel)]="numeroDeTelefone"
+          prefix="(81) 9 "
+          mask="0000-0000"
+          [showMaskTyped]="true"
+        />
       </div>
     </div>
-    <button id="btn-add" [disabled]="numeroDeTelefone.length < 8" (click)="salvarNumero()" style="margin-left: 0px !important;">Salvar</button>
+    <button
+      id="btn-add"
+      [disabled]="numeroDeTelefone.length < 8"
+      (click)="salvarNumero()"
+      style="margin-left: 0px !important"
+    >
+      Salvar
+    </button>
   </div>
 </div>

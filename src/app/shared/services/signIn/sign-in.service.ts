@@ -18,8 +18,8 @@ export class SignInService {
 
   private URL_API = this.urlApi.URl_API + '/user';
 
-  userFromPs!: Usuario;
-  socialUser!: SocialUser;
+  userFromPs: Usuario = new Usuario;
+  socialUser: SocialUser = new SocialUser;
 
   constructor(
     private urlApi:UrlApiService,
@@ -47,8 +47,6 @@ export class SignInService {
             } else {
               this.setSocialUser(socialUser);
             }
-            console.log(userDb)
-            console.log(socialUser)
             this.router.navigate(['dashboard']);
           });
         })
@@ -64,6 +62,13 @@ export class SignInService {
 
   salvar() {
     return this.http.post<Usuario>(this.URL_API + '/save', this.userFromPs);
+  }
+
+  buscar(){
+    this.http.post<Usuario>(this.URL_API + '/find/ngrok', {}).subscribe(data => {
+      this.userFromPs = data
+      console.log('Ola')
+    })
   }
 
   salvarEAtualizar() {

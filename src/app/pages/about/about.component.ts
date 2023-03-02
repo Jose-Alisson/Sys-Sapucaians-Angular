@@ -11,6 +11,18 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 
+
+export const exValoresDaTaxa = [
+    { localidade: 'Ur2', preco: 3 },
+    { localidade: 'Ur1', preco: 3 },
+    { localidade: 'Ur3', preco: 3 },
+    { localidade: 'Ur12', preco: 3 },
+    { localidade: 'Ur5', preco: 5 },
+    { localidade: 'Monte Verde', preco: 4 },
+    { localidade: 'Lagoa Encatanda', preco: 4 },
+    { localidade: 'Zumbi do Pacheco', preco: 4 }
+  ];
+
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -20,6 +32,8 @@ export class AboutComponent implements OnInit, AfterViewInit {
   endereco: Endereco = new Endereco();
   numeroDeTelefone = '';
   addressCount = 0;
+
+  valoresDaTaxa = exValoresDaTaxa
 
   constructor(
     private router: Router,
@@ -63,6 +77,32 @@ export class AboutComponent implements OnInit, AfterViewInit {
       modalPhone?.classList.add('desatived');
       fade?.classList.add('desatived');
     });
+
+    let wrappers = document.querySelectorAll('.wrapper');
+
+    wrappers.forEach((w, i) => {
+      let selectBtn = w.querySelector('.select-btn');
+
+      selectBtn?.addEventListener('click', () => {
+        w.classList.toggle('active');
+      });
+
+      selectBtn?.querySelectorAll('span').forEach((span) => {
+        if(this.endereco.localidade != ''){
+          span.innerText = 'Localidade - ' + this.endereco.localidade
+        }
+      });
+
+      w.querySelectorAll('li').forEach((li) => {
+        li.addEventListener('click', () => {
+          selectBtn?.querySelectorAll('span').forEach((span) => {
+            w.classList.remove('active');
+            span.innerText = "Localidade - " + (<HTMLSpanElement> li.querySelector('span'))?.innerText;
+            this.endereco.localidade = (<HTMLSpanElement> li.querySelector('span'))?.innerText;
+          });
+        });
+      });
+    });
   }
 
   ngOnInit(): void {}
@@ -100,15 +140,15 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
   editarEndereco(id: number) {
     this.addressCount = id;
-    this.endereco = this.getUserFromPs().enderecos[this.addressCount]
+    this.endereco = this.getUserFromPs().enderecos[this.addressCount];
 
     document.getElementById('fade')?.classList.remove('desatived');
     document.getElementById('modal-edit-addrss')?.classList.remove('desatived');
   }
 
   salvarEndereco() {
-    this.getUserFromPs().enderecos[this.addressCount] = this.endereco
-    this.signIn.salvarEAtualizar().subscribe()
+    this.getUserFromPs().enderecos[this.addressCount] = this.endereco;
+    this.signIn.salvarEAtualizar().subscribe();
 
     document.getElementById('fade')?.classList.add('desatived');
     document.getElementById('modal-edit-addrss')?.classList.add('desatived');
@@ -123,8 +163,8 @@ export class AboutComponent implements OnInit, AfterViewInit {
   }
 
   salvarNumero() {
-    this.getUserFromPs().contato = this.numeroDeTelefone
-    this.signIn.salvarEAtualizar().subscribe()
+    this.getUserFromPs().contato = this.numeroDeTelefone;
+    this.signIn.salvarEAtualizar().subscribe();
 
     document.getElementById('fade')?.classList.add('desatived');
     document.getElementById('modal-adit-phone')?.classList.add('desatived');
