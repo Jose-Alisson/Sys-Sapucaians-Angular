@@ -54,6 +54,7 @@
                   class="produto"
                   *ngFor="let p of getCategory('Pizza'); let i = index"
                   (click)="
+                  getImageStyle(this.viewProduct);
                     setCategory('Pizza');
                     setProductView(i);
                     pFade.classList.toggle('desatived');
@@ -103,6 +104,7 @@
                   class="produto"
                   *ngFor="let p of getCategory('Refrigerate'); let i = index"
                   (click)="
+                  getImageStyle(this.viewProduct);
                     setCategory('Refrigerate');
                     setProductView(i);
                     pFade.classList.toggle('desatived');
@@ -402,12 +404,7 @@
     </div>
   </div>
   <div class="show-case">
-    <img
-      [src]="selectedProduto?.urlImagem"
-      #viewProduct
-      alt=""
-      [style]="getImageStyle(this.viewProduct)"
-    />
+    <img [src]="selectedProduto?.urlImagem" #viewProduct  alt="" [style]="getImageStyle(this.viewProduct)" />
   </div>
   <div class="modal-content">
     <div class="modal-case">

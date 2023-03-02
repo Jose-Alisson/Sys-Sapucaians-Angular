@@ -37,7 +37,17 @@ export class CartComponent implements OnInit, AfterViewInit {
   enderecos: Endereco[] = [];
   enderecoAtual!: Endereco;
 
-  selectedProduto?: Produto;
+  selectedProduto: Produto = {
+    urlImagem: '',
+    id: 0,
+    foto: '',
+    nomeDoProduto: '',
+    descricao: '',
+    preco: 0,
+    categoria: '',
+    quantidade: 0,
+    emEstoque: 0
+  };
 
   title = '';
 
@@ -309,7 +319,7 @@ export class CartComponent implements OnInit, AfterViewInit {
     if (img.height >= img.width) {
       return 'max-height: 240px !important; width: auto !important;';
     }
-    return "content:'' ";
+    return '';
   }
 
   setCategory(category: string) {
