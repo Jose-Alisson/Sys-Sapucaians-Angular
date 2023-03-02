@@ -101,14 +101,13 @@ export class CartComponent implements OnInit, AfterViewInit {
         li.addEventListener('click', () => {
           selectBtn?.querySelectorAll('span').forEach((span) => {
             w.classList.remove('active');
-            span.innerText =  li.innerText;
+            span.innerText = li.innerText;
           });
         });
       });
     });
 
     this.enderecos = this.signIn.userFromPs?.enderecos;
-
 
     let stepNavegation = document.querySelectorAll('.step-navgation ul li');
     stepNavegation.forEach((li) => {
@@ -152,8 +151,6 @@ export class CartComponent implements OnInit, AfterViewInit {
       this.produtos = this.todosProdutos;
       this.setRandomProduct();
     });
-
-
   }
 
   moneyPay() {
@@ -174,21 +171,18 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   getCategory(categoria: string): Produto[] {
-    this.produtos =
-    
-    this.todosProdutos.filter(
+    this.produtos = this.todosProdutos.filter(
       (product) => product.categoria === categoria
     );
-    return this.produtos
-
+    return this.produtos;
   }
 
   seachProduct(seach: HTMLInputElement) {
     if (seach.value === '') {
-      this.viewCategory = true
+      this.viewCategory = true;
       this.produtos = this.todosProdutos;
     } else {
-      this.viewCategory = false
+      this.viewCategory = false;
       this.produtos = this.todosProdutos.filter((product) =>
         product.nomeDoProduto.toLowerCase().includes(seach.value.toLowerCase())
       );
@@ -287,12 +281,18 @@ export class CartComponent implements OnInit, AfterViewInit {
     return valor;
   }
 
-  getTotal(){
-    let valor = this.getSubTotal()
+  getTotal() {
+    let valor = this.getSubTotal();
 
-    if(this.enderecoAtual != undefined){
+    if (this.enderecoAtual != undefined) {
+      //console.log(this.enderecoAtual);
 
-        valor += exValoresDaTaxa.find(taxa => taxa.localidade === this.enderecoAtual.localidade)?.preco!
+      let regex;
+
+      valor += exValoresDaTaxa.find((taxa) => {
+        regex = new RegExp(`\\b${taxa.localidade}\\b`,'i')
+        return regex.test(this.enderecoAtual.localidade);
+      })?.preco!;
     }
     return valor;
   }
@@ -312,20 +312,25 @@ export class CartComponent implements OnInit, AfterViewInit {
     return "content:'' ";
   }
 
-  setCategory(category :string){
-    this.produtos = this.todosProdutos.filter(produto => produto.categoria === category)
+  setCategory(category: string) {
+    this.produtos = this.todosProdutos.filter(
+      (produto) => produto.categoria === category
+    );
   }
 
-  setMaxValue(obs: HTMLTextAreaElement){
+  setMaxValue(obs: HTMLTextAreaElement) {
     this.max = obs?.value.length + '/' + obs?.maxLength;
   }
 
-  randomNameproduct = 'Pizza'
+  randomNameproduct = 'Pizza';
 
-  setRandomProduct(){
-    if(this.todosProdutos.length === 0){
-      this.randomNameproduct =  'Pizza'
+  setRandomProduct() {
+    if (this.todosProdutos.length === 0) {
+      this.randomNameproduct = 'Pizza';
     }
-     this.randomNameproduct =  this.todosProdutos[Math.floor(Math.random() * this.todosProdutos.length - 1)].nomeDoProduto!
+    this.randomNameproduct =
+      this.todosProdutos[
+        Math.floor(Math.random() * this.todosProdutos.length - 1)
+      ].nomeDoProduto!;
   }
 }
