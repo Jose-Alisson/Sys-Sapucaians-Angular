@@ -1,5 +1,4 @@
 import { filter } from 'rxjs';
-import { Endereco } from './../../model/endereco.model';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Router } from '@angular/router';
 import { SignInService } from 'src/app/shared/services/signIn/sign-in.service';
@@ -10,6 +9,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
 } from '@angular/core';
+import { Endereco } from 'src/app/model/endereco.model';
 
 
 export const exValoresDaTaxa = [
@@ -29,7 +29,13 @@ export const exValoresDaTaxa = [
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit, AfterViewInit {
-  endereco: Endereco = new Endereco();
+  endereco: Endereco = {
+    id: 0,
+    nomeDoEndereco: '',
+    cep: '',
+    numeroDaCasa: '',
+    localidade: ''
+  };
   numeroDeTelefone = '';
   addressCount = 0;
 

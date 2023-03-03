@@ -1,7 +1,7 @@
-export class Endereco {
-  id: number = 0;
-  nomeDoEndereco: string = '';
-  cep: string = '';
-  numeroDaCasa: string = '';
-  localidade: string = '';
+export declare class Endereco {
+  id: number;
+  nomeDoEndereco: string ;
+  cep: string ;
+  numeroDaCasa: string;
+  localidade: string ;
 }

@@ -18,8 +18,8 @@ export class SignInService {
 
   private URL_API = this.urlApi.URl_API + '/user';
 
-  userFromPs: Usuario = new Usuario;
-  socialUser: SocialUser = new SocialUser;
+  userFromPs!: Usuario ;
+  socialUser!: SocialUser;
 
   constructor(
     private urlApi:UrlApiService,

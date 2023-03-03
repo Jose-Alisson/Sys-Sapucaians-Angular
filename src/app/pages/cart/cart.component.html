@@ -104,7 +104,6 @@
                   class="produto"
                   *ngFor="let p of getCategory('Refrigerate'); let i = index"
                   (click)="
-                  getImageStyle(this.viewProduct);
                     setCategory('Refrigerate');
                     setProductView(i);
                     pFade.classList.toggle('desatived');
@@ -150,7 +149,6 @@
               (click)="
                 setProductView(i);
                 pFade.classList.toggle('desatived');
-                setImageStyle(this.viewProduct)
               "
             >
               <div class="produto-logo">
@@ -265,6 +263,9 @@
           <h2>
             Total <span uiMoneyMask>{{ getTotal() | currency : "BRL" : true : "1.2-2" }}</span>
           </h2>
+          <p *ngIf="enderecoAtual != undefined">
+            <span uiMoneyMask>{{ getTaxa() | currency : "BRL" : true : "1.2-2" }}</span>
+            Taxa de etrega.</p>
         </div>
         <p>Adicione as informaçoes de pagamento e endereço ao seu pedido.</p>
         <div class="box">
@@ -320,15 +321,9 @@
         <div class="black-box" *ngIf="!isEnderecoDefinido() && despache()">
           <p>Selecione um dos seus endereços</p>
           <div class="carrocel-address">
-            <div
-              class="sliders-address"
-              [style]="'width:' + getAddressWidth() + 'px'"
-            >
-              <div
-                class="slider"
-                *ngFor="let a of enderecos!; let ie = index"
-                (click)="definirEndereco(a.id)"
-              >
+            <div class="sliders-address" [style]="'width:' + getAddressWidth() + 'px'" >
+
+              <div class="slider" *ngFor="let a of enderecos!; let ie = index" (click)="definirEndereco(a.id)">
                 <div class="title">
                   <p>{{ a.nomeDoEndereco }}</p>
                 </div>
@@ -404,7 +399,7 @@
     </div>
   </div>
   <div class="show-case">
-    <img [src]="selectedProduto?.urlImagem" #viewProduct  alt="" [style]="getImageStyle(this.viewProduct)" />
+    <img [src]="selectedProduto?.urlImagem" id="viewProduct" #viewProduct  alt=""/>
   </div>
   <div class="modal-content">
     <div class="modal-case">

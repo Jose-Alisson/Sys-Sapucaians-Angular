@@ -1,7 +1,7 @@
 import { Produto } from 'src/app/model/Produto.model';
-export class QuantidadeProduto{
+export declare class QuantidadeProduto{
 
-  id!:number
-  produto!:Produto | undefined
-  quantidade!:number
+  id:number
+  produto:Produto | undefined
+  quantidade:number
 }

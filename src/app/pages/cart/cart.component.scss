@@ -759,10 +759,15 @@ transition: transform 0.3s linear;
   color: var(--color-3);
 }
 
-.step-prod-header.obs  p {
-  color: var(--color-3);
+.step-prod-header.obs p{
+  color: var(--color-4);
   text-align: center;
   font-size: 13px;
+}
+
+
+.step-prod-header.obs p span{
+  color: var(--color-3);
 }
 
 @media screen and (max-width: 380x){

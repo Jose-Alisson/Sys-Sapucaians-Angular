@@ -37,17 +37,7 @@ export class CartComponent implements OnInit, AfterViewInit {
   enderecos: Endereco[] = [];
   enderecoAtual!: Endereco;
 
-  selectedProduto: Produto = {
-    urlImagem: '',
-    id: 0,
-    foto: '',
-    nomeDoProduto: '',
-    descricao: '',
-    preco: 0,
-    categoria: '',
-    quantidade: 0,
-    emEstoque: 0
-  };
+  selectedProduto?: Produto
 
   title = '';
 
@@ -161,6 +151,35 @@ export class CartComponent implements OnInit, AfterViewInit {
       this.produtos = this.todosProdutos;
       this.setRandomProduct();
     });
+
+    const minhaImagem = (<HTMLImageElement> document.getElementById("viewProduct"));
+
+  // função que atualiza o estilo da borda com base nas dimensões da imagem
+  function atualizarEstiloBorda() {
+    if (minhaImagem.naturalWidth > minhaImagem.naturalHeight) {
+      minhaImagem.style.width =  "100%";
+     // minhaImagem.style.maxHeight = "auto";
+    } else {
+      minhaImagem.style.maxHeight = "244px";
+      minhaImagem.style.width =  "auto";
+    }
+  }
+
+  // Observador de Mutação para monitorar alterações no elemento da imagem
+  const observer = new MutationObserver(function(mutationsList) {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
+
+        console.log('Auterado')
+
+        // a imagem foi alterada, atualize o estilo da borda
+        atualizarEstiloBorda();
+      }
+    }
+  });
+
+  // observe alterações no elemento da imagem
+  observer.observe(minhaImagem, { attributes: true });
   }
 
   moneyPay() {
@@ -297,14 +316,19 @@ export class CartComponent implements OnInit, AfterViewInit {
     if (this.enderecoAtual != undefined) {
       //console.log(this.enderecoAtual);
 
-      let regex;
+      valor += this.getTaxa();
+    }
+    return valor;
+  }
 
-      valor += exValoresDaTaxa.find((taxa) => {
+
+  getTaxa(): number{
+     let regex;
+
+     return exValoresDaTaxa.find((taxa) => {
         regex = new RegExp(`\\b${taxa.localidade}\\b`,'i')
         return regex.test(this.enderecoAtual.localidade);
       })?.preco!;
-    }
-    return valor;
   }
 
   setImageStyle(img: HTMLImageElement) {
@@ -316,7 +340,7 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   getImageStyle(img: HTMLImageElement) {
-    if (img.height >= img.width) {
+    if (img.naturalWidth >= img.naturalHeight) {
       return 'max-height: 240px !important; width: auto !important;';
     }
     return '';
