@@ -253,17 +253,31 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   almentarQuantidadeProdPedido(index: number) {
-    if (this.pedido.produtos[index].quantidade < 10) {
-      this.pedido.produtos[index].quantidade += 1;
+    let pfp = this.pedido.produtos.find((qProduto) => qProduto.id === index)!;
+
+    if (pfp.quantidade < 10) {
+      pfp.quantidade += 1;
     }
   }
 
   diminuirQuantidadeProdPedido(index: number) {
-    if (this.pedido.produtos[index].quantidade > 1) {
+    let pfp = this.pedido.produtos.find((qProduto) => qProduto.id === index)!;
+
+    if (pfp.quantidade > 1) {
+      pfp.quantidade -= 1;
+    } else {
+      const index = this.pedido.produtos.indexOf(pfp!);
+
+      if (index !== -1) {
+        this.pedido.produtos.splice(index, 1);
+      }
+    }
+
+    /*if (this.pedido.produtos[index].quantidade > 1) {
       this.pedido.produtos[index].quantidade -= 1;
     } else {
       this.pedido.produtos.splice(index, 1);
-    }
+    }*/
   }
 
   adicionarProduto() {
@@ -287,15 +301,16 @@ export class CartComponent implements OnInit, AfterViewInit {
     console.log(this.pedido);
 
     this.pedidoService.selvar(this.pedido).subscribe((data) => {
-      this.pedidos.push(data);
+      if (this.pedidos.find((pedido) => pedido.id === data.id)) {
+        this.pedidos = this.pedidos.filter((pedid) => pedid.id !== data.id);
+        this.pedidos.push(data);
+      }
 
       let fade = document.getElementById('fade');
       let modal = document.querySelector('#modal');
 
-
-        modal?.classList.add('desatived');
-        fade?.classList.add('desatived');
-
+      modal?.classList.add('desatived');
+      fade?.classList.add('desatived');
     });
   }
 
@@ -380,5 +395,28 @@ export class CartComponent implements OnInit, AfterViewInit {
       this.todosProdutos[
         Math.floor(Math.random() * this.todosProdutos.length - 1)
       ].nomeDoProduto!;
+  }
+
+  editPedido(idPedido: number) {
+    this.pedido = this.pedidos.find(({ id }) => id === idPedido)!;
+
+    this.closeModal()
+
+  }
+
+  removerPedido(){
+    this.pedidoService.delete(this.pedido.id).subscribe(data => {
+      this.pedidos = this.pedidos.filter(ped => ped.id !== this.pedido.id)
+      this.closeModal()
+    })
+  }
+
+
+  closeModal(){
+    let fade = document.getElementById('fade');
+    let modal = document.querySelector('#modal');
+
+    modal?.classList.remove('desatived');
+    fade?.classList.remove('desatived');
   }
 }

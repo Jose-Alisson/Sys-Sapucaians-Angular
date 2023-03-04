@@ -8,7 +8,7 @@
   </div>
 
   <div class="pedidos">
-    <div class="pedido" *ngFor="let pedid of pedidos">
+    <div class="pedido" *ngFor="let pedid of pedidos" (click)="editPedido(pedid.id)">
       <h1>{{ pedid.id }}</h1>
     </div>
   </div>
@@ -204,14 +204,14 @@
                     <div class="side-left">
                       <div
                         class="circle-caret"
-                        (click)="diminuirQuantidadeProdPedido(i)"
+                        (click)="diminuirQuantidadeProdPedido(p.id)"
                       >
                         <i class="fa-solid fa-caret-left"></i>
                       </div>
                       <p>{{ p.quantidade }}</p>
                       <div
                         class="circle-caret"
-                        (click)="almentarQuantidadeProdPedido(i)"
+                        (click)="almentarQuantidadeProdPedido(p.id)"
                       >
                         <i class="fa-solid fa-caret-right"></i>
                       </div>
@@ -328,13 +328,12 @@
             <button class="btn-red" (click)="mudarEndereco()">Mudar</button>
           </div>
         </div>
-        <div class="box">
-          <button
-            class="btn-green"
-            [disabled]="!(pedido!.produtos.length > 0)"
-            (click)="criarPedido()"
-          >
-            Fazer meu Pedido
+        <div class="box buttons">
+          <button class="btn-green" [disabled]="!(pedido!.produtos.length > 0)" (click)="criarPedido()">
+            Fazer Meu Pedido
+          </button>
+          <button class="btn-red"  *ngIf="pedido.id !== 0" (click)="removerPedido()" >
+            Remover Meu Pedido
           </button>
         </div>
       </div>

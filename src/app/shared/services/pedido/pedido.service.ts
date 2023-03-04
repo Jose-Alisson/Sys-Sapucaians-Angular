@@ -34,4 +34,8 @@ export class PedidoService {
   findByUsuarioId(){
     return this.http.post<Pedido[]>(this.URL_API_S + '/findAllByUsuarioId/' + this.signIn.userFromPs.id , {})
   }
+
+  delete(id : number){
+    return this.http.delete(this.URL_API_S + '/delete/' + id)
+  }
 }

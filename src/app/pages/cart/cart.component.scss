@@ -419,13 +419,14 @@
   border-radius: 7px;
   margin: auto;
   transition: 0.2s;
+  width: 180px;
 }
 
 .btn-red {
   background: var(--color-6);
   border: var(--color-6);
   color: var(--color-4);
-  margin: 0px;
+  //margin: 0px;
 }
 
 @media screen and (max-width: 420px) {
@@ -811,4 +812,10 @@ transition: transform 0.3s linear;
 .pedidos{
   width: 95%;
   margin: auto;
+}
+
+.box.buttons{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }

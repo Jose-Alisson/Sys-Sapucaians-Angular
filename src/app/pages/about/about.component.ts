@@ -19,7 +19,7 @@ export const exValoresDaTaxa = [
     { localidade: 'Ur12', preco: 3 },
     { localidade: 'Ur5', preco: 5 },
     { localidade: 'Monte Verde', preco: 4 },
-    { localidade: 'Lagoa Encatanda', preco: 4 },
+    { localidade: 'Lagoa Encantada', preco: 4 },
     { localidade: 'Zumbi do Pacheco', preco: 4 }
   ];
 
