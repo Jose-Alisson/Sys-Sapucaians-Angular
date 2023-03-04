@@ -7,4 +7,5 @@ export declare class Usuario{
   provedorr: string
   contato: string
   enderecos: Endereco[]
+  pedidos: Pedido[]
 }

@@ -17,20 +17,21 @@ export class PedidoService {
   ) {}
 
   selvar(pedido: Pedido) {
-    //return this.http.post<Pedido>(this.URL_API_S + '/save', pedido)
-    let params = new HttpParams();
-    params = params.append('user', JSON.stringify(this.signIn.userFromPs));
-    params = params.append('pedido', JSON.stringify(pedido));
+    return this.http.post<Pedido>(this.URL_API_S + '/save', pedido)
+    //let params = new HttpParams().set('user', JSON.stringify(this.signIn.userFromPs)).set('pedido', JSON.stringify(pedido));
+    /*params = params.append('user', JSON.stringify(this.signIn.userFromPs));
+    params = params.append('pedido', JSON.stringify(pedido));*/
 
-    return this.http.post<any>(this.URL_API_S + '/saveTwoBody', {}, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      }),
-      params: params
-    });
+    /*return this.http.post<any>(this.URL_API_S + '/save', {}, {
+
+    });*/
   }
 
   findAll() {
     return this.http.post<Pedido[]>(this.URL_API_S + '/findAll', {});
+  }
+
+  findByUsuarioId(){
+    return this.http.post<Pedido[]>(this.URL_API_S + '/findAllByUsuarioId/' + this.signIn.userFromPs.id , {})
   }
 }

@@ -1,3 +1,4 @@
+import { Usuario } from 'src/app/model/usuario.model';
 import { QuantidadeProduto } from './quantidade.model';
 import { Endereco } from './endereco.model';
 import { Produto } from './Produto.model';
@@ -10,4 +11,5 @@ export declare class Pedido {
   endereco: Endereco | undefined;
   tipoDePagamento: string;
   troco: string;
+  usuario?:Usuario;
 }

@@ -1,3 +1,4 @@
+import { Usuario } from 'src/app/model/usuario.model';
 import { PedidoService } from './../../shared/services/pedido/pedido.service';
 import { QuantidadeProduto } from './../../model/quantidade.model';
 import { Pedido } from './../../model/pedido.model';
@@ -37,7 +38,7 @@ export class CartComponent implements OnInit, AfterViewInit {
   enderecos: Endereco[] = [];
   enderecoAtual!: Endereco;
 
-  selectedProduto?: Produto
+  selectedProduto?: Produto;
 
   title = '';
 
@@ -152,34 +153,42 @@ export class CartComponent implements OnInit, AfterViewInit {
       this.setRandomProduct();
     });
 
-    const minhaImagem = (<HTMLImageElement> document.getElementById("viewProduct"));
+    this.pedidoService.findByUsuarioId().subscribe((data) => {
+      this.pedidos = data;
+    });
 
-  // função que atualiza o estilo da borda com base nas dimensões da imagem
-  function atualizarEstiloBorda() {
-    if (minhaImagem.naturalWidth > minhaImagem.naturalHeight) {
-      minhaImagem.style.width =  "100%";
-     // minhaImagem.style.maxHeight = "auto";
-    } else {
-      minhaImagem.style.maxHeight = "244px";
-      minhaImagem.style.width =  "auto";
-    }
-  }
+    const minhaImagem = <HTMLImageElement>(
+      document.getElementById('viewProduct')
+    );
 
-  // Observador de Mutação para monitorar alterações no elemento da imagem
-  const observer = new MutationObserver(function(mutationsList) {
-    for (let mutation of mutationsList) {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
-
-        console.log('Auterado')
-
-        // a imagem foi alterada, atualize o estilo da borda
-        atualizarEstiloBorda();
+    // função que atualiza o estilo da borda com base nas dimensões da imagem
+    function atualizarEstiloBorda() {
+      if (minhaImagem.naturalWidth > minhaImagem.naturalHeight) {
+        minhaImagem.style.width = '100%';
+        // minhaImagem.style.maxHeight = "auto";
+      } else {
+        minhaImagem.style.maxHeight = '244px';
+        minhaImagem.style.width = 'auto';
       }
     }
-  });
 
-  // observe alterações no elemento da imagem
-  observer.observe(minhaImagem, { attributes: true });
+    // Observador de Mutação para monitorar alterações no elemento da imagem
+    const observer = new MutationObserver(function (mutationsList) {
+      for (let mutation of mutationsList) {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'src'
+        ) {
+          console.log('Auterado');
+
+          // a imagem foi alterada, atualize o estilo da borda
+          atualizarEstiloBorda();
+        }
+      }
+    });
+
+    // observe alterações no elemento da imagem
+    observer.observe(minhaImagem, { attributes: true });
   }
 
   moneyPay() {
@@ -274,14 +283,20 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   criarPedido() {
+    this.pedido.usuario = this.signIn.userFromPs;
     console.log(this.pedido);
 
-    this.pedidoService
-      .selvar(this.pedido)
+    this.pedidoService.selvar(this.pedido).subscribe((data) => {
+      this.pedidos.push(data);
 
-      .subscribe((data) => {
-        this.pedidos.push(data);
-      });
+      let fade = document.getElementById('fade');
+      let modal = document.querySelector('#modal');
+
+
+        modal?.classList.add('desatived');
+        fade?.classList.add('desatived');
+
+    });
   }
 
   setEntLocal() {
@@ -321,14 +336,13 @@ export class CartComponent implements OnInit, AfterViewInit {
     return valor;
   }
 
+  getTaxa(): number {
+    let regex;
 
-  getTaxa(): number{
-     let regex;
-
-     return exValoresDaTaxa.find((taxa) => {
-        regex = new RegExp(`\\b${taxa.localidade}\\b`,'i')
-        return regex.test(this.enderecoAtual.localidade);
-      })?.preco!;
+    return exValoresDaTaxa.find((taxa) => {
+      regex = new RegExp(`\\b${taxa.localidade}\\b`, 'i');
+      return regex.test(this.enderecoAtual.localidade);
+    })?.preco!;
   }
 
   setImageStyle(img: HTMLImageElement) {
