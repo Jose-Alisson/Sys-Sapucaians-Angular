@@ -63,8 +63,17 @@ export class CartComponent implements OnInit, AfterViewInit {
     let modal = document.querySelector('#modal');
 
     document.querySelector('.btn-add')?.addEventListener('click', () => {
-      modal?.classList.remove('desatived');
-      fade?.classList.remove('desatived');
+      this.pedido = {
+        id: 0,
+        numeroDoPedido: 0,
+        produtos: [],
+        descricao: '',
+        tipoDePagamento: 'cartão',
+        troco: '',
+        endereco: undefined,
+      };
+
+      this.openModal();
     });
 
     document.querySelector('.close')?.addEventListener('click', () => {
@@ -121,6 +130,33 @@ export class CartComponent implements OnInit, AfterViewInit {
         this.title = minhaNovaString;
       });
     });
+
+    document.querySelectorAll('.categorys .category').forEach((category) => {
+
+      let categoryWrapper = <HTMLDivElement>(
+        category.querySelector('.category-wrapper')
+      );
+      let produtos = (<HTMLDivElement> categoryWrapper.querySelector('.produtos'))
+      let tamanho = produtos?.offsetHeight;
+
+      categoryWrapper.style.setProperty('height' , 0 + 'px');
+
+      const observerCategory = new MutationObserver(function (mutationsList) {
+        for (let mutation of mutationsList) {
+          if (mutation.type === 'attributes' &&  mutation.attributeName === 'class' ) {
+            tamanho = produtos.offsetHeight;
+            if(category.classList.contains('active')){
+
+              categoryWrapper.style.setProperty('height' , tamanho + 'px');
+            } else {
+              categoryWrapper.style.setProperty('height' , 0 + 'px');
+            }
+          }
+        }
+      });
+
+      observerCategory.observe(category, { attributes: true });
+    });
   }
 
   active(element: HTMLDivElement) {
@@ -161,7 +197,6 @@ export class CartComponent implements OnInit, AfterViewInit {
       document.getElementById('viewProduct')
     );
 
-    // função que atualiza o estilo da borda com base nas dimensões da imagem
     function atualizarEstiloBorda() {
       if (minhaImagem.naturalWidth > minhaImagem.naturalHeight) {
         minhaImagem.style.width = '100%';
@@ -172,22 +207,17 @@ export class CartComponent implements OnInit, AfterViewInit {
       }
     }
 
-    // Observador de Mutação para monitorar alterações no elemento da imagem
     const observer = new MutationObserver(function (mutationsList) {
       for (let mutation of mutationsList) {
         if (
           mutation.type === 'attributes' &&
           mutation.attributeName === 'src'
         ) {
-          console.log('Auterado');
-
-          // a imagem foi alterada, atualize o estilo da borda
           atualizarEstiloBorda();
         }
       }
     });
 
-    // observe alterações no elemento da imagem
     observer.observe(minhaImagem, { attributes: true });
   }
 
@@ -211,6 +241,10 @@ export class CartComponent implements OnInit, AfterViewInit {
   getCategory(categoria: string): Produto[] {
     this.produtos = this.todosProdutos.filter(
       (product) => product.categoria === categoria
+    );
+
+    this.produtos.sort((a, b) =>
+      a.nomeDoProduto.localeCompare(b.nomeDoProduto)
     );
     return this.produtos;
   }
@@ -360,21 +394,6 @@ export class CartComponent implements OnInit, AfterViewInit {
     })?.preco!;
   }
 
-  setImageStyle(img: HTMLImageElement) {
-    /*console.log(img.height +'/'+ img.width)
-    if(img.height > img.width){
-      img.style.maxHeight = "240px !important"
-      img.style.width = "auto"
-    }*/
-  }
-
-  getImageStyle(img: HTMLImageElement) {
-    if (img.naturalWidth >= img.naturalHeight) {
-      return 'max-height: 240px !important; width: auto !important;';
-    }
-    return '';
-  }
-
   setCategory(category: string) {
     this.produtos = this.todosProdutos.filter(
       (produto) => produto.categoria === category
@@ -400,23 +419,39 @@ export class CartComponent implements OnInit, AfterViewInit {
   editPedido(idPedido: number) {
     this.pedido = this.pedidos.find(({ id }) => id === idPedido)!;
 
-    this.closeModal()
-
+    this.openModal();
   }
 
-  removerPedido(){
-    this.pedidoService.delete(this.pedido.id).subscribe(data => {
-      this.pedidos = this.pedidos.filter(ped => ped.id !== this.pedido.id)
-      this.closeModal()
-    })
+  removerPedido() {
+    this.pedidoService.delete(this.pedido.id).subscribe((data) => {
+      this.pedidos = this.pedidos.filter((ped) => ped.id !== this.pedido.id);
+      this.closeModal();
+    });
   }
 
-
-  closeModal(){
+  openModal() {
     let fade = document.getElementById('fade');
     let modal = document.querySelector('#modal');
 
     modal?.classList.remove('desatived');
     fade?.classList.remove('desatived');
+
+    document.querySelectorAll('.step-navgation ul .list').forEach((li, i) => {
+      if (i === 0) {
+        li.classList.add('active');
+      } else {
+        li.classList.remove('active');
+      }
+    });
+
+    (<HTMLInputElement>document.getElementById('st-1')).checked = true;
+  }
+
+  closeModal() {
+    let fade = document.getElementById('fade');
+    let modal = document.querySelector('#modal');
+
+    modal?.classList.add('desatived');
+    fade?.classList.add('desatived');
   }
 }

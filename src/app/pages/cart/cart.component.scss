@@ -512,13 +512,13 @@
 
 .category-wrapper{
   overflow: hidden;
-  transition: max-height 1s;
-  height: 0px;
+  transition: height 0.3s ease-in-out;
+  //height: 0px;
 }
 
-.category.active .category-wrapper{
+/*.category.active .category-wrapper{
   height: auto;
-}
+}*/
 
 .category .category-header .expand i{
 transition: transform 0.3s linear;

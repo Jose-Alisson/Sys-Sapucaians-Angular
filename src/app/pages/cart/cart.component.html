@@ -54,7 +54,6 @@
                   class="produto"
                   *ngFor="let p of getCategory('Pizza'); let i = index"
                   (click)="
-                  getImageStyle(this.viewProduct);
                     setCategory('Pizza');
                     setProductView(i);
                     pFade.classList.toggle('desatived');
@@ -76,7 +75,7 @@
                     <div class="produto-side-down">
                       <div class="produto-preco">
                         <h3 uiMoneyMask>
-                          {{ p.preco | currency : "BRL" : true : "1.2-2" }}
+                          {{ p.preco | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}
                         </h3>
                       </div>
                     </div>
@@ -119,7 +118,7 @@
                     <div class="produto-side-down">
                       <div class="produto-preco">
                         <h3  uiMoneyMask>
-                          {{ p.preco | currency : "BRL" : true : "1.2-2" }}
+                          {{ p.preco | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}
                         </h3>
                       </div>
                     </div>
@@ -154,7 +153,7 @@
                 </div>
                 <div class="produto-side-down">
                   <div class="produto-preco">
-                    <h3 uiMoneyMask>{{ p.preco | currency : "BRL" : true : "1.2-2" }}</h3>
+                    <h3 uiMoneyMask>{{ p.preco | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}</h3>
                   </div>
                 </div>
               </div>
@@ -165,7 +164,7 @@
       <div class="step">
         <div class="step-prod-header">
           <h1>
-            SubTotal <span uiMoneyMask>{{ getSubTotal() | currency : "BRL" : true : "1.2-2" }}</span>
+            SubTotal <span uiMoneyMask>{{ getSubTotal() | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}</span>
           </h1>
         </div>
         <div
@@ -197,7 +196,7 @@
                 <div class="produto-side-down">
                   <div class="produto-preco">
                     <h3 uiMoneyMask>
-                      {{ p.produto?.preco | currency : "BRL" : true : "1.2-2" }}
+                      {{ p.produto?.preco | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}
                     </h3>
                   </div>
                   <div class="prod-list">
@@ -243,10 +242,10 @@
       <div class="step">
         <div class="step-prod-header obs" style="margin-bottom: 10px">
           <h2>
-            Total <span uiMoneyMask>{{ getTotal() | currency : "BRL" : true : "1.2-2" }}</span>
+            Total <span uiMoneyMask>{{ getTotal() | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}</span>
           </h2>
           <p *ngIf="enderecoAtual != undefined">
-            <span uiMoneyMask>{{ getTaxa() | currency : "BRL" : true : "1.2-2" }}</span>
+            <span uiMoneyMask>{{ getTaxa() | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}</span>
             Taxa de etrega.</p>
         </div>
         <p>Adicione as informaçoes de pagamento e endereço ao seu pedido.</p>
@@ -330,7 +329,12 @@
         </div>
         <div class="box buttons">
           <button class="btn-green" [disabled]="!(pedido!.produtos.length > 0)" (click)="criarPedido()">
-            Fazer Meu Pedido
+            <span  *ngIf="pedido.id === 0; else smp">
+              Fazer Meu Pedido
+            </span>
+            <ng-template #smp>
+              Salvar Meu Pedido
+            </ng-template>
           </button>
           <button class="btn-red"  *ngIf="pedido.id !== 0" (click)="removerPedido()" >
             Remover Meu Pedido
@@ -391,7 +395,7 @@
     </div>
     <div class="modal-case preco">
       <h3 uiMoneyMask>
-        {{ selectedProduto?.preco | currency : "BRL" : true : "1.2-2" }}
+        {{ selectedProduto?.preco | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}
       </h3>
     </div>
     <div class="modal-case quantidade">
