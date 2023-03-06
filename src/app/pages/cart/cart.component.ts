@@ -363,7 +363,7 @@ export class CartComponent implements OnInit, AfterViewInit {
     if (this.enderecos === undefined) {
       return 0;
     } else {
-      return this.enderecos?.length * 200;
+      return this.enderecos?.length * 200 + 120;
     }
   }
 

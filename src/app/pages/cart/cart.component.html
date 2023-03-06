@@ -297,11 +297,10 @@
             </div>
           </div>
         </div>
-        <div class="black-box" *ngIf="!isEnderecoDefinido() && despache()">
-          <p>Selecione um dos seus endereços</p>
-          <div class="carrocel-address">
+        <div class="black-box center" *ngIf="!isEnderecoDefinido() && despache()">
+          <p class="box-address-title" *ngIf="enderecos.length > 0">Selecione um dos seus endereços</p>
+          <div class="carrocel-address" *ngIf="enderecos.length > 0">
             <div class="sliders-address" [style]="'width:' + getAddressWidth() + 'px'" >
-
               <div class="slider" *ngFor="let a of enderecos!; let ie = index" (click)="definirEndereco(a.id)">
                 <div class="title">
                   <p>{{ a.nomeDoEndereco }}</p>
@@ -312,6 +311,7 @@
               </div>
             </div>
           </div>
+          <button class="btn-green" [hidden]="enderecos.length > 0" style="margin: auto;">Adicionar Endereço</button>
         </div>
         <div
           style="padding-left: 10px"
