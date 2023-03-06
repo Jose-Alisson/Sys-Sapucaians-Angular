@@ -138,14 +138,17 @@
   overflow-y: scroll;
   padding: 0px 5px 0px 10px;
   position: relative;
+  display: flex;
+  flex-flow: column;
 }
 
 .step::-webkit-scrollbar{
   width: 5px;
+  height: 5px;
 }
 
 .step::-webkit-scrollbar-thumb{
-  background: var(--color-3);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 
@@ -490,10 +493,10 @@
 .categorys h2{
   text-align: center;
 }
-
+/*
 .categorys .category:nth-child(2) .category-header{
   background: var(--color-12);
-}
+}*/
 
 .category{
   margin-top: 10px;
@@ -508,6 +511,7 @@
   padding: 7px 14px;
   border-radius: 7px;
   justify-content: space-between;
+  position: relative;
 }
 
 .category-wrapper{
@@ -531,6 +535,24 @@ transition: transform 0.3s linear;
 
 .category-header span {
   color: var(--color-4);
+  z-index: 5;
+}
+
+.category-header:before{
+  position: absolute;
+  border-radius: 6px 0px 0px 6px;
+  top: 0;
+  left: 0;
+  width: 25%;
+  height: 39px;
+  content: '';
+  z-index: 3;
+  clip-path: polygon(0 0, 92% 0, 61% 100%, 0% 100%);
+  background: var(--color-3);
+}
+
+.category:nth-child(2) .category-header:before{
+  background: var(--color-12);
 }
 
 .produto, .pedido{
@@ -574,6 +596,10 @@ transition: transform 0.3s linear;
   z-index: 3;
   clip-path: polygon(0 0, 92% 0, 61% 100%, 0% 100%);
   background: var(--color-3);
+}
+
+.produtos:nth-child(2) .produto::before{
+  background: var(--color-12);
 }
 
 .produto-logo{
@@ -786,7 +812,8 @@ transition: transform 0.3s linear;
   justify-content: center;
   align-items: center;
   opacity: 0.5;
-  height: calc(100% - 49px);
+  flex-grow: 1;
+  flex-basis: auto;
 }
 
 .cart-empty i {

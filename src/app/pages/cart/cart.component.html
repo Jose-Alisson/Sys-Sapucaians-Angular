@@ -40,7 +40,7 @@
             <i class="fa-solid fa-magnifying-glass" #icon></i>
           </span>
         </div>
-        <div class="categorys" *ngIf="viewCategory; else prod">
+        <div class="categorys" [hidden]="!viewCategory">
           <div class="category" #ctPizza>
             <div class="category-header" (click)="categoryActive(this.ctPizza)">
               <span>Pizzas</span>
@@ -54,8 +54,7 @@
                   class="produto"
                   *ngFor="let p of getCategory('Pizza'); let i = index"
                   (click)="
-                    setCategory('Pizza');
-                    setProductView(i);
+                    setProductView(p.id);
                     pFade.classList.toggle('desatived');
                   "
                 >
@@ -97,8 +96,7 @@
                   class="produto"
                   *ngFor="let p of getCategory('Refrigerate'); let i = index"
                   (click)="
-                    setCategory('Refrigerate');
-                    setProductView(i);
+                    setProductView(p.id);
                     pFade.classList.toggle('desatived');
                   "
                 >
@@ -128,13 +126,13 @@
             </div>
           </div>
         </div>
-        <ng-template #prod>
+        <div #prod [hidden]="viewCategory">
           <div class="produtos">
             <div
               class="produto"
               *ngFor="let p of produtos; let i = index"
               (click)="
-                setProductView(i);
+                setProductView(p.id);
                 pFade.classList.toggle('desatived');
               "
             >
@@ -159,7 +157,7 @@
               </div>
             </div>
           </div>
-        </ng-template>
+        </div>
       </div>
       <div class="step">
         <div class="step-prod-header">

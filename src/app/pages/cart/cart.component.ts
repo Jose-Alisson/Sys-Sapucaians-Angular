@@ -239,14 +239,15 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   getCategory(categoria: string): Produto[] {
-    this.produtos = this.todosProdutos.filter(
+
+    let produtos:Produto[] = this.todosProdutos.filter(
       (product) => product.categoria === categoria
     );
 
-    this.produtos.sort((a, b) =>
+    produtos.sort((a, b) =>
       a.nomeDoProduto.localeCompare(b.nomeDoProduto)
     );
-    return this.produtos;
+    return produtos;
   }
 
   seachProduct(seach: HTMLInputElement) {
@@ -263,7 +264,9 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   setProductView(index: number) {
     document.querySelector('.modal-p')?.classList.remove('desatived');
-    this.selectedProduto = this.produtos[index];
+    this.selectedProduto = this.todosProdutos.find(
+      (product) => product.id === index
+    );;
   }
 
   productClose() {
