@@ -538,22 +538,29 @@ transition: transform 0.3s linear;
   z-index: 5;
 }
 
+.category-header span:first-child{
+  color: var(--color-1
+  );
+}
+
 .category-header:before{
   position: absolute;
   border-radius: 6px 0px 0px 6px;
   top: 0;
   left: 0;
-  width: 25%;
-  height: 39px;
+  width: 90%;
+  height: 100%;
   content: '';
   z-index: 3;
   clip-path: polygon(0 0, 92% 0, 61% 100%, 0% 100%);
   background: var(--color-3);
 }
 
-.category:nth-child(2) .category-header:before{
-  background: var(--color-12);
+.category:nth-child(2) .category-header:before, .category:nth-child(2) .category-wrapper .produtos .produto::before{
+  background: var(--color-3) !important;
 }
+
+
 
 .produto, .pedido{
   margin-top: 10px;
