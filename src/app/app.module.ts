@@ -13,6 +13,8 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ProdutoComponent } from './shared/comps/produto/produto.component';
+import { EnderecoComponent } from './shared/comps/endereco/endereco.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -40,6 +42,8 @@ export const appRoutes: Routes = [
     CartComponent,
     AccountComponent,
     AboutComponent,
+    ProdutoComponent,
+    EnderecoComponent,
   ],
   imports: [
     BrowserModule,

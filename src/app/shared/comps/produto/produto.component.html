@@ -1,0 +1,77 @@
+<div class="produto" (click)="exibirModal(item)" *ngFor="let item of getProduct()" #product>
+  <div class="produto-logo">
+    <img [src]="item.produto?.urlImagem" alt="" />
+  </div>
+  &nbsp;
+  <div class="side-right">
+    <div class="produto-side-up">
+      <div class="produto-title">
+        <h3>{{ item.produto?.nomeDoProduto }}</h3>
+      </div>
+      <div class="produto-description">
+        <p>{{ item.produto?.descricao }}</p>
+      </div>
+    </div>
+    <div class="produto-side-down">
+      <div class="produto-preco">
+        <h3 uiMoneyMask>
+          {{ item.produto?.preco | currency : "BRL" : "symbol-narrow" : "1.2-2" }}
+        </h3>
+      </div>
+      <div class="prod-list" *ngIf="countView">
+        <div class="side-left">
+          <div class="circle-caret" (click)="selectProduct(product, $event);diminuirQuantidadeRemover()">
+            <i class="fa-solid fa-caret-left"></i>
+          </div>
+          <p>{{ item.quantidade }}</p>
+          <div class="circle-caret" (click)="selectProduct(product, $event); aumentarQuatidade()">
+            <i class="fa-solid fa-caret-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" #modal>
+  <div class="modal-header">
+    <p style="color: var(--color-4); margin-left: 10px">Produto</p>
+    <div class="close" (click)="esconderModal()">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+  </div>
+  <div class="show-case">
+    <img [src]="quantidade.produto?.urlImagem" id="viewProduct" #viewProduct alt=""/>
+  </div>
+  <div class="modal-content">
+    <div class="modal-case">
+      <h3>{{ quantidade.produto?.nomeDoProduto }}</h3>
+    </div>
+    <div class="modal-case">
+      <p>{{ quantidade.produto?.descricao }}</p>
+    </div>
+    <div class="modal-case preco">
+      <h3 uiMoneyMask>
+        {{ quantidade.produto?.preco | currency : "BRL" : 'symbol-narrow' : "1.2-2" }}
+      </h3>
+    </div>
+    <div class="modal-case quantidade">
+      <div class="quant">
+        <div class="side-left">
+          <div class="circle-caret" (click)="diminuirQuantidade()">
+            <i class="fa-solid fa-caret-left"></i>
+          </div>
+          <p>{{ quantidade.quantidade }}</p>
+          <div class="circle-caret" (click)="aumentarQuatidade()">
+            <i class="fa-solid fa-caret-right"></i>
+          </div>
+        </div>
+        <div class="side-right">
+          <button (click)="adicionarProduto()">
+            <i class="fa-solid fa-cart-shopping"></i> Adicionar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -38,17 +38,9 @@ export class CartComponent implements OnInit, AfterViewInit {
   enderecos: Endereco[] = [];
   enderecoAtual!: Endereco;
 
-  selectedProduto?: Produto;
-
   title = '';
 
   viewCategory = true;
-
-  quanatidadeProduto: QuantidadeProduto = {
-    id: 0,
-    produto: this.selectedProduto,
-    quantidade: 1,
-  };
 
   constructor(
     private signIn: SignInService,
@@ -119,42 +111,30 @@ export class CartComponent implements OnInit, AfterViewInit {
 
     this.enderecos = this.signIn.userFromPs?.enderecos;
 
-    let stepNavegation = document.querySelectorAll('.step-navgation ul li');
-    stepNavegation.forEach((li) => {
-      li.addEventListener('click', () => {
-        let text = (<HTMLSpanElement>li.querySelector('label .text'))
-          ?.innerText;
-        let primeiraLetra = text.charAt(0).toUpperCase();
-        let restoDaString = text.slice(1).toLowerCase();
-        let minhaNovaString = primeiraLetra + restoDaString;
-        this.title = minhaNovaString;
-      });
-    });
-
     document.querySelectorAll('.categorys .category').forEach((category) => {
-
       let categoryWrapper = <HTMLDivElement>(
         category.querySelector('.category-wrapper')
       );
-      let produtos = (<HTMLDivElement> categoryWrapper.querySelector('.produtos'))
+      let produtos = <HTMLDivElement>categoryWrapper.querySelector('.produtos');
       let tamanho = produtos?.offsetHeight;
 
-      categoryWrapper.style.setProperty('height' , 0 + 'px');
+      categoryWrapper.style.setProperty('height', 0 + 'px');
 
       const observerCategory = new MutationObserver(function (mutationsList) {
         for (let mutation of mutationsList) {
-          if (mutation.type === 'attributes' &&  mutation.attributeName === 'class' ) {
+          if (
+            mutation.type === 'attributes' &&
+            mutation.attributeName === 'class'
+          ) {
             tamanho = produtos.offsetHeight;
-            if(category.classList.contains('active')){
-
-              categoryWrapper.style.setProperty('height' , tamanho + 'px');
+            if (category.classList.contains('active')) {
+              categoryWrapper.style.setProperty('height', tamanho + 'px');
             } else {
-              categoryWrapper.style.setProperty('height' , 0 + 'px');
+              categoryWrapper.style.setProperty('height', 0 + 'px');
             }
           }
         }
       });
-
       observerCategory.observe(category, { attributes: true });
     });
   }
@@ -192,33 +172,6 @@ export class CartComponent implements OnInit, AfterViewInit {
     this.pedidoService.findByUsuarioId().subscribe((data) => {
       this.pedidos = data;
     });
-
-    const minhaImagem = <HTMLImageElement>(
-      document.getElementById('viewProduct')
-    );
-
-    function atualizarEstiloBorda() {
-      if (minhaImagem.naturalWidth > minhaImagem.naturalHeight) {
-        minhaImagem.style.width = '100%';
-        // minhaImagem.style.maxHeight = "auto";
-      } else {
-        minhaImagem.style.maxHeight = '244px';
-        minhaImagem.style.width = 'auto';
-      }
-    }
-
-    const observer = new MutationObserver(function (mutationsList) {
-      for (let mutation of mutationsList) {
-        if (
-          mutation.type === 'attributes' &&
-          mutation.attributeName === 'src'
-        ) {
-          atualizarEstiloBorda();
-        }
-      }
-    });
-
-    observer.observe(minhaImagem, { attributes: true });
   }
 
   moneyPay() {
@@ -239,14 +192,11 @@ export class CartComponent implements OnInit, AfterViewInit {
   }
 
   getCategory(categoria: string): Produto[] {
-
-    let produtos:Produto[] = this.todosProdutos.filter(
+    let produtos: Produto[] = this.todosProdutos.filter(
       (product) => product.categoria === categoria
     );
 
-    produtos.sort((a, b) =>
-      a.nomeDoProduto.localeCompare(b.nomeDoProduto)
-    );
+    produtos.sort((a, b) => a.nomeDoProduto.localeCompare(b.nomeDoProduto));
     return produtos;
   }
 
@@ -262,75 +212,13 @@ export class CartComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setProductView(index: number) {
-    document.querySelector('.modal-p')?.classList.remove('desatived');
-    this.selectedProduto = this.todosProdutos.find(
-      (product) => product.id === index
-    );;
-  }
-
-  productClose() {
-    document.querySelector('.modal-p')?.classList.add('desatived');
-  }
-
   categoryActive(element: HTMLDivElement) {
     element.classList.toggle('active');
   }
 
-  almentarQuantidade() {
-    if (this.quanatidadeProduto.quantidade < 10) {
-      this.quanatidadeProduto.quantidade += 1;
-    }
-  }
-
-  diminuirQuantidade() {
-    if (this.quanatidadeProduto.quantidade > 1) {
-      this.quanatidadeProduto.quantidade -= 1;
-    }
-  }
-
-  almentarQuantidadeProdPedido(index: number) {
-    let pfp = this.pedido.produtos.find((qProduto) => qProduto.id === index)!;
-
-    if (pfp.quantidade < 10) {
-      pfp.quantidade += 1;
-    }
-  }
-
-  diminuirQuantidadeProdPedido(index: number) {
-    let pfp = this.pedido.produtos.find((qProduto) => qProduto.id === index)!;
-
-    if (pfp.quantidade > 1) {
-      pfp.quantidade -= 1;
-    } else {
-      const index = this.pedido.produtos.indexOf(pfp!);
-
-      if (index !== -1) {
-        this.pedido.produtos.splice(index, 1);
-      }
-    }
-
-    /*if (this.pedido.produtos[index].quantidade > 1) {
-      this.pedido.produtos[index].quantidade -= 1;
-    } else {
-      this.pedido.produtos.splice(index, 1);
-    }*/
-  }
-
-  adicionarProduto() {
-    let qp: QuantidadeProduto = {
-      id: 0,
-      produto: this.selectedProduto,
-      quantidade: this.quanatidadeProduto.quantidade,
-    };
-
+  adicionarProduto(qp: QuantidadeProduto) {
     this.pedido.produtos.push(qp);
-
-    this.quanatidadeProduto = {
-      id: 0,
-      produto: this.selectedProduto,
-      quantidade: 1,
-    };
+    console.log(qp)
   }
 
   criarPedido() {
@@ -369,20 +257,17 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   getSubTotal() {
     let valor = 0;
-
     this.pedido.produtos.forEach((p) => {
+      if(p){
       valor += p.quantidade * p.produto!.preco;
+      }
     });
-
     return valor;
   }
 
   getTotal() {
     let valor = this.getSubTotal();
-
     if (this.enderecoAtual != undefined) {
-      //console.log(this.enderecoAtual);
-
       valor += this.getTaxa();
     }
     return valor;
@@ -390,7 +275,6 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   getTaxa(): number {
     let regex;
-
     return exValoresDaTaxa.find((taxa) => {
       regex = new RegExp(`\\b${taxa.localidade}\\b`, 'i');
       return regex.test(this.enderecoAtual.localidade);
@@ -421,7 +305,6 @@ export class CartComponent implements OnInit, AfterViewInit {
 
   editPedido(idPedido: number) {
     this.pedido = this.pedidos.find(({ id }) => id === idPedido)!;
-
     this.openModal();
   }
 
@@ -430,6 +313,13 @@ export class CartComponent implements OnInit, AfterViewInit {
       this.pedidos = this.pedidos.filter((ped) => ped.id !== this.pedido.id);
       this.closeModal();
     });
+  }
+
+  removerProduto(id: number) {
+    const index = this.pedido.produtos.findIndex((item) => item.produto!.id === id);
+    if (index >= 0) {
+      this.pedido.produtos.splice(index, 1);
+    }
   }
 
   openModal() {
@@ -448,6 +338,10 @@ export class CartComponent implements OnInit, AfterViewInit {
     });
 
     (<HTMLInputElement>document.getElementById('st-1')).checked = true;
+  }
+
+  fadeToggle(element: HTMLElement) {
+    element.classList.toggle('active');
   }
 
   closeModal() {
