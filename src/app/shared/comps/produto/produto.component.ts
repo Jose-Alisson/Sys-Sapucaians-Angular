@@ -130,8 +130,6 @@ export class ProdutoComponent implements OnInit, AfterViewInit {
   adicionarProduto() {
     this.adicionar.emit(this.quantidade);
     this.esconderModal();
-
-    this.quantidade.quantidade = 1;
   }
 
   getProduct() {

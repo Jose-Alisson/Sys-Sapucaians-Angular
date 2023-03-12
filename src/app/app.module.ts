@@ -15,6 +15,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProdutoComponent } from './shared/comps/produto/produto.component';
 import { EnderecoComponent } from './shared/comps/endereco/endereco.component';
+import { ModalCartComponent } from './shared/comps/modal-cart/modal-cart.component';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -44,6 +45,7 @@ export const appRoutes: Routes = [
     AboutComponent,
     ProdutoComponent,
     EnderecoComponent,
+    ModalCartComponent,
   ],
   imports: [
     BrowserModule,
