@@ -1,0 +1,151 @@
+
+
+<section class="menu-content">
+  <div class="box-seach">
+  <div class="seach">
+   <!-- <div class="wrapper">
+     <div class="wrapper-header" (click)="filterModalActive = !filterModalActive">
+       <span>Filtrar por</span>
+       &nbsp;
+       <span [ngClass]="{'active': filterModalActive}">
+         <i class="fa-solid fa-caret-up"></i>
+       </span>
+     </div>
+     <div class="wrapper-content" [ngClass]="{'active': filterModalActive}">
+       <ul>
+         <li (click)="setCategory('all')">Todas</li>
+         <li *ngFor="let item of getAllCetegory()" (click)="setCategory(item)">{{item}}</li>
+       </ul>
+     </div>
+   </div> -->
+   <div class="input-seach-box">
+     <div class="input-seach">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Procurar Por Produto"  #seachProduct (keyup)="seachProductos(seachProduct)">
+     </div>
+      <button (click)="toggleViewCartWrapper()" >
+        <i class="fa-solid fa-cart-shopping"></i>
+        <div class="product-count" *ngIf="cart.length > 0">
+          <p>{{cart.length}}</p>
+        </div>
+      </button>
+   </div>
+  </div>
+</div>
+  <!-- <div class="trolley-tools">
+    <div class="content">
+      <div class="side-top">
+      </div>
+      <div class="select-category">
+        <ul>
+          <li *ngFor="let category of getAllCetegory()">
+            {{category}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div> -->
+  <!-- <div class="select-gategory" *ngFor="let category of getAllCetegory()">
+  -->
+  <div class="card-slider" *ngIf="allProduct; else loadingCards">
+      <div id="card-{{i}}" class="card-product" [ngClass]="{'product-selected': isSelected(prod.product?.idProduct)}" *ngFor="let prod of filterProduct; let i = index">
+      <div class="card-imagem">
+        <img [src]="prod.product?.photoObject"  [ngClass]="{'view-width': aiv(i)}">
+      </div>
+      <div class="card-body">
+        <div class="info">
+          <h3>{{prod.product?.nameProduct}}</h3>
+          <p class="description">{{prod.product?.description}}</p>
+          <h3>{{prod.product?.price | currency : 'BRL' : 'symbol-narrow'}}</h3>
+        </div>
+        <div class="quant">
+          <div class="decrement" (click)="decrementar(prod)">
+            <i class="fa-solid fa-minus"></i>
+          </div>
+          <div class="amount">
+            <p>{{prod.quantity}}</p>
+          </div>
+          <div class="increment" (click)="incrementar(prod)">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+        </div>
+        <div class="card-action">
+          <button (click)="addToCart(prod)">Adiconar ao carrinho</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #loadingCards>
+    <div class="card-slider">
+      <div id="card-{{i}}" class="card-product card-current" *ngFor="let prod of [1,2,3,4]; let i = index">
+        <div class="card-imagem">
+          <div class="img-loading"></div>
+        </div>
+        <div class="card-body">
+          <div class="content-loading"></div>
+          <div class="content-loading"></div>
+          <div class="content-loading"></div>
+        </div>
+        </div>
+    </div>
+  </ng-template>
+
+
+  <!-- </div> -->
+</section>
+<div class="darken" *ngIf="viewCardWrapper"></div>
+<div class="sidbar-cart" [ngClass]="{'active': viewCardWrapper}">
+  <div class="bar-header">
+    <h2>Carrinho</h2>
+    <div class="menu-burguer" [ngClass]="{'change': !viewSideBarCart}" (click)="toggleViewCartWrapper()">
+      <div class="line-1"></div>
+      <div class="line-2"></div>
+      <div class="line-3"></div>
+    </div>
+  </div>
+  <div class="bar-content">
+    <div class="my-cart">
+      <div class="item" *ngFor="let item of cart">
+        <div class="item-view">
+          <img [src]="item.product?.photoObject" height="52px">
+        </div>
+        <div class="item-description">
+          <h3>{{item.product?.nameProduct}}</h3>
+          <p>{{item.product?.description}}</p>
+          <div class="unique">
+            <h3>{{item.product?.price | currency : 'BRL' : 'symbol-narrow'}}</h3>
+            <div class="quant">
+              <div class="decrement" (click)="decrementar(item)">
+                <i class="fa-solid fa-minus"></i>
+              </div>
+              <div class="amount">
+                <p>{{item.quantity}}</p>
+              </div>
+              <div class="increment" (click)="incrementar(item)">
+                <i class="fa-solid fa-plus"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="padding: 15px;">
+      <div class="sub-total">
+        <div class="message">
+          <span>Sub-Total</span>
+          <p>{{cart.length}} {{cart.length > 1 ? 'Items': 'Item'}}</p>
+        </div>
+        <div class="value">
+          <h3>{{getSubTotal() | currency : 'BRL' : 'symbol-narrow'}}</h3>
+        </div>
+      </div>
+      <button class="btn-fazer-pedido" interBlocked [disabled]="cart.length === 0" (click)="passRequest()">Fazer pedido</button>
+    </div>
+  </div>
+</div>
+<!-- <div class="btn-spand-cart" (click)="toggleViewCartWrapper()">
+  <i class="fa-solid fa-cart-shopping"></i>
+  <div class="product-count" *ngIf="cart.length > 0">
+    <p>{{cart.length}}</p>
+  </div>
+</div> -->

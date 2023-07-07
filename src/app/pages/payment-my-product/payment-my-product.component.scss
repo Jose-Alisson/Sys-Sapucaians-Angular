@@ -1,0 +1,357 @@
+@import url("../cart/cart.component.scss");
+@import url("../sign-in/sign-in.component.scss");
+
+
+.card,
+.pay {
+  padding: 15px;
+  background: var(--color-4);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 15%);
+  position: relative;
+  border-radius: 7px;
+}
+
+.card-cart {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  max-height: 600px;
+
+  min-width: 300px;
+  position: sticky;
+}
+
+
+@media screen and (min-width: 875px) {
+  .card-cart {
+    top: 0px;
+    height: 100%;
+  }
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px #cccccc solid;
+  padding: 0px 0px 15px 0px;
+}
+
+.check-card-body {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.product-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  flex-grow: 1;
+  height: 100px;
+  overflow: auto;
+}
+
+.sub-total {
+  color: var(--color-1);
+  margin-top: 15px;
+}
+
+.content {
+  display: flex;
+  gap: 15px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card-header-switch {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-header-switch button,
+.btn-confirm-address,
+.btn-confirm-cart,
+.btn-register-address,
+.btn-black-transparent {
+  background: transparent;
+  border: 2px var(--color-1) solid;
+  padding: 10px 15px;
+  color: var(--color-1);
+  font-family: "Avenir Bold", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  border-radius: 7px;
+  width: 100%;
+  transition: 0.2s;
+  cursor: pointer;
+
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 0px 3px rgba(0, 0, 0, 0.25);
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25),
+      0 0 0 3px #c8dafc;
+  }
+
+  &:hover {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.card-header-switch button:nth-child(1) {
+  border-radius: 7px 0px 0px 7px;
+}
+
+.card-header-switch button:nth-child(2) {
+  border-radius: 0px 7px 7px 0px;
+}
+
+.btn-confirm-cart,
+.btn-black {
+  background: var(--color-1);
+  color: var(--color-4);
+}
+
+.btn-green{
+  border-color: var(--color-12);
+  color: var(--color-12);
+}
+
+.btn-back-green{
+  background: var(--color-12);
+  color: white;
+}
+
+.btn-red{
+  border-color: var(--color-6);
+  color: var(--color-6);
+}
+
+.btn-back-red{
+  background: var(--color-6);
+  color: white;
+}
+
+/*
+.my-address-wrapper , .wrapper{
+  position: relative;
+  margin: 10px 0px;
+}
+
+.my-address-wrapper-header , .wrapper-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 15px;
+  border-radius: 7px;
+  border: 2px var(--color-1) solid;
+  background: transparent;
+  color: var(--color-1);
+  cursor: pointer;
+}
+
+.my-address-wrapper-header span:nth-child(1) , .wrapper-header span:nth-child(1){
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  width: 200px;
+  flex-grow: 1;
+}
+
+.my-address-wrapper-body, .wrapper-body {
+  display: none;
+  position: absolute;
+  margin-top: 10px;
+  background: var(--color-4);
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 15%);
+  border-radius: 7px;
+  padding: 7px 15px;
+}
+
+.my-address-wrapper-body ul , .wrapper-body ul{
+  list-style: none;
+}
+
+.my-address-wrapper-body ul li , .wrapper-body ul li{
+  padding: 7px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.my-address-wrapper-body ul li:not(:last-child), .wrapper-body ul li:not(:last-child){
+  margin-bottom: 5px;
+}
+
+.my-address-wrapper-body ul li:hover , .wrapper-body ul li:hover{
+  background: rgba(204, 204, 204, 0.3);
+}
+*/
+.btn-confirm-address {
+  width: 100%;
+  margin-top: 10px;
+  background: var(--color-1);
+  color: var(--color-4);
+}
+
+.card-header-switch button.active {
+  background: var(--color-1);
+  color: var(--color-4);
+}
+
+.pay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.index-form::before {
+  content: attr(index-form-data);
+  top: 0;
+  position: absolute;
+  left: 0;
+  transform: translate(calc(-50% + 2px), calc(-50% + 2px));
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background: var(--color-1);
+  color: var(--color-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Avenir Bold", sans-serif;
+  justify-content: center;
+}
+
+.side-right {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 500px;
+  width: 100%;
+}
+
+/*
+.wrapper-active, .wrapper[active] .wrapper-body {
+  display: block;
+}*/
+
+.register-new-address-header {
+  /*padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #dadeff;
+  border-radius: 7px;*/
+  margin-bottom: 5px;
+}
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.payment-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-payment {
+  display: flex;
+  justify-content: space-between;
+  border: 2px var(--color-1) solid;
+  border-radius: 7px;
+  padding: 10px;
+  align-items: center;
+  color: var(--color-1);
+  transition: all 0.2s;
+  overflow: hidden;
+  background: var(--color-4);
+  //box-shadow: 2px 0px 10px rgba(0,0,0,0.4);
+}
+
+.card-payment.active {
+  background: var(--color-1);
+  color: var(--color-4);
+}
+
+.card-payment .card-pay-header span, .radio-header span {
+  font-weight: 600;
+}
+
+.card-pay-header, .radio-header {
+  display: flex;
+  align-items: center;
+}
+
+.pay-select-radio, .radio-select {
+  width: 14px;
+  height: 14px;
+  background: var(--color-1);
+  border-radius: 100%;
+  margin-right: 5px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.checked-content {
+  flex-grow: 1;
+  background: var(--color-4);
+  transition: all 0.2s;
+  width: 100%;
+  border-radius: 100%;
+}
+
+.pay-select-radio[checked], .radio-select[checked] {
+  padding: 5px;
+  //background: var(--color-4);
+}
+
+.pay-content {
+  background: var(--color-4);
+  transition: all 0.2s;
+  height: 0px;
+  overflow: hidden;
+  border-radius: 0px 0px 7px 7px;
+  //border: 2px var(--color-1) solid;
+}
+
+.pay-content section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 7px;
+  border-top: 0;
+  border-radius: 0px 0px 7px 7px;
+  border: 2px var(--color-1) solid;
+  border-top: 0;
+  padding: 15px;
+}
+
+.pay-wrapper {
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 15%);
+}
+/*
+ .pay-wrapper:has(.pay-select-radio[checked]) .pay-content{
+   border-radius: 0px 0px 7px 7px;
+  border: 2px var(--color-1) solid;
+  height: auto;
+   border-top: 0;
+ }
+*/
+
+.pay-wrapper:has(.pay-select-radio[checked]) .card-payment {
+  border-radius: 7px 7px 0px 0px;
+}
+

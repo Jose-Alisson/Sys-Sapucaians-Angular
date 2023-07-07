@@ -1,0 +1,73 @@
+
+@import url('../admin/orders-list/orders-list.component.scss');
+
+.show{
+  padding: 15px;
+  background: var(--color-4);
+  box-shadow: 0px 1px 10px rgba(0,0,0,0.4);
+  margin: 15px 0px;
+}
+
+.show .show-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.show-header span{
+  font-size: larger;
+}
+
+.sub-total{
+  padding: 5px 0px;
+  color: var(--color-1);
+}
+
+.card-header{
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+.card{
+  position: relative;
+  width: 300px;
+}
+
+.view-actions{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba( 128 128 128 / 25%);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.view-actions button{
+  background: var(--color-1);
+  color: var(--color-4);
+  padding: 10px 15px;
+  font-family: "Avenir Bold", sans-serif;
+  border-radius: 7px;
+  letter-spacing: 1.25px;
+  outline: none;
+  text-transform: uppercase;
+  border: 0;
+  cursor: pointer;
+  width: 250px;
+}
+
+.view-actions .btn-dlt{
+  background: var(--color-6);
+}
+
+.card:hover .view-actions{
+  opacity: 1;
+}

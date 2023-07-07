@@ -1,0 +1,152 @@
+<div class="container">
+  <h1>Registrar-se</h1>
+  <div class="select-steps">
+    <div class="step-group">
+      <input type="radio" name="stp" id="stp-1" checked/>
+      <input type="radio" name="stp" id="stp-2" />
+      <input type="radio" name="stp" id="stp-3" />
+      <input type="radio" name="stp" id="stp-4" />
+      <div class="step first" >
+        <div class="filds first" [formGroup]="step1Form">
+          <div class="box">
+            <div class="box-fild">
+              <input type="text" name="" id="email-field" required formControlName="email" [ngClass]="{'input-invalid': isValidControlForm(step1Form,'email')} "/>
+              <label for="email-field">E-mail</label>
+            </div>
+            <div class="invalid">
+              <div *ngIf="step1Form.get('email')?.errors?.['required'] && getInteractionForm(step1Form,'email')">
+                 O campo é obrigatório.
+              </div>
+              <div *ngIf="step1Form.get('email')?.errors?.['email'] && getInteractionForm(step1Form, 'email')">
+                 Endereço de e-mail inválido.
+              </div>
+              <div *ngIf="step1Form.get('email')?.errors?.['alreadyExists']">
+                 Endereço de E-mail já está em uso.
+              </div>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box-fild">
+              <input type="password" name="" id="password-field" #loginPassword required formControlName="password" [ngClass]="{'input-invalid': isValidControlForm(step1Form,'password')}"/>
+              <label for="password-field">Senha</label>
+              <span (click)="passwordVisible(loginPassword, icon)">
+                <i #icon class="fa-solid fa-eye-slash"></i >
+              </span>
+            </div>
+            <div class="invalid">
+              <div *ngIf="step1Form.get('password')?.errors?.['required'] && getInteractionForm(step1Form, 'password')">
+                O campo é obrigatório.
+              </div>
+              <div *ngIf="step1Form.get('password')?.errors?.['minlength'] && getInteractionForm(step1Form,'password')">
+                Sua senha deve ter no mínimo 6 caracteres.
+              </div>
+            </div>
+          </div>
+          <!-- <div class="box">
+            <div class="box-fild">
+              <input type="password" name="" id="comfirm-password-field" #confirmPassword required formControlName="confirmPassword" [ngClass]="{'input-invalid': isValidControlForm(step1Form,'confirmPassword')}"/>
+              <label for="comfirm-password-field">Confirmar Senha</label>
+              <span (click)="passwordVisible(confirmPassword, iconConfirm)"
+                ><i #iconConfirm class="fa-solid fa-eye-slash"></i
+              ></span>
+            </div>
+            <div class="invalid">
+              <div *ngIf="step1Form.get('confirmPassword')?.errors?.['required'] && getInteractionForm(step1Form,'confirmPassword')">
+                O campo é obrigatorio.
+              </div>
+              <div *ngIf="step1Form.get('confirmPassword')?.errors?.['confirmPasswordInvalid'] && getInteractionForm(step1Form,'confirmPassword')">
+                A confirmação de senha não corresponde à senha digitada.
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <br>
+        <div class="buttons-controll" style="width: 100%;" *ngIf="count < 4">
+          <button class="btn-prosseguir" (click)="prosseguirIsValidForm1()">Prosseguir</button>
+        </div>
+      </div>
+      <div class="step">
+        <div class="filds first" [formGroup]="step2Form">
+          <div class="box">
+            <div class="box-fild">
+              <input type="text" name="" id="name-field" required formControlName="nome" [ngClass]="{'input-invalid': isValidControlForm(step2Form, 'nome')}"/>
+              <label for="name-field">Nome</label>
+            </div>
+            <div class="invalid">
+              <div *ngIf="step2Form.get('nome')?.errors?.['required'] && getInteractionForm(step2Form, 'nome')">
+                O campo é obrigatorio.
+              </div>
+              <div *ngIf="step2Form.get('nome')?.errors?.['minlength'] && getInteractionForm(step2Form, 'nome')">
+                O seu nome deve ter pelo menos 2 caracteres.
+              </div>
+              <div *ngIf="step2Form.get('nome')?.errors?.['blank'] && getInteractionForm(step2Form, 'nome')">
+                A inicial do nome não pode ser um espaço em branco.
+              </div>
+            </div>
+          </div>
+          <div class="box-fild">
+            <input type="text" name="" id="sobrenome-field" required />
+            <label for="sobrenome-field">Sobrenome (Opcional)</label>
+          </div>
+        </div>
+        <br>
+        <div class="buttons-controll" style="width: 100%;" *ngIf="count < 4">
+          <button class="btn-prosseguir" (click)="prosseguirIsValidForm2()">Prosseguir</button>
+          <button class="btn-voltar" (click)="voltar()">Voltar</button>
+        </div>
+      </div>
+      <div class="step">
+        <div class="filds first" [formGroup]="step3Form">
+          <div class="box">
+            <div class="box-fild">
+              <input type="text" name="" id="phone-field" required prefix="+55 " [mask]="contatoMask" [showMaskTyped]="true" formControlName="contato" [ngClass]="{'input-invalid': isValidControlForm(step3Form, 'contato')}">
+              <label for="phone-field" class="label-static">Número de {{typeContato}}*</label>
+              <span class="selection-contato" (click)="showSelectionContato()">
+                <i [ngClass]="contatoClass" style="color: #1AC760;"></i>
+                <i class="fa-solid fa-caret-up" style="transition: 0.2s;" [ngStyle]="{'transform' : getRotate()}"></i>
+              </span>
+            </div>
+            <ul class="contato-section"  [ngClass]="{'show' : cSv}">
+              <li (click)="setTypeContatoPhone()">
+                <i class="fa-solid fa-square-phone"></i>
+                <span>Celular</span>
+              </li>
+              <li (click)="setTypeContatoWhatsapp()">
+                <i class="fa-brands fa-square-whatsapp"></i>
+                <span>Whastapp</span>
+              </li>
+            </ul>
+            <div class="invalid">
+              <div *ngIf="step3Form.get('contato')?.errors?.['required'] && getInteractionForm(step3Form, 'contato')">
+                O campo é obrigatório*
+              </div>
+              <div *ngIf="step3Form.get('contato')?.errors?.['invalidInput'] && getInteractionForm(step3Form, 'contato')">
+                Número invalido*
+              </div>
+            </div>
+            <br>
+            <div class="buttons-controll" style="width: 100%;" *ngIf="count < 4">
+              <button [disabled]="step3Form.invalid" class="btn-voltar" (click)="enviarCode()">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step status-create">
+        <img id="img-status-create" src="assets//checked.gif" width="128px">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="show-code-verify" *ngIf="getShowViewDarken()">
+  <div class="show-code-header">
+    <img src="assets//phone.svg" alt="">
+    <h2>Código de Verificação</h2>
+    <p>Verifique o código enviado para seu {{typeContato}} de número +55 {{step3Form.get('contato')?.value | mask : contatoMask}}</p>
+  </div>
+  <div class="code-fields" [ngClass]="{'code-invalid': codeInvalid}">
+    <input type="text" mask="9" *ngFor="let char of codeLength; let i = index" (keyup)="moveFocus($event, i);" [ngClass]="{'filled': getFilled(i)}" [(ngModel)]="chars[i]">
+  </div>
+  <div class="show-code-control">
+  </div>
+  <button (click)="verificarCode()">Verificar</button>
+</div>

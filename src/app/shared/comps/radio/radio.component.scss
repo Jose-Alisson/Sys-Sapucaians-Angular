@@ -1,0 +1,32 @@
+
+.radio-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radio-select {
+  width: 14px;
+  height: 14px;
+  background: var(--color-1);
+  border-radius: 100%;
+  margin-right: 5px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.checked-content {
+  flex-grow: 1;
+  background: var(--color-4);
+  transition: all 0.2s;
+  width: 100%;
+  border-radius: 100%;
+}
+
+.radio-select[checked] {
+  padding: 5px;
+}

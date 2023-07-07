@@ -1,0 +1,46 @@
+<div class="container" style="padding: 0px 4px;">
+  <h1>Login</h1>
+  <div class="filds first" [formGroup]="authForm">
+    <div class="box">
+      <div class="box-fild">
+        <input type="text" id="email-field" required formControlName="email" [ngClass]="{'input-invalid': isValidControlForm(authForm,'email')}" >
+        <label for="email-field">E-mail</label>
+      </div>
+      <div class="invalid">
+        <div *ngIf="authForm.get('email')?.errors?.['required'] && getInteractionForm(authForm, 'email')">
+          O campo é obrigatório*
+        </div>
+        <div *ngIf="authForm.get('email')?.errors?.['email'] && getInteractionForm(authForm, 'email')">
+          Endereço de e-mail inválido*
+        </div>
+        <div *ngIf="authForm.get('email')?.errors?.['isExistEmailViewError']">
+          E-mail não encontrado*
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="box-fild">
+        <input type="password" id="password-field" #loginPassword required formControlName="password" [ngClass]="{'input-invalid': isValidControlForm(authForm,'password')}">
+        <label for="password-field">Senha</label>
+        <span (click)="passwordVisible(loginPassword, icon)"><i #icon class="fa-solid fa-eye-slash"></i></span>
+      </div>
+      <div class="invalid">
+        <div *ngIf="authForm.get('password')?.errors?.['required'] && getInteractionForm(authForm, 'password')">
+          O campo é obrigatório*
+        </div>
+        <div *ngIf="authForm.get('password')?.errors?.['passwordNoUnauthored']">
+          Senha não autorizada*
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="act-tools">
+    <div class="relembrar">
+      <input type="checkbox" name="Me relembrar" checked id="remember">
+      <label for="remember">Me Relembrar</label>
+    </div>
+    <span>Esqueceu sua senha?</span>
+  </div>
+  <button class="btn-login" (click)="login()">Entrar</button>
+</div>
+

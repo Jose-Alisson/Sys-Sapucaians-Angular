@@ -1,0 +1,501 @@
+<!-- <section class="side-left">
+  <div class="card"></div>
+</section> -->
+
+<ng-container *ngTemplateOutlet="boxTemplate"></ng-container>
+<ng-container *ngTemplateOutlet="paymentTemplate"></ng-container>
+
+<!-- <ng-container [ngSwitch]="page">
+  <ng-container *ngSwitchCase="'box'">
+    <ng-container *ngTemplateOutlet="boxTemplate"></ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'payment'">
+    <ng-container *ngTemplateOutlet="paymentTemplate"></ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchDefault>
+    <ng-container *ngTemplateOutlet="boxTemplate"></ng-container>
+  </ng-container>
+</ng-container> -->
+
+<ng-template #box>
+  <!-- <section class="side-right">
+    <div style="display: flex; flex-direction: column; gap: 15px; flex-grow: 1"> -->
+      <!-- <div class="card command-operator">
+        <input class="product-view" type="text" [(ngModel)]="text" (keypress)="catchBoard($event)">
+        <div class="sub-total">
+          <span class="info">Quantidade {{ prodSelected.quantidade }} X </span>
+          <span class="info">Preço Unitário {{ (prodSelected.produto?.preco ?? 0) | currency : "BRL" : "symbol-narrow" }}</span>
+          <span class="info"> Preço Total {{(prodSelected.produto?.preco ?? 0) * (prodSelected.quantidade ?? 0) | currency : "BRL" : "symbol-narrow"}}</span>
+        </div>
+      </div>
+      <div class="card" style="overflow-y: auto; max-height: 300px;" #cardProductTable>
+        <table class="product-table">
+          <tbody>
+            <tr>
+              <th class="align-left">Items</th>
+              <th></th>
+              <th>Qtd</th>
+              <th>Unitário</th>
+              <th class="align-right">Total</th>
+            </tr>
+          </tbody>
+          <tbody>
+            <ng-container *ngFor="let item of caixa; let i = index">
+              <tr [ngClass]="{'row-selected': isRowSelected(i)}" (click)="selectRowProduct(i)">
+                <td rowspan="2" class="align-left">#{{i + 1}}</td>
+                <td colspan="4" class="align-left font-bold">{{item.produto?.nomeDoProduto}}</td>
+              </tr>
+              <tr [ngClass]="{'row-selected': isRowSelected(i)}" (click)="selectRowProduct(i)">
+                <td class="align-left" >{{item.produto?.id}}</td>
+                <td>{{item.quantidade}} un X</td>
+                <td class="font-bold">{{item.produto?.preco | currency : 'BRL' : 'symbol-narrow'}}</td>
+                <td class="align-right font-bold">{{((item.produto?.preco ?? 0) * (item.quantidade ?? 0)) | currency : 'BRL' : 'symbol-narrow'}}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div> -->
+      <ng-container *ngTemplateOutlet="commandOperator"></ng-container>
+    <!-- </div>
+    <!-- <div class="card card-subtotal">
+      <div class="card-side-left">
+        <button class="btn-black-transparent" (click)="page = 'payment'">
+          Prosseguir
+        </button>
+      </div>
+      <div class="card-side-right">
+        <span>SubTotal</span>
+        <h1>{{ getTotal() | currency : "BRL" : "symbol-narrow" }}</h1>
+      </div>
+    </div> <--
+  </section> -->
+</ng-template>
+
+<ng-template #payment>
+
+
+  <section class="side-right side-right-payment">
+
+    <!-- <div class="card card-cart" index-form-data="1">
+      <div class="card-header">
+        <h2>Cestinha de Compras</h2>
+      </div>
+      <div class="check-card-body">
+        <div class="product-list">
+          <div class="item" *ngFor="let item of caixa">
+            <div class="item-view">
+              <img [src]="item.product?.photoObject" height="52px" />
+            </div>
+            <div class="item-description">
+              <h3>{{ item.product?.nameProduct }}</h3>
+              <p>{{ item.product?.description }}</p>
+              <div class="unique">
+                <h3>
+                  {{ item.product?.price | currency : "BRL" : "symbol-narrow" }}
+                </h3>
+                <div class="quant">
+                  <div class="amount">
+                    <p>{{ item.quantity }}x</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sub-total" style="margin: 10px 0px">
+          <div class="message">
+            <span>Sub-Total</span>
+            <p>
+              {{ caixa.length }}
+              {{ caixa.length > 1 ? "Items" : "Item" }}
+            </p>
+          </div>
+          <div class="value">
+            <h3>{{ getSubTotal() | currency : "BRL" : "symbol-narrow" }}</h3>
+          </div>
+        </div>
+        <button class="btn-confirm-cart" (click)="navigateTo('box')">Alterar Carrinho</button>
+      </div>
+    </div> -->
+    <div class="side-left">
+      <div class="card" index-form-data="2">
+        <div class="card-header">
+          <h2>Forma de Despache</h2>
+        </div>
+        <div class="card-header-switch" style="margin-bottom: 10px;">
+          <button [ngClass]="{ active: isDispatch }" (click)="setFormDispatch(true)">Delivery</button>
+          <button [ngClass]="{ active: !isDispatch }" (click)="setFormDispatch(false)">Retirada</button>
+        </div>
+        <!-- <div class="address-form" *ngIf="isDispatch">
+          <div class="my-address-wrapper">
+            <div class="my-address-wrapper-header" (click)="viewModalAddress = true">
+              <span>Selecionar Endereço</span>
+              <span><i class="fa-solid fa-caret-up"></i></span>
+            </div>
+          </div>
+          <button class="btn-confirm-address" *ngIf="addressSelected">Selecionar Endereco</button>
+        </div> -->
+        <app-dropdown [title]="'Selecionar Endereço'" *ngIf="isDispatch" (click)="viewModalAddress = true">
+          <div class="wrapper-body not-display">
+          </div>
+        </app-dropdown>
+
+        <!-- <div class="address-form" *ngIf="!isDispatch">
+          <div class="my-address-wrapper">
+            <div class="my-address-wrapper-header" (click)="viewModalSelectMesa = true">
+              <span>Selecionar Mesa em Consumo Local</span>
+              <span><i class="fa-solid fa-caret-up"></i></span>
+            </div>
+          </div>
+          <button class="btn-confirm-address" *ngIf="addressSelected">Selecionar Endereco</button>
+        </div> -->
+
+        <app-dropdown [title]="'Selecionar Mesa em Consumo Local'" *ngIf="!isDispatch" (click)="viewModalSelectMesa = true">
+          <div class="wrapper-body not-display">
+          </div>
+        </app-dropdown>
+
+        <div class="card-information" *ngIf="pedidoSelected.address">
+          <p>
+            <strong>Logradouro</strong><br />{{
+              pedidoSelected.address.nameAddress
+            }}{{ ", " + pedidoSelected.address.houseNumber
+            }}{{ ", " + pedidoSelected.address.locality }}
+          </p>
+          <p>
+            <strong>Preço</strong><br />{{
+              pedidoSelected.address.price | currency : "BRL" : "symbol-narrow"}}
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Cliente</h2>
+        </div>
+        <!-- <div class="filds" [formGroup]="clientForm">
+          <div class="box">
+            <div class="box-fild">
+              <input id="user-name-field" type="text" required formControlName="name"/>
+              <label for="user-name-field">Nome do Cliente</label>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box-fild">
+              <input id="user-phone-field" type="text" required formControlName="contact" prefix="(81) 9 " mask="0000-0000" [showMaskTyped]="true"/>
+              <label for="user-phone-field">Telefone do Cliente</label>
+            </div>
+          </div>
+        </div> -->
+        <div class="card-information" *ngIf="pedidoSelected.user">
+          <p><strong>Nome</strong><br/>{{ pedidoSelected.user.name }}</p>
+          <p><strong>Telefone</strong><br />
+             {{ pedidoSelected.user.contact ?? "" | mask : "0000-0000 || 0 0000-0000 || (00) 0 0000-0000 || (000) 0 0000-0000" }}
+          </p>
+        </div>
+        <button class="btn-black-transparent" (click)="viewModalUsuario = true">{{ pedidoSelected.user ? "Alterar Cliente" : "Inserir Cliente" }}</button>
+      </div>
+    </div>
+
+
+
+    <div class="side-right">
+      <div class="card">
+        <div class="card-header">
+          <h2>Pagamento</h2>
+        </div>
+        <div class="card-information" *ngIf="pedidoSelected.typesPay?.length ?? 0 > 0">
+          <p><strong>Tipo de Pagamento</strong></p>
+          <p *ngFor="let pay of getAllTypesPay()">{{pay.typePay }} - {{pay.isPaying === true ? 'Pago' : 'Irar Pagar'}} - {{pay.value | currency : 'BRL' : 'symbol-narrow'}}</p>
+          <p><strong>{{ getTroco() <= 0 ? "Troco" : "Valor a ser Pago" }}</strong></p>
+          <p> {{ (getTroco() <= 0 ? -getTroco() : getTroco()) | currency : "BRL" : "symbol-narrow" }}
+          </p>
+        </div>
+        <button class="btn-black-transparent" (click)="viewModalPagamento = true">Inserir o Pagamento</button>
+      </div>
+      <button class="btn-black-transparent btn-black" style="padding: 15px; border-radius: 0;border: 0;background: var(--color-10);" (click)="implatarPedido()">{{pedidoSelected.creationDate != undefined ? 'Salvar' : 'Implantar'}} Pedido</button>
+    </div>
+  </section>
+</ng-template>
+
+<ng-template #commandOperator>
+  <div class="card command-operator">
+    <input class="product-view" type="text" [(ngModel)]="text" (keydown)="catchBoard($event)" >
+    <div class="sub-total">
+      <span class="info">Qtd {{ prodSelected?.quantity ?? 0 }} X </span>
+      <span class="info">Unitário {{ (prodSelected?.product?.price ?? 0) | currency : "BRL" : "symbol-narrow" }}</span>
+      <span class="info">Total {{(prodSelected?.product?.price ?? 0) * (prodSelected?.quantity ?? 0) | currency : "BRL" : "symbol-narrow"}}</span>
+    </div>
+   <!-- <div class="tools">
+      <h3 style="text-transform: uppercase">Caixa</h3>
+      <div class="box-tool">
+        <button (click)="viewModalSelectProduct = true">Adicinar</button>
+      </div>
+       <div class="box-seach">
+        <div class="seach">
+         <div class="input-seach-box">
+           <div class="input-seach">
+             <input type="text" placeholder="Produto"  #seachProduct>
+           </div>
+         </div>
+       </div>
+     </div>
+    </div> -->
+    <div class="table-content">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Codigo</th>
+            <th>Produto</th>
+            <th>Qtd</th>
+            <th>Unitário</th>
+            <th>Total</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of caixa; let i = index">
+            <td><span attr-data="#">{{ i }}</span></td>
+            <td><span attr-data="Codigo">{{ p.product?.idProduct }}</span></td>
+            <td><span attr-data="Produto">{{ p.product?.nameProduct }} <span *ngIf="p.rmodelsProduts?.length">{{getModeloFomatedName(p.rmodelsProduts ?? [])}}</span></span></td>
+            <td><span attr-data="Qtd">{{ p.quantity }} un X</span></td>
+            <td>
+              <span attr-data="Unitário">{{
+                p.product?.price | currency : "BRL" : "symbol-narrow"
+              }}</span>
+            </td>
+            <td>
+              <span attr-data="Total">{{
+                (p.product?.price ?? 0) * (p.quantity ?? 0)
+                  | currency : "BRL" : "symbol-narrow"
+              }}</span>
+            </td>
+            <td>
+              <div class="action">
+                <button class="btn-ed">Editar</button>
+                <button class="btn-re" (click)="removeProduct(i)">Remover</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+<!-- modal -->
+<app-modal [fadeExpandComp]="true" [title]="'Seleção de Endereço'" *ngIf="viewModalAddress" (closeModalEvent)="viewModalAddress = false">
+  <div class="modal-content">
+    <div class="container">
+      <h2>Adicione as informçoes de endereço</h2>
+      <div class="filds" [formGroup]="deliveryForm">
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="logra-address-field" required formControlName="nameAddress"/>
+            <label for="logra-address-field">Logradouro</label>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="number-house-address-field" required formControlName="houseNumber"/>
+            <label for="number-house-address-field">Número da Residencia</label>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="locality-address-field" required formControlName="locality"/>
+            <label for="locality-address-field">localidade</label>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="price-address-field" required formControlName="price" mask="separator.2" thousandSeparator="." prefix="R$ "/>
+            <label for="price-address-field">Valor</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-black-transparent" (click)="viewModalAddress = false">Cancelar</button>
+      <button class="btn-black-transparent btn-black" (click)="adicionarEndereco()">
+        {{ pedidoSelected.address ? "Alterar" : "Adicionar" }}
+      </button>
+    </div>
+  </div>
+</app-modal>
+<app-modal [fadeExpandComp]="true" [title]="'Seleção de Mesa'" *ngIf="viewModalSelectMesa" (closeModalEvent)="viewModalSelectMesa = false">
+  <div class="modal-content">
+    <div class="modal-container">
+      <h2>Selecione a mesa</h2>
+      <app-dropdown [title]="'Mesa'">
+        <div class="wrapper-body">
+          <ul>
+            <li>Mesa 1</li>
+            <li>Mesa 2</li>
+            <li>Mesa 3</li>
+            <li>Mesa 4</li>
+            <li>Mesa 5</li>
+            <li>Mesa 6</li>
+            <li>Mesa 7</li>
+            <li>Mesa 8</li>
+            <li>Mesa 9</li>
+          </ul>
+        </div>
+      </app-dropdown>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-black-transparent"  (click)="viewModalSelectMesa = false" >Cancelar</button>
+      <button class="btn-black-transparent btn-black" (click)="({})">Salvar</button>
+    </div>
+  </div>
+</app-modal>
+<app-modal [fadeExpandComp]="true" [title]="'Selecionar Usuário'" *ngIf="viewModalUsuario" (closeModalEvent)="viewModalUsuario = false">
+  <div class="modal-content">
+    <div class="container">
+      <div class="filds" [formGroup]="clientForm">
+        <div class="box">
+          <div class="box-fild">
+            <input id="user-name-field" type="text" required formControlName="name"/>
+            <label for="user-name-field">Nome do Cliente</label>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input id="user-phone-field" type="text" required formControlName="contact"  mask="0000-0000 || 0 0000-0000 || (00) 0 0000-0000 || (000) 0 0000-0000" [showMaskTyped]="true"/>
+            <label for="user-phone-field">Telefone do Cliente</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-black-transparent" (click)="viewModalUsuario = false">Cancelar</button>
+      <button class="btn-black-transparent btn-black" (click)="adicionarCliente()">
+        {{ pedidoSelected.user ? "Alterar" : "Adicionar" }}
+      </button>
+    </div>
+  </div>
+</app-modal>
+<app-modal [fadeExpandComp]="true" [title]="'Pagamento do Cliente'" *ngIf="viewModalPagamento" (closeModalEvent)="viewModalPagamento = false">
+  <div class="modal-content">
+    <div class="modal-container">
+      <div class="pay-modal-header">
+        <h2>Total {{ getValorTotal() | currency : "BRL" : "symbol-narrow" }}</h2>
+        <div class="type-pay-message">
+          <span>Tipo de pagamento</span>
+          <span class="btn-circle" *ngIf="(pays?.length ?? 0) < 3" (click)="addPayOption()"
+            ><i class="fa-solid fa-plus"></i
+          ></span>
+        </div>
+      </div>
+      <ng-container *ngFor="let pay of getOrderPays(); let i = index">
+        <div class="pay-select">
+          <div style="display: flex; justify-content: space-between;">
+            <app-radio-list id="radios-list-pay-{{i}}" #radioList  [valueCheked]="pay.isPaying">
+              <app-radio [text]="'Antecipado'" [name]="'pay-' + i" [value]="true" (checkOption)="setPaying(pay,$event)"></app-radio>
+              <app-radio [text]="'Na Entrega'" [name]="'pay-' + i" [value]="false" (checkOption)="setPaying(pay,$event)"></app-radio>
+            </app-radio-list>
+            <span class="btn-circle" (click)="removePayOption(i)">
+              <i class="fa-solid fa-minus"></i>
+            </span>
+          </div>
+          <div class="unique unique-option-pay">
+            <!-- <div id="wrapper-pay-{{ i }}" class="wrapper">
+              <div class="wrapper-header" (click)="setToggleWrapperActive('wrapper-pay-', i)">
+                <span>{{
+                  pay.typePay != undefined ? pay.typePay : "Tipo de Pagamento"
+                }}</span>
+                <span><i class="fa-solid fa-caret-up"></i></span>
+              </div>
+              <div class="wrapper-body">
+                <ul>
+                  <li (click)="setWrapperValue(pay, 'Dinheiro');setToggleWrapperActive('wrapper-pay-', i)">Dinheiro</li>
+                  <li (click)="setWrapperValue(pay, 'Cartão');setToggleWrapperActive('wrapper-pay-', i)">Cartao</li>
+                  <li (click)="setWrapperValue(pay, 'Pix');setToggleWrapperActive('wrapper-pay-', i)">Pix</li>
+                </ul>
+              </div>
+            </div> -->
+
+            <app-dropdown [title]="pay.typePay != undefined ? pay.typePay : 'Tipo de Pagamento'" style="flex-grow: 1;">
+              <div class="wrapper-body">
+                <ul>
+                  <li (click)="setWrapperValue(pay, 'Dinheiro')">Dinheiro</li>
+                  <li (click)="setWrapperValue(pay, 'Cartão')">Cartao</li>
+                  <li (click)="setWrapperValue(pay, 'Pix')">Pix</li>
+                </ul>
+              </div>
+            </app-dropdown>
+            <div class="filds" style="width: 150px">
+              <div class="box">
+                <div class="box-fild">
+                  <input type="text" id="value-payment-field-{{ i }}" required [(ngModel)]="pay.value" mask="separator.2" thousandSeparator="." prefix="R$ "/>
+                  <label for="value-payment-field-{{ i }}">{{'Valor'}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="troco" style="text-align: right">
+        <p>{{ getTroco() <= 0 ? "Troco" : "Valor a ser Pago" }}</p>
+        <h2>{{(getTroco() <= 0 ? -getTroco() : getTroco()) | currency : "BRL" : "symbol-narrow" }}</h2>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button  class="btn-black-transparent" (click)="viewModalPagamento = false" >Cancelar</button>
+      <button class="btn-black-transparent btn-black" (click)="adicionarPagamento()">Finalizar</button>
+    </div>
+  </div>
+</app-modal>
+<app-modal
+  [fadeExpandComp]="true"
+  [title]="'Area de ação'"
+  *ngIf="viewModalSelectProduct"
+  (closeModalEvent)="viewModalSelectProduct = false"
+>
+<div class="modal-content">
+  <div class="modal-container">
+    <div class="filds">
+      <div class="box">
+        <div class="box-fild">
+          <input type="text" id="search-box-product" (keyup)="catchBoard($event)">
+          <label for="search-box-product">Codigo de acão</label>
+        </div>
+      </div>
+    </div>
+    <div class="item" *ngIf="prodSelected != undefined">
+      <div class="item-view">
+        <img [src]="prodSelected.product?.photoObject" height="52px" />
+      </div>
+      <div class="item-description">
+        <h3>{{ prodSelected.product?.nameProduct }}</h3>
+        <p>{{ prodSelected.product?.description }}</p>
+        <div class="unique">
+          <h3>
+            {{ prodSelected.product?.price | currency : "BRL" : "symbol-narrow" }}
+          </h3>
+          <div class="quant">
+            <div class="amount">
+              <p>{{ prodSelected.quantity }}x</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="filds">
+      <div class="box">
+        <div class="box-fild">
+          <input type="text" id="input-qtd-product">
+          <label for="search-box-product">Quantidade</label>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <!-- <div class="modal-actions">
+    <button class="btn-black-transparent" (click)="viewModalSelectProduct = false" >Cancelar</button>
+    <button class="btn-black-transparent btn-black" (click)="({})">Adicionar</button>
+  </div> -->
+</div>
+</app-modal>

@@ -1,0 +1,188 @@
+
+<div class="card" [ngClass]="getStateStyleOrder()">
+  <div class="view-header">
+    <span class="data">{{getFomatedDate(order ?? {})}}</span>
+    <app-dropdown [title]="'Imprimir'" style="max-width: 200px;">
+      <div class="wrapper-body">
+        <ul>
+          <li>Formatação para pedido</li>
+          <li>Formatação para delivery</li>
+        </ul>
+      </div>
+    </app-dropdown>
+  </div>
+  <div class="user-info">
+    <div class="client-name space-bottom view-field">
+      <p class="text-place">Cliente</p>
+      <strong>
+        <p class="name">{{order?.user?.name != undefined ?  order?.user?.name : 'Não Indetificado'}}</p>
+      </strong>
+    </div>
+    <div class="client-contact space-bottom view-field">
+      <p class="contact-place">Contato</p>
+      <strong>
+        <p class="name" *ngIf="order?.user?.contact != undefined; else contact">{{order?.user?.contact ?? '' | mask : '0000-0000 || 0 0000-0000 || (00) 0 0000-0000 || (000) 0 0000-0000' }}</p>
+        <ng-template #contact>
+          <p class="name">Não Informado</p>
+        </ng-template>
+      </strong>
+    </div>
+  </div>
+</div>
+<div class="card" [ngClass]="getStateStyleOrder()">
+  <div class="table-content">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Codigo</th>
+          <th>Produto</th>
+          <th>Qtd</th>
+          <th>Unitário</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of order?.qproducts; let i = index">
+          <td><span attr-data="#">{{ i }}</span></td>
+          <td><span attr-data="Codigo">{{ p.product?.idProduct }}</span></td>
+          <td><span attr-data="Produto">{{ p.product?.nameProduct }}</span></td>
+          <td><span attr-data="Qtd">{{ p.quantity }} un X</span></td>
+          <td>
+            <span attr-data="Unitário">{{
+              p.product?.price | currency : "BRL" : "symbol-narrow"
+            }}</span>
+          </td>
+          <td>
+            <span attr-data="Total">{{
+              (p.product?.price ?? 0) * (p.quantity ?? 0)
+                | currency : "BRL" : "symbol-narrow"
+            }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card" [ngClass]="getStateStyleOrder()">
+  <!-- <div class="view-header">
+    <span class="data">{{getFomatedDate(order ?? {})}}</span>
+    <app-dropdown [title]="'Imprimir'" style="max-width: 200px;">
+      <div class="wrapper-body">
+        <ul>
+          <li>Formatação para pedido</li>
+          <li>Formatação para delivery</li>
+        </ul>
+      </div>
+    </app-dropdown>
+  </div> -->
+  <!-- <div class="user-info">
+    <div class="client-name space-bottom view-field">
+      <p class="text-place">Cliente</p>
+      <strong>
+        <p class="name">{{order?.user?.name != undefined ?  order?.user?.name : 'Não Indetificado'}}</p>
+      </strong>
+    </div>
+    <div class="client-contact space-bottom view-field">
+      <p class="contact-place">Contato</p>
+      <strong>
+        <p class="name" *ngIf="order?.user?.contact != undefined; else contact">{{order?.user?.contact ?? '' | mask : ' 00 0000-0000 || 0 0000-0000  || 0000-0000' }}</p>
+        <ng-template #contact>
+          <p class="name">Não Informado</p>
+        </ng-template>
+      </strong>
+    </div>
+  </div> -->
+  <!-- <div class="table-content">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Codigo</th>
+          <th>Produto</th>
+          <th>Qtd</th>
+          <th>Unitário</th>
+          <th>Total</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of order?.qproducts; let i = index">
+          <td><span attr-data="#">{{ i }}</span></td>
+          <td><span attr-data="Codigo">{{ p.product?.id }}</span></td>
+          <td><span attr-data="Produto">{{ p.product?.nameProduct }}</span></td>
+          <td><span attr-data="Qtd">{{ p.quantity }} un X</span></td>
+          <td>
+            <span attr-data="Unitário">{{
+              p.product?.price | currency : "BRL" : "symbol-narrow"
+            }}</span>
+          </td>
+          <td>
+            <span attr-data="Total">{{
+              (p.product?.price ?? 0) * (p.quantity ?? 0)
+                | currency : "BRL" : "symbol-narrow"
+            }}</span>
+          </td>
+          <td>
+            <div class="action">
+              <button class="btn-ed">Editar</button>
+              <button class="btn-re">Remover</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+  <div class="delivery-info space-bottom view-field" *ngIf="order?.address;else retirada">
+    <p class="text-place">Delivery</p>
+    <strong>
+      <p class="address">{{getAddressFormated(order ?? {})}} : {{order?.address?.price ?? 0 | currency: 'BRL' : 'symbol-narrow'}}</p>
+    </strong>
+  </div>
+  <ng-template #retirada>
+    <strong>Retirada</strong>
+  </ng-template>
+  <div class="view-pay view-field space-bottom">
+    <span class="text-place">Tipo de Pagamento <br></span>
+    <strong>
+      <p *ngFor="let pay of order?.typesPay">{{pay.typePay }} - {{pay.isPaying === true ? 'Pago' : 'Irar Pagar'}} - {{pay.value | currency : 'BRL' : 'symbol-narrow'}}</p>
+    </strong>
+    <span class="text-place">{{ getTroco() <= 0 ? "Troco" : "Valor a ser Pago" }}</span>
+    <strong>
+      <p>{{(getTroco() <= 0 ? -getTroco() : getTroco()) | currency : "BRL" : "symbol-narrow" }}</p>
+    </strong>
+  </div>
+  <button class="btn-alter-order space-bottom " (click)="alterOrderPropertys()">Alterar Propriedades</button>
+  <br>
+  <button class="btn-alter-state-order" (click)="spandViewStateModal()">Alterar Estado De Pedido</button>
+</div>
+<app-modal *ngIf="viewStateModal" [title]="'Alterar Estado de Pedido'" [fadeExpandComp]="true" (closeModalEvent)="viewStateModal = false">
+  <div class="modal-content">
+    <app-dropdown [title]="newState">
+      <div class="wrapper-body">
+        <ul>
+          <li (click)="setViewState('Em Andamento')">Em Andamento</li>
+          <li (click)="setViewState('Em Preparação')">Em Preparação</li>
+          <li>
+            <app-dropdown [title]="'Concluido'">
+              <div class="wrapper-body body-white">
+                <ul>
+                  <li (click)="setViewState('Concluido Retirada')" *ngIf="!order?.address;else delivery">Concluido Para Retirada</li>
+                  <ng-template #delivery>
+                    <li (click)="setViewState('Concluido Delivery')">Concluido Para Delivery</li>
+                  </ng-template>
+                  <li (click)="setViewState('Concluido Geral')">Concluido Geral</li>
+                </ul>
+              </div>
+            </app-dropdown>
+          </li>
+        </ul>
+      </div>
+    </app-dropdown>
+    <div class="modal-actions">
+      <button class="btn-black-transparent" (click)="viewStateModal = false">Cancelar</button>
+      <button class="btn-black-transparent btn-black" (click)="setStateInOrder()">Alterar</button>
+    </div>
+  </div>
+</app-modal>

@@ -1,0 +1,256 @@
+<div class="slider-date">
+  <!-- <div class="navigate-month">
+    <ul>
+      <li class="month" *ngFor="let date of allDistictMonth" (click)="setMonth(date);setDistinctDay()" [ngClass]="{'date-select': isMonthSelected(date)}">
+        <span class="text-date">{{findNameMonth(date)}}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="navigate-day">
+    <ul>
+      <li class="day" *ngFor="let date of allDistictDay" (click)="setDay(date);findAllByDate()" [ngClass]="{'date-select': isDaySelected(date)}">
+        <span class="text-date">Dia {{date}}</span>
+      </li>
+    </ul>
+  </div> -->
+  <div class="text-date" (click)="viewDateModal = true;">
+    <span class="year">{{currentDate.getFullYear()}}/</span>
+    <span class="month">{{getCurrentMonth()}}/</span>
+    <span class="day">{{getCurrentDay()}}</span>
+  </div>
+  <ul class="page-slider">
+    <li class="page-title" (click)="viewOrdersList = !viewOrdersList" [ngClass]="{'view-orderlist': viewOrdersList}">Lista de Pedidos</li>
+    <li class="page-title" [routerLink]="['./view-order']" [queryParams]="getLoadOrder()" routerLinkActive="active" >Pedido <i class="fa-solid fa-receipt"></i></li>
+    <li class="page-title" [routerLink]="['./shopping-box']" routerLinkActive="active" >Carrinho <i class="fa-solid fa-cart-shopping"></i></li>
+  </ul>
+</div>
+<div class="orders-container" #orderContainer>
+  <div class="container-left" [ngClass]="{'active': viewOrdersList}">
+    <div class="cont-left-header">
+      <h2>Lista de pedidos</h2>
+      <button class="btn-alter-state-order" [routerLink]="['./shopping-box']">Adicionar&nbsp;<i class="fa-solid fa-plus"></i></button>
+      <app-radio-list #viewGeral [valueCheked]="false">
+        <app-radio [text]="'Visualizar Con... Geral'" [unchecked]="true" [name]="'view Geral'"  [value]="true" ></app-radio>
+      </app-radio-list>
+      <i class="fa-solid fa-arrow-left toggle" (click)="{}"></i>
+    </div>
+    <div class="card-container">
+      <div class="card" *ngFor="let item of allPedidosState" [ngClass]="getStateStyleOrder(item)" (click)="setViewOrder(item.id ?? 0)">
+        <div class="card-header">
+          <div class="cahe-left">
+            <strong>
+              <p>Pedido Implatado</p>
+            </strong>
+            <p class="order-state" [ngClass]="getStateStyleOrder(item)">{{item?.state}}</p>
+          </div>
+          <div class="cahe-right">
+            <p>Total</p>
+            <strong>{{getOrderTotal(item) | currency : 'BRL' : 'symbol-narrow'}}</strong>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="client-name">
+            <p class="text-place">Cliente</p>
+            <strong>
+              <p class="name">{{item.user?.name != undefined ?  item.user?.name : 'Não Indetificado'}}</p>
+            </strong>
+          </div>
+          <div class="data-creation">
+            <p class="text-place">Data</p>
+            <strong>
+              <p>{{getFomatedDate(item)}}</p>
+            </strong>
+          </div>
+          <strong *ngIf="item?.address">Delivery</strong>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="wrapper" #orderWrapper>
+      <div class="wrapper-header" (click)="toggleDisplayWrapper(orderWrapper)">
+        <span>Exibir por</span>
+        &nbsp;
+        <span [ngClass]="{'active': isWrapperActive(orderWrapper)}">
+          <i class="fa-solid fa-caret-up"></i>
+        </span>
+      </div>
+      <div class="wrapper-content" [ngClass]="{'active': isWrapperActive(orderWrapper)}">
+        <ul>
+          <li (click)="setPedidosState('Em Andamento')">Em Andamento</li>
+          <li (click)="setPedidosState('Em Preparação')">Em Preparação</li>
+          <li (click)="setPedidosState('Concluido')">Concluidos</li>
+        </ul>
+      </div>
+    </div> -->
+    <!-- <div class="drop-down">
+      <app-dropdown [title]="'Ordernar Por'">
+        <div class="wrapper-body body-white">
+          <ul>
+            <li (click)="setPedidosState('Em Andamento')">Em Andamento</li>
+            <li (click)="setPedidosState('Em Preparação')">Em Preparação</li>
+            <li>
+              <app-dropdown [title]="'Concluido'">
+                <div class="wrapper-body body-white">
+                  <ul>
+                    <li (click)="setPedidosState('Concluido Retirada')">Aguardando Retirada</li>
+                    <li (click)="setPedidosState('Concluido Delivery')">Aguardando Delivery</li>
+                    <li (click)="setPedidosState('Concluido Geral')">Concluido Geral</li>
+                  </ul>
+                </div>
+              </app-dropdown>
+            </li>
+          </ul>
+        </div>
+      </app-dropdown>
+    </div> -->
+
+
+  </div>
+  <div class="container-right">
+    <!-- <app-shopping-box style="width: 10px;height: 100%;overflow: auto;"></app-shopping-box> -->
+    <router-outlet></router-outlet>
+
+    <!-- <div class="view-order" *ngIf="pedidoSelected">
+      <div class="view-header">
+        <span class="data">{{getFomatedDate(pedidoSelected)}}</span>
+        <span class="print" (click)="printPedido()"><i class="fa-solid fa-print"></i></span>
+      </div>
+      <div class="user-info">
+        <div class="client-name space-bottom view-field">
+          <p class="text-place">Cliente</p>
+          <strong>
+            <p class="name">{{pedidoSelected.user?.name != undefined ?  pedidoSelected.user?.name : 'Não Indetificado'}}</p>
+          </strong>
+        </div>
+        <div class="client-contact space-bottom view-field">
+          <p class="contact-place">Contato</p>
+          <strong>
+            <p class="name" *ngIf="pedidoSelected.user?.contact != undefined; else contact">{{pedidoSelected.user?.contact ?? '' | mask : ' 00 0000-0000 || 0 0000-0000  || 0000-0000' }}</p>
+            <ng-template #contact>
+              <p class="name">Não Informado</p>
+            </ng-template>
+          </strong>
+        </div>
+      </div>
+      <div class="product-list space-bottom">
+        <div class="item" *ngFor="let item of pedidoSelected.qproducts">
+          <div class="item-view">
+            <img [src]="item.product?.photoObject" height="52px" />
+          </div>
+          <div class="item-description">
+            <h3>{{ item.product?.nameProduct }}</h3>
+            <p>{{ item.product?.description }}</p>
+            <div class="unique">
+              <h3>
+                {{ item.product?.price | currency : "BRL" : "symbol-narrow" }}
+              </h3>
+              <div class="quant">
+                <div class="amount">
+                  <p>{{ item.quantity }}x</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="delivery-info space-bottom view-field" *ngIf="pedidoSelected.address;else retirada" style="width: fit-content;">
+        <p class="text-place">Delivery</p>
+        <strong>
+          <p class="address">{{getAddressFormated(pedidoSelected)}} : {{pedidoSelected.address.price ?? 0 | currency: 'BRL' : 'symbol-narrow'}}</p>
+        </strong>
+      </div>
+      <ng-template #retirada>
+        <strong>Retirada</strong>
+      </ng-template>
+      <div class="view-pay view-field space-bottom" style="width: fit-content;">
+        <span class="text-place">Tipo de Pagamento</span>
+        <strong>
+          <p *ngFor="let pay of pedidoSelected.typesPay">{{pay.typePay }} - {{pay.isPaying === true ? 'Pago' : 'Irar Pagar'}} - {{pay.value | currency : 'BRL' : 'symbol-narrow'}}</p>
+        </strong>
+        <span class="text-place">{{ getTroco() <= 0 ? "Troco" : "Valor a ser Pago" }}</span>
+        <strong>
+          <p>{{(getTroco() <= 0 ? -getTroco() : getTroco()) | currency : "BRL" : "symbol-narrow" }}</p>
+        </strong>
+      </div>
+      <button class="btn-alter-order" (click)="alterOrderPropertys()">Alterar Propriedades</button>
+    </div>
+    <button *ngIf="pedidoSelected" class="btn-alter-state-order" (click)="openModalState()">Alterar Estado do Pedido</button> -->
+  </div>
+</div>
+<app-modal *ngIf="viewStateModal" [title]="'Alterar Estado de Pedido'" [fadeExpandComp]="true" (closeModalEvent)="viewStateModal = false">
+  <div class="modal-content">
+    <!-- <div class="modal-container">
+      <div class="wrapper" #stateWrapper>
+      <div class="wrapper-header" (click)="toggleDisplayWrapper(stateWrapper)">
+        <span>{{newState}}</span>
+        <span><i class="fa-solid fa-caret-up"></i></span>
+      </div>
+      <div class="wrapper-body">
+        <ul>
+          <li (click)="setViewState('Em Andamento')">Em Andamento</li>
+          <li (click)="setViewState('Em Preparação')">Em Preparação</li>
+          <li (click)="setViewState('Concluido')">Concluido</li>
+        </ul>
+      </div>
+    </div>
+    </div> -->
+    <app-dropdown [title]="newState">
+      <div class="wrapper-body">
+        <ul>
+          <li (click)="setViewState('Em Andamento')">Em Andamento</li>
+          <li (click)="setViewState('Em Preparação')">Em Preparação</li>
+          <li>
+            <app-dropdown [title]="'Concluido'">
+              <div class="wrapper-body body-white">
+                <ul>
+                  <li (click)="setViewState('Concluido Retirada')" *ngIf="!pedidoSelected?.address;else delivery">Concluido Para Retirada</li>
+                  <ng-template #delivery>
+                    <li (click)="setViewState('Concluido Delivery')">Concluido Para Delivery</li>
+                  </ng-template>
+                  <li (click)="setViewState('Concluido Geral')">Concluido Geral</li>
+                </ul>
+              </div>
+            </app-dropdown>
+          </li>
+        </ul>
+      </div>
+    </app-dropdown>
+    <div class="modal-actions">
+      <button class="btn-black-transparent" (click)="viewStateModal = false">Cancelar</button>
+      <button class="btn-black-transparent btn-black" (click)="setStateInOrder()">Alterar</button>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal *ngIf="viewDateModal" [title]="'Data de Seleção'" [fadeExpandComp]="true" (closeModalEvent)="viewDateModal = false">
+    <div class="modal-content">
+      <div class="modal-container">
+        <div class="date-wrappers" style="display: flex;gap: 7px;">
+          <app-dropdown [title]="'' + currentDate.getFullYear()">
+            <div class="wrapper-body body-white">
+              <ul>
+                <li>2023</li>
+              </ul>
+            </div>
+          </app-dropdown>
+          <app-dropdown [title]="'' + getCurrentMonth()">
+            <div class="wrapper-body body-white">
+              <ul>
+                <li *ngFor="let date of allDistictMonth" (click)="setMonth(date)">{{date}}</li>
+              </ul>
+            </div>
+          </app-dropdown>
+          <app-dropdown [title]="'' + getCurrentDay()">
+            <div class="wrapper-body body-white">
+              <ul>
+                <li *ngFor="let date of allDistictDay" (click)="setDay(date)">{{date}}</li>
+              </ul>
+            </div>
+          </app-dropdown>
+        </div>
+      </div>
+      <!-- <div class="modal-actions">
+        <button class="btn-black-transparent" (click)="viewDateModal = false">Cancelar</button>
+        <button class="btn-black-transparent btn-black" (click)="setCurrentDate();findAllByDate()">Alterar Data</button>
+      </div> -->
+    </div>
+</app-modal>

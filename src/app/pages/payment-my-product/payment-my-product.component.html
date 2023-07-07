@@ -1,0 +1,131 @@
+<!-- <div class="content"> -->
+<div class="card card-cart" index-form-data="1">
+  <div class="card-header">
+    <h2>Cestinha de Compras</h2>
+  </div>
+  <div class="check-card-body">
+    <div class="product-list">
+      <div class="item" *ngFor="let item of pedido.qproducts">
+        <div class="item-view">
+          <img [src]="item.product?.photoObject" height="52px" />
+        </div>
+        <div class="item-description">
+          <h3>{{ item.product?.nameProduct }}</h3>
+          <p>{{ item.product?.description }}</p>
+          <div class="unique">
+            <h3>
+              {{ item.product?.price | currency : "BRL" : "symbol-narrow" }}
+            </h3>
+            <div class="quant">
+              <div class="amount">
+                <p>{{ item.quantity }}x</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-total" style="margin: 10px 0px;">
+      <div class="message">
+        <span>Sub-Total</span>
+        <p>
+          {{ pedido.qproducts?.length }}
+          {{ (pedido.qproducts?.length ?? 0) > 1 ? "Items" : "Item" }}
+        </p>
+      </div>
+      <div class="value">
+        <h3>{{ getSubTotal() | currency : "BRL" : "symbol-narrow" }}</h3>
+      </div>
+    </div>
+    <button class="btn-confirm-cart">Alterar Carrinho</button>
+    <!-- <a href="#">Está faltando algo</a> -->
+  </div>
+</div>
+<div class="side-right">
+  <div class="card" index-form-data="2">
+    <h2 style="padding-bottom: 15px;text-align: center;">Selecione a forma de despache</h2>
+    <div class="card-header-switch">
+      <button [ngClass]="{'active' : isDispatch }" (click)="setFormDispatch(true)">Delivery</button>
+      <button [ngClass]="{'active': !isDispatch }" (click)="setFormDispatch(false)">Retirada</button>
+    </div>
+    <div class="address-form" *ngIf="isDispatch">
+      <div class="my-address-wrapper">
+        <div class="my-address-wrapper-header" (click)="addressWrapperActive = !addressWrapperActive">
+          <span>Selecionar Endereço</span>
+          <span><i class="fa-solid fa-caret-up"></i></span>
+        </div>
+        <div class="my-address-wrapper-body" [ngClass]="{'wrapper-active': addressWrapperActive}">
+          <div class="register-new-address-header">
+              <button class="btn-register-address">Registrar novo Endereço</button>
+          </div>
+          <ul>
+
+          </ul>
+        </div>
+      </div>
+      <button class="btn-confirm-address" *ngIf="addressSelected">Selecionar Endereco</button>
+    </div>
+  </div>
+  <div class="payment-form">
+    <div class="payment-wrapper">
+      <div class="pay-wrapper">
+        <div class="card-payment" (click)="selectPay(1);setFormPay('Dinheiro')">
+          <div class="card-pay-header">
+            <div class="pay-select-radio">
+              <div class="checked-content"></div>
+            </div>
+            <span>Dinheiro</span>
+          </div>
+          <img src="assets//coin.png" alt="moeda" height="25px">
+        </div>
+        <div class="pay-content" #payMoney [ngStyle]="expandPayContent(payIsSelected(1), payMoney)">
+          <section>
+            <h3>Total R$ {{getValorTotal() | currency : 'BRL' : 'symbol-narrow'}}</h3>
+            <div class="box">
+              <div class="box-fild">
+                <input type="text" id="value-field" prefix="R$ " required mask="separator.2" thousandSeparator="." decimalMarker=",">
+                <label for="value-field">Troco para</label>
+              </div>
+            </div>
+            <button class="btn-black-transparent btn-black btn-finalizar" (click)="finalizarPedido()">Finalizar Pedido</button>
+          </section>
+        </div>
+      </div>
+      <div class="pay-wrapper">
+        <div class="card-payment" (click)="selectPay(2);setFormPay('Pix')">
+          <div class="card-pay-header">
+            <div class="pay-select-radio">
+              <div class="checked-content"></div>
+            </div>
+            <span>via Pix</span>
+          </div>
+          <img src="assets//pix img.png" alt="icone do pix" height="22px">
+        </div>
+        <div class="pay-content" #payPix [ngStyle]="expandPayContent(payIsSelected(2), payPix)">
+          <section>
+            <h3>Total R$ {{getValorTotal() | currency : 'BRL' : 'symbol-narrow'}}</h3>
+            <button class="btn-black-transparent btn-black btn-finalizar" (click)="finalizarPedido()">Finalizar Pedido</button>
+          </section>
+        </div>
+      </div>
+      <div class="pay-wrapper">
+        <div class="card-payment" (click)="selectPay(3);setFormPay('Cartão')">
+          <div class="card-pay-header">
+            <div class="pay-select-radio">
+              <div class="checked-content"></div>
+            </div>
+            <span>Cartão</span>
+          </div>
+          <img src="assets//credit cards.png" alt="icone de visa e mastercard" height="25px">
+        </div>
+        <div class="pay-content" #payCard [ngStyle]="expandPayContent(payIsSelected(3), payCard)">
+          <section>
+            <h3>Total R$ {{getValorTotal() | currency : 'BRL' : 'symbol-narrow'}}</h3>
+            <button class="btn-black-transparent btn-black btn-finalizar" (click)="finalizarPedido()">Finalizar Pedido</button>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->

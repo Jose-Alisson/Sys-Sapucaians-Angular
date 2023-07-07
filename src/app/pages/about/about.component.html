@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="box">
+    <div class="text-profile">
+      <div class="image-profile">
+        <img [src]="user?.photoUrl" alt="" *ngIf="user?.photoUrl;else accountIcon">
+        <ng-template #accountIcon>
+          <i class="fa-regular fa-circle-user"></i>
+        </ng-template>
+      </div>
+      <div class="info">
+        <h2>{{ user?.name }}</h2>
+        <p>{{ auth.email }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="box gap">
+    <div class="text-place">
+      <p>{{user?.name}} {{user?.lastName}}</p>
+    </div>
+    <div class="text-place">
+      <p>{{user?.contact ?? '' | mask : '(00) 0000-0000 || (00) 0 0000-0000 || 0 0000-0000 || 0000-0000'}}</p>
+    </div>
+  </div>
+  <button class="sair" (click)="sair()">Sair da conta &nbsp;<i class="fa-solid fa-right-from-bracket"></i></button>
+</div>

@@ -1,0 +1,132 @@
+*:not(i) {
+  font-family: "Poppins", sans-serif;
+}
+
+*:disabled {
+  opacity: 0.7;
+}
+
+.fade {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  //backdrop-filter: blur(1.3px);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 6;
+}
+
+.modal {
+  display: flex;
+  flex-flow: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  /*height: 600px;*/
+  height: auto;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: var(--color-4);
+  animation: reactive 0.2s linear;
+  /*overflow-x: hidden;*/
+  border-radius: 7px;
+  z-index: 7;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes reactive {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.01, 1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1, 1);
+  }
+}
+
+.modal .modal-header {
+  width: 100%;
+  height: 55px;
+  align-items: center;
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px var(--color-9) solid;
+  /*box-shadow: 2px 7px 30px rgba(0, 0, 0, 0.2);*/
+  //margin-bottom: 10px;
+  /*background: var(--color-1);*/
+  background: var(--color-4);
+  border-radius: 7px 7px 0px 0px;
+  justify-content: space-between;
+}
+
+.modal .modal-header .close {
+  /*background: var(--color-6);*/
+  border-radius: 4px;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+  /*width: 25px;
+  height: 25px;*/
+  margin: 5px 5px 5px 5px;
+
+  &:hover{
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25),
+    0 0 0 3px #fcc8c8;
+  }
+}
+
+.modal .modal-header .close i {
+  font-size: 25px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px var(--color-9) solid;
+}
+
+.modal-actions button {
+  background: var(--color-1);
+  border: 2px var(--color-1) solid;
+  padding: 7px 15px;
+  color: var(--color-4);
+  font-family: "Avenir Bold", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  border-radius: 7px;
+  width: 100%;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.modal-actions .btn-green {
+  background: var(--color-12);
+  border-color: var(--color-12);
+}
+
+.modal-actions .btn-red {
+  background: var(--color-6);
+  border-color: var(--color-);
+}
+
+@media screen and (max-width: 420px) {
+  .modal {
+    height: 100%;
+    width: 100%;
+    border-radius: 0px;
+  }
+}

@@ -1,0 +1,136 @@
+<nav class="sidebar" [ngClass]="{'close': sidebarClose} " #sidebar>
+  <header>
+    <div class="image-text">
+      <div class="image">
+        <img src="assets//iconePizzaria.png" alt="Logo Pizza Sapucaian's">
+      </div>
+      <div class="text header-text">
+        <div class="establishment">Pizzaria</div>
+        <div class="name">Sapucaian's</div>
+      </div>
+    </div>
+    <i class="fa-solid fa-arrow-left toggle" (click)="toggleActiveSideBar()"></i>
+  </header>
+  <div class="menu-bar">
+    <div class="menu">
+      <ul class="menu-links" routerLinkActive="" [routerLinkActiveOptions]="{exact: false}">
+        <li class="nav-link" routerLinkActive="active">
+          <a [routerLink]="['./home']">
+            <i class="fa-solid fa-house icon"></i>
+            <span class="text nav-text">Inicio</span>
+          </a>
+        </li>
+        <li class="nav-link" routerLinkActive="active">
+          <a [routerLink]="['./menu']">
+            <i class="fa-solid fa-utensils icon"></i>
+            <span class="text nav-text">Cardápio</span>
+          </a>
+        </li>
+        <li class="nav-link" routerLinkActive="active">
+          <a [routerLink]="['./cart-queue']">
+            <i class="fa-solid fa-bag-shopping icon"></i>
+            <span class="text nav-text">Meus Pedidos</span>
+          </a>
+        </li>
+        <li class="nav-link" routerLinkActive="active">
+          <a [routerLink]="['./about']">
+            <i class="fa-solid fa-user icon"></i>
+            <span class="text nav-text">Minha Conta</span>
+          </a>
+        </li>
+        <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
+          <a [routerLink]="['adm', 'product-manager']">
+            <i class="fa-solid fa-list-ul icon"></i>
+            <span class="text nav-text">Estoque</span>
+          </a>
+        </li>
+        <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
+          <a [routerLink]="['adm', 'order-list']">
+            <i class="fa-regular fa-newspaper icon"></i>
+            <span class="text nav-text">Lista de Pedidos</span>
+          </a>
+        </li>
+        <!-- <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
+          <a [routerLink]="['adm', 'shopping-box']">
+            <i class="fa-solid fa-cart-shopping icon"></i>
+            <span class="text nav-text">Caixa</span>
+          </a>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+
+  <div class="menu-burguer" [ngClass]="{'change': !menuBarClose}" (click)="toggleActiveMenuBar()">
+    <div class="line-1"></div>
+    <div class="line-2"></div>
+    <div class="line-3"></div>
+  </div>
+</nav>
+
+<div class="darken" (click)="toggleActiveMenuBar()" [ngClass]="{'visible': !menuBarClose}"></div>
+<ul id="menu" class="menu-items" [ngClass]="{'visible': !menuBarClose}">
+  <div class="li-nav-header">
+    <div class="menu-burguer change" (click)="toggleActiveMenuBar()">
+      <div class="line-1"></div>
+      <div class="line-2"></div>
+      <div class="line-3"></div>
+    </div>
+    <h2>Menu</h2>
+  </div>
+  <div class="menu-content">
+    <div class="nav">
+      <li>
+        <div class="li-nav" [routerLink]="['./home']" routerLinkActive="li-active">
+          <i class="fa-solid fa-house"></i>
+          &nbsp;
+          <h3>Inicio</h3>
+        </div>
+      </li>
+      <li>
+        <div class="li-nav" [routerLink]="['./menu']" routerLinkActive="li-active">
+          <i class="fa-solid fa-utensils icon"></i>
+          &nbsp;
+          <h3>Cardápio</h3>
+        </div>
+      </li>
+      <li>
+        <div class="li-nav" [routerLink]="['./cart-queue']" routerLinkActive="li-active">
+          <i class="fa-solid fa-bag-shopping"></i>
+          &nbsp;
+          <h3>Meus Pedidos</h3>
+        </div>
+      </li>
+      <li>
+        <div class="li-nav" [routerLink]="['./about']" routerLinkActive="li-active">
+          <i class="fa-solid fa-user"></i>
+          &nbsp;
+          <h3>Minha Conta</h3>
+        </div>
+      </li>
+      <li *ngIf="typeAuthIsAdm()">
+        <div class="li-nav" [routerLink]="['adm', 'product-manager']" routerLinkActive="li-active">
+          <i class="fa-solid fa-list-ul"></i>
+          &nbsp;
+          <h3>Estoque</h3>
+        </div>
+      </li>
+      <li *ngIf="typeAuthIsAdm()">
+        <div class="li-nav" [routerLink]="['adm', 'order-list']" routerLinkActive="li-active">
+          <i class="fa-regular fa-newspaper"></i>
+          &nbsp;
+          <h3>Lista de Pedidos</h3>
+        </div>
+      </li>
+      <!-- <li *ngIf="typeAuthIsAdm()">
+        <div class="li-nav" [routerLink]="['adm', 'shopping-box']" routerLinkActive="li-active">
+          <i class="fa-solid fa-cart-shopping"></i>
+          &nbsp;
+          <h3>Caixa</h3>
+        </div>
+      </li> -->
+    </div>
+  </div>
+</ul>
+<main>
+  <router-outlet></router-outlet>
+</main>

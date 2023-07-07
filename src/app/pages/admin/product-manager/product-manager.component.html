@@ -1,0 +1,358 @@
+<!-- <div class="box-seach">
+   <div class="seach">
+    <div class="wrapper">
+      <div class="wrapper-header" (click)="filterModalActive = !filterModalActive">
+        <span>Filtrar por</span>
+        &nbsp;
+        <span [ngClass]="{'active': filterModalActive}">
+          <i class="fa-solid fa-caret-up"></i>
+        </span>
+      </div>
+      <div class="wrapper-content" [ngClass]="{'active': filterModalActive}">
+        <ul>
+          <li (click)="setCategory('all')">Todas</li>
+          <li *ngFor="let item of getAllCetegory()" (click)="setCategory(item)">{{item}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="input-seach-box">
+      <div class="input-seach">
+        <input type="text" placeholder="Produto"  #seachProduct (keyup)="seachProductos(seachProduct)">
+      </div>
+      <button><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </div>
+</div> -->
+<div class="table-tools">
+  <div class="tools">
+    <h3 style="text-transform: uppercase;">Meus Produtos</h3>
+    <div class="box-tool">
+      <button (click)="resetForm(); expandModal()">
+        Adicinar
+      </button>
+    </div>
+    <div class="box-seach">
+      <div class="seach">
+       <div class="wrapper">
+         <div class="wrapper-header" (click)="filterModalActive = !filterModalActive">
+           <span>Filtrar por</span>
+           &nbsp;
+           <span [ngClass]="{'active': filterModalActive}">
+             <i class="fa-solid fa-caret-up"></i>
+           </span>
+         </div>
+         <div class="wrapper-content" [ngClass]="{'active': filterModalActive}">
+           <ul>
+             <li (click)="setCategory('all')">Todas</li>
+             <li *ngFor="let item of getAllCetegory()" (click)="setCategory(item)">{{item}}</li>
+           </ul>
+         </div>
+       </div>
+       <div class="input-seach-box">
+         <div class="input-seach">
+           <input type="text" placeholder="Produto"  #seachProduct (keyup)="seachProductos(seachProduct)">
+         </div>
+         <button><i class="fa-solid fa-magnifying-glass"></i></button>
+       </div>
+     </div>
+   </div>
+  </div>
+  <div class="table-content">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>id</th>
+          <th>Imagem</th>
+          <th>Produto</th>
+          <th>Descrição</th>
+          <th>Preço</th>
+          <th>Categoria</th>
+          <th>Quantidade Em Estoque</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filterProduct; let i = index">
+          <td><span attr-data="#">{{i}}</span></td>
+          <td><span attr-data="id">{{p.idProduct}}</span></td>
+          <td>
+            <div class="product-view">
+               <img [src]="p.photoObject">
+            </div>
+          </td>
+          <td><span attr-data="Produto">{{p.nameProduct}}</span></td>
+          <td><span attr-data="Descrição" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{p.description}}</span></td>
+          <td><span attr-data="Preço">{{p.price | currency: 'BRL' : 'symbol-narrow'}}</span></td>
+          <td><span attr-data="Categoria">{{p.category}}</span></td>
+          <td><span attr-data="Em estoque">{{p.inStock}}</span></td>
+          <td>
+            <div class="action">
+              <button class="btn-ed" (click)="editar(p.idProduct)">Editar</button>
+              <button class="btn-re" (click)="remover(p.idProduct)">Remover</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-modal [title]="'Cadastro de Produto'" [fadeExpandComp]="true" *ngIf="mpra" (closeModalEvent)="closeModal()">
+  <div class="modal-content">
+    <div class="image-previw-tool">
+      <label>Imagems do Produto</label>
+        <button class="btn-select-file" *ngIf="isSelected()">
+          <input type="file" accept="imagem/*" (change)="onFileSelected($event)">
+          Selecionar Outra Imagem
+        </button>
+      </div>
+      <div class="image-previw" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)">
+        <div class="image-control" *ngIf="!isSelected(); else imagePreviw">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Arraste e solte uma imagem Aqui.</span>
+          <button class="btn-select-file">
+          <input type="file" (change)="onFileSelected($event)" accept="imagem/*">
+              Selecionar Arquivo
+          </button>
+        </div>
+        <ng-template #imagePreviw>
+          <img [src]="getFile()" #imgPreviw>
+        </ng-template>
+      </div>
+      <div class="min-list-image-preview">
+        <div class="min-image-preview"></div>
+        <div class="min-image-preview"></div>
+        <div class="min-image-preview"></div>
+      </div>
+      <div class="filds first" [formGroup]="proRegisterForm">
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="productName" required formControlName="name" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'name')}">
+            <label for="productName">Nome do Produto</label>
+          </div>
+          <div class="invalid">
+            <div *ngIf="proRegisterForm.get('name')?.errors?.['required'] && getInteractionForm(proRegisterForm,'name')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="idProduct" required formControlName="idProduct" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'idProduct')}">
+            <label for="idProduct">Id do Produto</label>
+          </div>
+          <div class="invalid">
+            <div *ngIf="proRegisterForm.get('idProduct')?.errors?.['required'] && getInteractionForm(proRegisterForm,'idProduct')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="categoriProduct" required formControlName="categori" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'categori')}">
+            <label for="categoriProduct">Categoria do Produto</label>
+          </div>
+          <div class="invalid">
+            <div *ngIf="proRegisterForm.get('categori')?.errors?.['required'] && getInteractionForm(proRegisterForm,'categori')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="priceProduct" required formControlName="price" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'price')}" mask="separator.2" thousandSeparator="." prefix="R$ ">
+            <label for="categoriProduct">Preço do Produto</label>
+          </div>
+          <div class="invalid">
+            <div *ngIf="proRegisterForm.get('price')?.errors?.['required'] && getInteractionForm(proRegisterForm,'price')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="quantProduct" required formControlName="quant" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'quant')}">
+            <label for="quantProduct">Em Estoque</label>
+          </div>
+          <div class="invalid">
+            <div *ngIf="proRegisterForm.get('quant')?.errors?.['required'] && getInteractionForm(proRegisterForm,'quant')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <textarea type="text" class="box-textarea" cols="30" rows="10" placeholder="Descrição de Produto..." id="quantProduct" required formControlName="description" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'description')}"></textarea>
+          </div>
+          <div class="invalid">
+            <div *ngIf="proRegisterForm.get('description')?.errors?.['required'] && getInteractionForm(proRegisterForm,'description')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+        <app-dropdown [title]="'Adicionar Categoria de Seleção'" (click)="modalCatSelect = true"></app-dropdown>
+
+        <div class="content-category" *ngFor="let categoria of preCategoriaModelo;let i = index" (click)="editarCategoria(i)">
+          <div class="unique">
+            <div class="text">
+              <h3>{{categoria.category}}</h3>
+              <p>{{categoria.numberSelections}}</p>
+            </div>
+            <div class="btn">
+              <button class="btn-black-transparent" (click)="removerCategory(i)">Remover</button>
+            </div>
+          </div>
+
+            <div class="item" *ngFor="let item of categoria.rmodelsProduts;let i = index">
+              <div class="item-view">
+                  <img [src]="item.photoObject" height="52px" />
+                </div>
+                <div class="item-description">
+                  <h3>{{ item.modelName }}</h3>
+                  <p>{{ item.idIndex }}</p>
+                  <div class="unique">
+                  <h3>{{item.amountValue | currency : "BRL" : "symbol-narrow"}}</h3>
+                  <div class="quant">
+                    <div class="amount">
+                      <p><button class="btn-black-transparent btn-black br-re" (click)="removerModeloProduto(categoria,i)">Remover</button></p>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+    <div class="modal-actions">
+      <button class="btn-black-transparent" (click)="closeModal()">Cancelar</button>
+      <button class="btn-black-transparent btn-black" (click)="salvar()">Salvar</button>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal [title]="'Categoria de Seleção'"  [fadeExpandComp]="true" *ngIf="modalCatSelect" (closeModalEvent)="closeModalCategoria()">
+  <div class="modal-content">
+    <div class="filds" [formGroup]="categoriaModeloForm">
+      <div class="box">
+        <div class="box-fild">
+          <input type="text" id="categoryModelo" required formControlName="category" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'category')}">
+          <label for="categoryModelo">Categoria</label>
+        </div>
+        <div class="invalid">
+          <div *ngIf="mproRegisterForm.get('category')?.errors?.['required'] && getInteractionForm(mproRegisterForm,'category')">
+            O campo é obrigatorio.
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-fild">
+          <input type="text" id="numberSelections" required formControlName="numberSelections" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'numberSelections')}">
+          <label for="numberSelections">Numero de Mesma seleção</label>
+        </div>
+        <div class="invalid">
+          <div *ngIf="mproRegisterForm.get('numberSelections')?.errors?.['required'] && getInteractionForm(mproRegisterForm,'numberSelections')">
+            O campo é obrigatorio.
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-dropdown [title]="'Adicionar Categoria de Seleção'" (click)="modalpm = true"></app-dropdown>
+    <div class="item" *ngFor="let item of preModelProduct;let i = index">
+      <div class="item-view">
+        <img [src]="item.photoObject" height="52px" />
+      </div>
+      <div class="item-description">
+        <h3>{{ item.modelName }}</h3>
+        <p>{{ item.idIndex }}</p>
+        <div class="unique">
+        <h3>{{item.amountValue | currency : "BRL" : "symbol-narrow"}}</h3>
+        <div class="quant">
+          <div class="amount">
+            <p><button class="btn-black-transparent btn-black br-re" (click)="removerModeloProduto(null, i)">Remover</button></p>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="modal-actions">
+      <button class="btn-black-transparent" (click)="closeModalCategoria()">Cancelar</button>
+      <button class="btn-black-transparent btn-black" (click)="adicionarCategoriaModelo()">Salvar</button>
+    </div>
+  </div>
+</app-modal>
+
+<app-modal [title]="'Cadastro de Modelo'" [fadeExpandComp]="true" *ngIf="modalpm" (closeModalEvent)="closeModalModel()">
+  <div class="modal-content">
+        <div class="image-previw-tool">
+          <label>Imagem do Produto</label>
+            <button class="btn-select-file" *ngIf="isSelected()">
+              <input type="file" accept="imagem/*" (change)="onFileSelected($event)">
+              Selecionar Outra Imagem
+            </button>
+          </div>
+          <div class="image-previw" (drop)="onFileDrop($event)" (dragover)="onDragOver($event)">
+            <div class="image-control" *ngIf="!isSelected(); else imagePreviw">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span>Arraste e solte uma imagem Aqui.</span>
+              <button class="btn-select-file">
+                <input type="file" (change)="onFileSelected($event)" accept="imagem/*">
+                Selecionar Arquivo
+              </button>
+            </div>
+            <ng-template #imagePreviw>
+              <img [src]="getFile()" #imgPreviw>
+            </ng-template>
+          </div>
+        <div class="filds first" [formGroup]="mproRegisterForm">
+          <div class="box">
+            <div class="box-fild">
+              <input type="text" id="modelName" required formControlName="modelName" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'modelName')}">
+              <label for="modelName">Nome de Modelo</label>
+            </div>
+            <div class="invalid">
+              <div *ngIf="mproRegisterForm.get('modelName')?.errors?.['required'] && getInteractionForm(mproRegisterForm,'modelName')">
+                O campo é obrigatorio.
+              </div>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box-fild">
+              <input type="text" id="idIndex" required formControlName="idIndex" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'idIndex')}">
+              <label for="idIndex">Id Indexador</label>
+            </div>
+            <div class="invalid">
+              <div *ngIf="mproRegisterForm.get('idIndex')?.errors?.['required'] && getInteractionForm(mproRegisterForm,'idIndex')">
+                O campo é obrigatorio.
+              </div>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box-fild">
+              <input type="text" id="amountValue" required formControlName="amountValue" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'amountValue')}" mask="separator.2" thousandSeparator="." prefix="R$ ">
+              <label for="amountValue">Preço Adicional do Modelo</label>
+            </div>
+            <div class="invalid">
+              <div *ngIf="mproRegisterForm.get('amountValue')?.errors?.['required'] && getInteractionForm(mproRegisterForm,'amountValue')">
+                O campo é obrigatorio.
+              </div>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box-fild">
+              <input type="text" id="inStock" required formControlName="inStock" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'inStock')}">
+              <label for="inStock">Em Estoque</label>
+            </div>
+            <div class="invalid">
+              <div *ngIf="mproRegisterForm.get('inStock')?.errors?.['required'] && getInteractionForm(mproRegisterForm,'inStock')">
+                O campo é obrigatorio.
+              </div>
+            </div>
+          </div>
+        </div>
+    <div class="modal-actions">
+        <button class="btn-black-transparent" (click)="adicionarModeloProduto()">Salvar</button>
+    </div>
+  </div>
+</app-modal>

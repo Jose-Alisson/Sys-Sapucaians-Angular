@@ -1,0 +1,67 @@
+
+
+<!-- <div class="show" *ngFor="let pedido of allPedidos">
+  <div class="show-header">
+    <h2>{{pedido.user?.name}}</h2>
+  </div>
+  <div class="item" *ngFor="let item of pedido.qproducts">
+    <div class="item-view">
+      <img [src]="item.product?.photoObject" height="52px">
+    </div>
+    <div class="item-description">
+      <h3>{{item.product?.nameProduct}}</h3>
+      <p>{{item.product?.description}}</p>
+      <div class="unique">
+        <h3>{{item.product?.price | currency : 'BRL' : 'symbol-narrow'}}</h3>
+        <div class="quant">
+          <div class="amount">
+            <p>{{item.quantity}}x</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sub-total">
+    <div class="message">
+      <span>Sub-Total</span>
+      <p>{{pedido.qproducts?.length}} {{pedido.qproducts!.length > 1 ? 'Items': 'Item'}}</p>
+    </div>
+    <div class="value">
+      <h3>{{getSubTotal(pedido.qproducts) | currency : 'BRL' : 'symbol-narrow'}}</h3>
+    </div>
+  </div>
+</div> -->
+
+<div class="card" *ngFor="let item of allPedidos" [ngClass]="getStateStyleOrder(item)">
+  <div class="card-header">
+    <div class="cahe-left">
+      <strong>
+        <p>Pedido Implatado</p>
+      </strong>
+      <p>{{item?.state}}</p>
+    </div>
+    <div class="cahe-right">
+      <p>Total</p>
+      <strong>{{getOrderTotal(item) | currency : 'BRL' : 'symbol-narrow'}}</strong>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="client-name">
+      <p class="text-place">Cliente</p>
+      <strong>
+        <p class="name">{{item.user?.name != undefined ?  item.user?.name : 'Não Indetificado'}}</p>
+      </strong>
+    </div>
+    <div class="data-creation">
+      <p class="text-place">Data</p>
+      <strong>
+        <p>{{getFomatedDate(item)}}</p>
+      </strong>
+    </div>
+    <strong *ngIf="item?.address">Delivery</strong>
+  </div>
+  <div class="view-actions">
+    <button (click)="viewOrder(item.id ?? 0)">Visualizar Mais Informaçoes</button>
+    <button class="btn-dlt" *ngIf="item.state === 'Em Andamento'">Deletar Pedido</button>
+  </div>
+</div>

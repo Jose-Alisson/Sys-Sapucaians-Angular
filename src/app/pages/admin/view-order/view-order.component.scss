@@ -1,0 +1,24 @@
+@import url('../orders-list/orders-list.component.scss');
+
+
+.card{
+  cursor: default;
+  border-radius: 7px;
+}
+
+.view-header{
+  align-items: center;
+}
+
+.table-content thead{
+  background: var(--color-4);
+}
+
+.table-content  th, .table-content  td{
+  color: var(--color-1);
+  resize: none;
+}
+
+.table-content{
+  width: 100%;
+}

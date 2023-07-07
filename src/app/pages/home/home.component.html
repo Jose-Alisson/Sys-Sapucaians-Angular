@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="showcase" style="background: var(--color-4);">
+    <div class="showcase-content">
+      <div class="side-left">
+        <h1 style="font-size: 38px; line-height: 20px;">Pizzaria</h1>
+        <h1><span>Sapucaian's</span></h1>
+        <a [routerLink]="['../menu']">Faça seu Pedido</a>
+        <img src="assets//click.png" alt="" />
+      </div>
+      <img src="assets/iphone X remaster v2.png" alt="" />
+    </div>
+  </div>
+  <h1 class="topic-title" style="margin-top: 15px;">- <span>Recomendaçoes</span> -</h1>
+  <div class="card-slider" #cardSlider >
+    <button class="arrow-left" (click)="moverSlider(-1)">
+      <i class="fa-solid fa-caret-left"></i>
+    </button>
+    <button class="arrow-right" (click)="moverSlider(1)">
+      <i class="fa-solid fa-caret-right" ></i>
+    </button>
+    <div class="card-wrapper" (wheel)="activeCardCenter(cardSlider)" *ngIf="randProd; else loadingCards">
+      <div id="card-{{i}}" class="card-product card-current" *ngFor="let prod of randProd; let i = index" (click)="selectCard(i);moverSlider(0)">
+      <div class="card-imagem">
+        <img [src]="prod?.photoObject"  [ngClass]="{'view-width': aiv(i)}">
+      </div>
+      <div class="card-body">
+        <div class="info">
+          <h3>{{prod?.nameProduct}}</h3>
+          <p class="description">{{prod?.description}}</p>
+          <h3>{{prod?.price | currency : 'BRL' : 'symbol-narrow'}}</h3>
+        </div>
+      </div>
+      <div class="card-action">
+        <button (click)="comprar(prod?.idProduct)">Comprar</button>
+      </div>
+      </div>
+    </div>
+    <ng-template #loadingCards>
+      <div class="card-wrapper">
+      <div id="card-{{i}}" class="card-product card-current" *ngFor="let prod of [1,2,3,4,5,6]; let i = index" (click)="selectCard(i);moverSlider(0)">
+        <div class="card-imagem">
+          <div class="img-loading"></div>
+        </div>
+        <div class="card-body">
+          <div class="content-loading"></div>
+          <div class="content-loading"></div>
+          <div class="content-loading"></div>
+        </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <h1 class="topic-title" style="margin-top: 15px;">- <span>Meu Delivery</span> -</h1>
+  <section class="topic">
+    <div class="topic-img">
+      <img src="assets//Delivery address-pana.svg" alt="Imagem de entregador">
+    </div>
+    <div class="topic-content content-side-rigth">
+      <h2 class="topic-content-title">Delivery</h2>
+      <p>Estão fazendo entrega para minha região? Verifique agora antes de fazer seu pedido.</p>
+      <button class="btn-send-message">Verificar</button>
+    </div>
+  </section>
+  <h1 class="topic-title" style="margin-top: 15px;">- <span>Menssagem</span> -</h1>
+  <section class="topic">
+    <div class="topic-img">
+      <img src="assets//Get in touch-bro.svg" alt="Imagem de entregador">
+    </div>
+    <div class="topic-content content-side-rigth">
+      <h2 class="topic-content-title">Envie-nos uma messagem</h2>
+      <p>Por favor, sinta-se à vontade para compartilhar suas dúvidas, sugestões, comentários ou qualquer outra informação relevante que gostaria de nos transmitir. Valorizamos sua opinião e estamos empenhados em fornecer o melhor atendimento possível!</p>
+      <textarea #boxText class="box-textarea" type="" id="logradouro-field" required [placeholder]="'Mensagem...'"></textarea>
+      <button class="btn-send-message" (click)="sendMessage(boxText.value)">Enviar</button>
+    </div>
+  </section>
+  <h1 class="topic-title" style="margin-top: 15px;">- <span>Informaçoes de Contato</span> -</h1>
+  <section class="topic topic-card-wrapper">
+    <div class="card-information">
+      <div class="card-information-header">
+        <span>
+          <i class="fa-solid fa-location-dot"></i>
+        </span>
+      </div>
+      <div class="card-information-body">
+        <span>Av. Sapucáia, 46, Ur2 - Cohab </span>
+      </div>
+    </div>
+    <div class="card-information">
+      <div class="card-information-header">
+        <span>
+          <i class="fa-brands fa-whatsapp"></i>
+        </span>
+      </div>
+      <div class="card-information-body">
+        <span>(81) 9 9208-3096</span>
+      </div>
+    </div>
+    <div class="card-information">
+      <div class="card-information-header">
+        <span>
+          <i class="fa-brands fa-instagram"></i>
+        </span>
+      </div>
+      <div class="card-information-body">
+        <span>@pizzaria.sapucaians</span>
+      </div>
+    </div>
+  </section>
+      <!-- <google-map #GoogleMap (click)="setViewPanoramica()"
+        height="300px"
+        width="100%"
+        [zoom]="zoom"
+        [center]="center"
+        [options]="options"
+        streetViewControl>
+      </google-map> -->
+  <!-- </div> -->
+  <section class="footer">
+
+  </section>
+</div>

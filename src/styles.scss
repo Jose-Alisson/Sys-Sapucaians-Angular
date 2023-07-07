@@ -1,0 +1,263 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@200;300;400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap");
+@import "../node_modules/ngx-toastr/toastr.css";
+
+:root {
+  //--color-1: #16171b;
+  --color-1: #0d0f12;
+  --color-2: #2d2e31;
+  --color-3: #ffc727;
+  --color-4: #ffffff;
+  --color-5: #444548;
+  --color-6: #ff6347;
+  --color-7: #ffe38f;
+  --color-8: #ffc58f;
+  --color-9: #cccccc;
+  --color-10: #287ae6;
+  --color-11: #4287f5;
+  --color-12: #28a745;
+  --color-13: #dadeff;
+  --color--14: #32a84e;
+  --tran-02: all 0.2s ease;
+  --tran-03: all 0.3s ease;
+  --tran-05: all 0.5s ease;
+}
+
+@font-face {
+  font-family: "Avenir Bold";
+  src: url("Avenir Bold.otf");
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+app-home {
+  display: flex;
+  flex-flow: column;
+  background-color: var(--colo-1);
+
+  // background-image: radial-gradient(
+  //     rgba(255, 199, 39, 50%) 0.8500000000000001px,
+  //     transparent 0.8500000000000001px
+  //   ),
+  //   radial-gradient(
+  //     rgba(255, 199, 39, 50%) 0.8500000000000001px,
+  //     var(--color-1) 0.8500000000000001px
+  //   );
+  // background-size: 34px 34px;
+  // background-position: 0 0, 17px 17px;
+
+  //backdrop-filter: blur(2px);
+}
+
+app-sign-in,
+app-sign-up {
+  ///max-height: 60%;
+  width: 100%;
+  flex-grow: 1;
+  flex-basis: auto;
+  display: flex;
+  flex-direction: column;
+  //justify-content: center;
+  align-items: center;
+}
+
+app-dashboard {
+  height: 100%;
+  display: flex;
+}
+
+@media screen and (max-width: 720px) {
+  app-dashboard {
+    flex-direction: column;
+  }
+}
+
+app-cart {
+  flex: 1;
+  position: relative;
+  //background: var(--color-3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: displayMove 0.5s ease;
+}
+
+/*app-product-manager{
+  display: flex;
+  flex: 1;
+  background: var(--color-3);
+}*/
+
+app-payment-my-product {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background: var(--color-3);
+  padding: 15px;
+  gap: 27px;
+  justify-content: center;
+  align-items: flex-start;
+
+  background: var(--color-1);
+  //background-color: #0c0c2c;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url("assets//back pattern yellow.svg");
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--color-1);
+  //background-color: #0c0c2c;
+  width: 100%;
+  height: 100%;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url("assets//back pattern gray.svg");
+}
+
+app-shopping-box,
+app-product-manager {
+  flex-grow: 1;
+  display: flex;
+  padding: 15px;
+  gap: 15px;
+  animation: displayMove 0.5s ease;
+  //background: var(--color-3);
+  flex-wrap: wrap;
+  //overflow-y: auto;
+}
+
+app-shopping-box {
+  padding: 7px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  //background: var(--color-1);
+  gap: 7px;
+
+  width: 10px;
+  height: 100%;
+  overflow: auto;
+  animation: displayMove 0.5s ease;
+//  background: linear-gradient(to right, transparent, var(--color-1), var(--color-1));
+}
+
+app-about {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: var(--colo-1);
+
+  background-image: radial-gradient(
+      rgba(255, 199, 39, 50%) 0.8500000000000001px,
+      transparent 0.8500000000000001px
+    ),
+    radial-gradient(
+      rgba(255, 199, 39, 50%) 0.8500000000000001px,
+      var(--color-1) 0.8500000000000001px
+    );
+  background-size: 34px 34px;
+  background-position: 0 0, 17px 17px;
+}
+
+app-orders-list {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  animation: displayMove 0.5s ease;
+}
+
+app-cart-queue {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  padding: 15px;
+  align-items: flex-start;
+  animation: displayMove 0.5s ease;
+}
+
+app-dropdown {
+  flex-grow: 1;
+}
+
+app-product-manager {
+  flex-direction: column;
+}
+
+app-view-order {
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 7px;
+  animation: displayMove 0.5s ease;
+}
+
+@media screen and (max-width: 875px) {
+  app-payment-my-product {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    .card-cart {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 1169px) {
+  app-shopping-box {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+}
+
+app-modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  z-index: 6;
+}
+
+
+@keyframes displayMove {
+  0%{
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  100%{
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
