@@ -14,14 +14,15 @@ import { SignService } from 'src/app/shared/services/sign-service.service';
 import { AuthPsModel } from 'src/app/model/auth-ps.model';
 
 export const exValoresDaTaxa = [
+  { localidade: 'Ur1', preco: 4 },
   { localidade: 'Ur2', preco: 3 },
-  { localidade: 'Ur1', preco: 3 },
   { localidade: 'Ur3', preco: 3 },
   { localidade: 'Ur12', preco: 3 },
   { localidade: 'Ur5', preco: 5 },
   { localidade: 'Monte Verde', preco: 4 },
   { localidade: 'Lagoa Encantada', preco: 4 },
   { localidade: 'Zumbi do Pacheco', preco: 4 },
+  { localidade: 'Minha localidade não se encontra aqui'}
 ];
 
 @Component({
@@ -46,6 +47,8 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
   valoresDaTaxa = exValoresDaTaxa;
 
+
+
   constructor(private router: Router, private signService: SignService) {
     this.auth = signService.auth!
     this.user = this.auth.user
@@ -55,7 +58,10 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth = this.signService.auth!
+    this.user = this.auth.user
+  }
 
   sair() {
     const auth = getAuth();
