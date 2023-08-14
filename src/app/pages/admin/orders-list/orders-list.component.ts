@@ -1,18 +1,22 @@
-import { ToastrService } from 'ngx-toastr';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ImagemService } from 'src/app/shared/services/imagem.service';
-import { PedidoService } from 'src/app/shared/services/pedido.service';
 import {
   AfterViewInit,
   Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Injectable,
   OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
-import { OnInit, ElementRef } from '@angular/core';
-import { Data, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Pedido } from 'src/app/model/pedido.model';
-import { PrintService } from 'src/app/shared/services/print.service';
 import { RadioListComponent } from 'src/app/shared/comps/radio-list/radio-list.component';
+import { ImagemService } from 'src/app/shared/services/imagem.service';
+import { PedidoService } from 'src/app/shared/services/pedido.service';
+import { PrintService } from 'src/app/shared/services/print.service';
 
 @Component({
   selector: 'app-orders-list',
@@ -50,6 +54,13 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('orderContainer', { static: true })
   orderContainer!: ElementRef<HTMLDivElement>;
 
+  @ViewChild('containerLeft', { static: true })
+  containerLeft!: ElementRef<HTMLDivElement>;
+
+  @ViewChild('btnVContainerLeft', { static: true })
+  btnVContainerLeft!: ElementRef<HTMLLIElement>;
+
+
   dateTableMonth = [
     { month: 'Jan', MonthIndex: 1 },
     { month: 'Fev', MonthIndex: 2 },
@@ -71,7 +82,8 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
     private saninizer: DomSanitizer,
     private router: Router,
     private toastr: ToastrService,
-    private print: PrintService
+    private print: PrintService,
+    private alterPedService: alterPedidoService
   ) {}
   ngOnDestroy(): void {
     clearInterval(this.loopRequest);
@@ -92,7 +104,23 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.loopRequest = setInterval(() => {
       this.findAllByDate();
-    }, 1000);
+    }, 1000 * 5);
+
+    this.alterPedService.event.subscribe({next: (ped: Pedido) => {
+      let index = this.allPedidosState.findIndex(p => p.id === ped.id)
+
+      if(index != -1){
+        this.allPedidosState[index] = ped
+      } else {
+        this.allPedidosState.push(ped)
+      }
+    }})
+
+    this.alterPedService.eventdlt.subscribe({
+      next: (id : number) => {
+        this.allPedidosState = this.allPedidosState.filter(ped => ped.id !== id)
+      }
+    })
   }
 
   setMonth(month: number) {
@@ -169,7 +197,6 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
       'concluded-retirada': pedido.state === 'Concluido Retirada',
       'concluded-delivery': pedido.state === 'Concluido Delivery',
       'concluded-all': pedido.state === 'Concluido Geral',
-
     };
   }
 
@@ -311,6 +338,12 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
             'Alterar Estatos'
           );
           //this.setPedidosState(ped.state ?? '');
+          let index = this.allPedidosState.findIndex((p) => p.id === ped.id)
+          if(index != -1){
+            this.allPedidosState[index] = ped
+          } else {
+            this.allPedidosState.push(ped)
+          }
         },
       });
     });
@@ -357,4 +390,17 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
   getNewtDay() {
     return new String(this.currentDate.getDate()).padStart(2, '0');
   }
+
+  @HostListener('document:click', ['$event'])
+  fecharDropdown(event: MouseEvent) {
+
+  }
+}
+
+@Injectable({
+  providedIn : 'root'
+})
+export class alterPedidoService{
+  event: EventEmitter<Pedido> = new EventEmitter<Pedido>()
+  eventdlt : EventEmitter<number> = new EventEmitter<number>()
 }

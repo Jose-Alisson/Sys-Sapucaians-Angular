@@ -12,6 +12,7 @@ export declare class Pedido {
   description?: string | null;
   address?: Endereco | null;
   typesPay?: TypePay[] | null;
+  printate?: number | null
   user?: Usuario | null;
   state?: string | null; /*OrderState[] | null*/
 }

@@ -7,10 +7,10 @@ export class UrlApiService {
 
 
 
-  private production = false
+  private production = true
 
   springApiUrl =
-  this.production === true ? "https://pizzaria-sapucaians-spring-production.up.railway.app/api" : "http://192.168.196:8081/api"
+  this.production === true ? "http://192.168.0.196:8081/api" : "http://localhost:8081/api"
 
   constructor() { }
 }

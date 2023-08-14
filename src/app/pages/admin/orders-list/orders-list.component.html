@@ -19,23 +19,23 @@
     <span class="day">{{getCurrentDay()}}</span>
   </div>
   <ul class="page-slider">
-    <li class="page-title" (click)="viewOrdersList = !viewOrdersList" [ngClass]="{'view-orderlist': viewOrdersList}">Lista de Pedidos</li>
+    <!-- <li class="page-title" #btnVContainerLeft (click)="viewOrdersList = !viewOrdersList" [ngClass]="{'view-orderlist': viewOrdersList}">Lista de Pedidos <i class="fa-regular" [ngClass]="{'fa-eye': viewOrdersList, 'fa-eye-slash': !viewOrdersList}"></i></li> -->
     <li class="page-title" [routerLink]="['./view-order']" [queryParams]="getLoadOrder()" routerLinkActive="active" >Pedido <i class="fa-solid fa-receipt"></i></li>
     <li class="page-title" [routerLink]="['./shopping-box']" routerLinkActive="active" >Carrinho <i class="fa-solid fa-cart-shopping"></i></li>
   </ul>
 </div>
 <div class="orders-container" #orderContainer>
-  <div class="container-left" [ngClass]="{'active': viewOrdersList}">
+  <div class="container-left" #containerLeft [ngClass]="{'active': viewOrdersList}">
     <div class="cont-left-header">
       <h2>Lista de pedidos</h2>
       <button class="btn-alter-state-order" [routerLink]="['./shopping-box']">Adicionar&nbsp;<i class="fa-solid fa-plus"></i></button>
       <app-radio-list #viewGeral [valueCheked]="false">
         <app-radio [text]="'Visualizar Con... Geral'" [unchecked]="true" [name]="'view Geral'"  [value]="true" ></app-radio>
       </app-radio-list>
-      <i class="fa-solid fa-arrow-left toggle" (click)="{}"></i>
+      <i class="fa-solid fa-arrow-left toggle" (click)="viewOrdersList = !viewOrdersList"></i>
     </div>
     <div class="card-container">
-      <div class="card" *ngFor="let item of allPedidosState" [ngClass]="getStateStyleOrder(item)" (click)="setViewOrder(item.id ?? 0)">
+      <div class="card" *ngFor="let item of allPedidosState" [ngClass]="getStateStyleOrder(item)" (click)="setViewOrder(item.id ?? 0);">
         <div class="card-header">
           <div class="cahe-left">
             <strong>
@@ -49,6 +49,12 @@
           </div>
         </div>
         <div class="card-body">
+          <div class="client-printate">
+            <p class="text-place">Ja impresso</p>
+            <strong>
+              <p class="name">{{item.printate ?? 0}}</p>
+            </strong>
+          </div>
           <div class="client-name">
             <p class="text-place">Cliente</p>
             <strong>

@@ -38,18 +38,6 @@
             <span class="text nav-text">Minha Conta</span>
           </a>
         </li>
-        <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
-          <a [routerLink]="['adm', 'product-manager']">
-            <i class="fa-solid fa-list-ul icon"></i>
-            <span class="text nav-text">Estoque</span>
-          </a>
-        </li>
-        <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
-          <a [routerLink]="['adm', 'order-list']">
-            <i class="fa-regular fa-newspaper icon"></i>
-            <span class="text nav-text">Lista de Pedidos</span>
-          </a>
-        </li>
         <!-- <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
           <a [routerLink]="['adm', 'shopping-box']">
             <i class="fa-solid fa-cart-shopping icon"></i>
@@ -57,6 +45,26 @@
           </a>
         </li> -->
       </ul>
+    </div>
+    <div class="menu">
+      <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
+        <a [routerLink]="['adm', 'product-manager']">
+          <i class="fa-solid fa-list-ul icon"></i>
+          <span class="text nav-text">Estoque</span>
+        </a>
+      </li>
+      <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
+        <a [routerLink]="['adm', 'order-list']">
+          <i class="fa-regular fa-newspaper icon"></i>
+          <span class="text nav-text">Lista de Pedidos</span>
+        </a>
+      </li>
+      <li class="nav-link" routerLinkActive="active" *ngIf="typeAuthIsAdm()">
+        <a [routerLink]="['adm', 'delivery-manager']">
+          <i class="fa-solid fa-truck icon"></i>
+          <span class="text nav-text">Delivery</span>
+        </a>
+      </li>
     </div>
   </div>
 
@@ -119,6 +127,13 @@
           <i class="fa-regular fa-newspaper"></i>
           &nbsp;
           <h3>Lista de Pedidos</h3>
+        </div>
+      </li>
+      <li *ngIf="typeAuthIsAdm()">
+        <div class="li-nav" [routerLink]="['adm', 'delivery-manager']" routerLinkActive="li-active">
+          <i class="fa-solid fa-truck"></i>
+          &nbsp;
+          <h3>Delivery</h3>
         </div>
       </li>
       <!-- <li *ngIf="typeAuthIsAdm()">

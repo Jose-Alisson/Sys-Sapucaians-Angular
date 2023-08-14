@@ -1,3 +1,4 @@
+import { alterPedidoService } from './../orders-list/orders-list.component';
 import { ModeloProduto } from './../../../model/modelProduct';
 import { ModeloProdutoService } from './../../../shared/services/modelo-produto.service';
 import { PedidoService } from 'src/app/shared/services/pedido.service';
@@ -38,6 +39,7 @@ export class ShoppingBoxComponent implements OnInit {
   allPedidos: Pedido[] = [];
   pedidoSelected: Pedido = {
     typesPay: [],
+    printate : 0
   };
 
   prodSelected?: QuantidadeProduto;
@@ -77,7 +79,8 @@ export class ShoppingBoxComponent implements OnInit {
     private toastr: ToastrService,
     private prodService: ProdutoService,
     private actRouter: ActivatedRoute,
-    private modeloService: ModeloProdutoService
+    private modeloService: ModeloProdutoService,
+    private alterPedidoService: alterPedidoService
   ) {}
 
   ngOnInit(): void {
@@ -100,6 +103,23 @@ export class ShoppingBoxComponent implements OnInit {
           next: (order) => {
             this.pedidoSelected = order;
             this.caixa = this.pedidoSelected.qproducts ?? [];
+
+            this.clientForm.setValue({
+              name: order.user?.name,
+              contact: order.user?.contact,
+            });
+
+            if (order.address != undefined) {
+              this.isDispatch = true
+
+              this.deliveryForm.setValue({
+                nameAddress: order.address?.nameAddress,
+                houseNumber: order.address?.houseNumber,
+                locality: order.address?.locality,
+                price: order.address?.price,
+              });
+            }
+
             this.toastr.success(
               'Sucesso ao carregar pedido',
               'Carregamento de Pedido'
@@ -150,7 +170,13 @@ export class ShoppingBoxComponent implements OnInit {
     let value = 0;
 
     this.caixa.forEach((prod) => {
-      value += (prod.product?.price ?? 0) * (prod.quantity ?? 0);
+      let modelValue = 0;
+
+      prod.rmodelsProduts?.forEach((modelos) => {
+        modelValue += modelos.amountValue ?? 0;
+      });
+
+      value += (prod.product?.price ?? 0 + modelValue) * (prod.quantity ?? 0);
     });
 
     return value;
@@ -204,6 +230,7 @@ export class ShoppingBoxComponent implements OnInit {
     }
 
     if (key === 'Enter') {
+      /*
       if (this.text.includes('*')) {
         let split = this.text.split('*');
         this.prodService.findById(parseInt(this.text)).subscribe({
@@ -275,6 +302,65 @@ export class ShoppingBoxComponent implements OnInit {
         } else {
           this.toastr.error('Expressão invalid')
         }
+      }*/
+
+      var id = parseInt(this.text);
+
+      if (!Number.isNaN(id)) {
+        this.prodService.findById(id).subscribe({
+          next: (result) => {
+            result.photoUrl?.forEach((photo) => {
+              this.imgService.downloadImagem(photo).subscribe((blob) => {
+                result.photoObject?.push(
+                  this.sanitizer.bypassSecurityTrustUrl(
+                    URL.createObjectURL(blob)
+                  )
+                );
+              });
+            });
+
+            let modelosId = this.text.split('$');
+            modelosId.shift();
+
+            let modelos: ModeloProduto[] = [];
+
+            modelosId.forEach((modelo, index) => {
+              let categoria = result.categoriaSelectors?.find(
+                (obj, i) => i === index
+              );
+
+              if (categoria) {
+                let idIndexModelo = modelo.split('#');
+
+                idIndexModelo.forEach((n, ind) => {
+                  if (ind <= (categoria?.numberSelections ?? 0)) {
+                    let j = categoria?.rmodelsProduts?.find(
+                      (h) => h.idIndex === parseInt(n)
+                    );
+
+                    if (j) {
+                      modelos.push(j);
+                    }
+                  }
+                });
+              }
+            });
+
+            let quantity = 1;
+
+            if (this.text.includes('*')) {
+              quantity = parseInt(this.text.split('*')[1]);
+            }
+
+            this.setProductInCaixa({
+              product: result,
+              quantity: quantity,
+              rmodelsProduts: modelos,
+            });
+          },
+        });
+      } else {
+        this.toastr.error('Expressão invalid');
       }
     }
 
@@ -299,10 +385,14 @@ export class ShoppingBoxComponent implements OnInit {
   keyup(event: KeyboardEvent) {}
 
   setProductInCaixa(qProd: QuantidadeProduto) {
+    let name =
+      (qProd.rmodelsProduts?.length ?? 0) > 0
+        ? this.getModeloFomatedName(qProd?.rmodelsProduts ?? [])
+        : '';
     if ((qProd.quantity ?? 0) > 1) {
-      this.text = `${qProd.product?.nameProduct} X${qProd.quantity}`;
+      this.text = `${qProd.product?.nameProduct + name} X${qProd.quantity}`;
     } else {
-      this.text = `${qProd.product?.nameProduct}`;
+      this.text = `${qProd.product?.nameProduct + name}`;
     }
     this.prodSelected = qProd;
     this.caixa.push(qProd);
@@ -395,7 +485,7 @@ export class ShoppingBoxComponent implements OnInit {
 
   setPaying(pay: TypePay, value: boolean) {
     console.log(pay);
-    pay.isPaying = value;
+    pay.paying = value;
   }
 
   getRLValue(radioList: RadioListComponent) {
@@ -475,12 +565,29 @@ export class ShoppingBoxComponent implements OnInit {
     let valortotal = 0;
 
     this.caixa?.forEach((qProd) => {
-      valortotal += (qProd.product?.price ?? 0) * (qProd?.quantity ?? 0);
+      let modeloValor = 0;
+
+      qProd.rmodelsProduts?.forEach((modelo) => {
+        modeloValor += modelo.amountValue ?? 0;
+      });
+
+      valortotal +=
+        ((qProd.product?.price ?? 0) + modeloValor) * (qProd?.quantity ?? 0);
     });
 
     valortotal += this.pedidoSelected.address?.price ?? 0;
 
     return valortotal;
+  }
+
+  getSumModelos(quantidade: QuantidadeProduto) {
+    let valor = 0;
+
+    quantidade.rmodelsProduts?.forEach((modelo) => {
+      valor += modelo.amountValue ?? 0;
+    });
+
+    return valor;
   }
 
   getAllTypesPay() {
@@ -514,7 +621,10 @@ export class ShoppingBoxComponent implements OnInit {
   }
 
   adicionarPagamento() {
-    this.pays?.forEach((pay) => this.pedidoSelected.typesPay?.push(pay ?? {}));
+    this.pays?.forEach((pay) => {
+      console.log(pay);
+      this.pedidoSelected.typesPay?.push(pay ?? {});
+    });
     this.pays = [];
     this.viewModalPagamento = false;
   }
@@ -522,7 +632,10 @@ export class ShoppingBoxComponent implements OnInit {
   implatarPedido() {
     if (this.caixa.length > 0) {
       this.pedidoSelected.qproducts = this.caixa;
+      this.pedidoSelected.typesPay = this.getOrderPays();
       this.pedidoSelected.state = 'Em Andamento';
+
+      console.log(this.pedidoSelected);
 
       this.pedService.salvar(this.pedidoSelected).then((d) =>
         d.subscribe({
@@ -544,9 +657,11 @@ export class ShoppingBoxComponent implements OnInit {
               typesPay: [],
             };
             this.text = '';
+            this.page = 'box';
+            this.alterPedidoService.event.emit(_data);
+            this.clientForm.setValue({})
 
             console.log(_data);
-            this.page = 'box';
           },
         })
       );
@@ -556,9 +671,25 @@ export class ShoppingBoxComponent implements OnInit {
   getModeloFomatedName(modelos: ModeloProduto[]) {
     let name = '';
     modelos.forEach((modelo, index) => {
-      name += `${index === 0? '' : ','}` + modelo.modelName;
+      name += `${index === 0 ? '' : ','}` + modelo.modelName;
     });
 
     return `(${name})`;
+  }
+
+  getPhoneMask(phone: String) {
+    let mask = '';
+
+    if (phone.length <= 8) {
+      mask = '0000-0000';
+    } else if (phone.length <= 9) {
+      mask = '0 0000-0000';
+    } else if (phone.length <= 11) {
+      mask = '(00) 0 0000-0000';
+    } else {
+      mask = '(000) 0 0000-0000';
+    }
+
+    return mask;
   }
 }

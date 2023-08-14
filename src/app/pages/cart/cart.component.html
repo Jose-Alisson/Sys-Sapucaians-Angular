@@ -50,7 +50,7 @@
   <div class="card-slider" *ngIf="allProduct; else loadingCards">
       <div id="card-{{i}}" class="card-product" [ngClass]="{'product-selected': isSelected(prod.product?.idProduct)}" *ngFor="let prod of filterProduct; let i = index">
       <div class="card-imagem">
-        <img [src]="prod.product?.photoObject"  [ngClass]="{'view-width': aiv(i)}">
+        <img [src]="getFirstImageUrl(prod.product ?? {})"  [ngClass]="{'view-width': aiv(i)}">
       </div>
       <div class="card-body">
         <div class="info">
@@ -70,7 +70,7 @@
           </div>
         </div>
         <div class="card-action">
-          <button (click)="addToCart(prod)">Adiconar ao carrinho</button>
+          <button (click)="viewProductModal(prod)">Adiconar ao carrinho</button>
         </div>
       </div>
     </div>
@@ -107,13 +107,13 @@
     <div class="my-cart">
       <div class="item" *ngFor="let item of cart">
         <div class="item-view">
-          <img [src]="item.product?.photoObject" height="52px">
+          <img [src]="getFirstImageUrl(item.product ?? {})" height="52px">
         </div>
         <div class="item-description">
           <h3>{{item.product?.nameProduct}}</h3>
-          <p>{{item.product?.description}}</p>
+          <p>{{(item.rmodelsProduts?.length ?? 0) > 0 ? getModeloFomatedName(item.rmodelsProduts ?? []) : item.product?.description}}</p>
           <div class="unique">
-            <h3>{{item.product?.price | currency : 'BRL' : 'symbol-narrow'}}</h3>
+            <h3>{{getTotalProdutoSelection(item) | currency : 'BRL' : 'symbol-narrow'}}</h3>
             <div class="quant">
               <div class="decrement" (click)="decrementar(item)">
                 <i class="fa-solid fa-minus"></i>
@@ -149,3 +149,48 @@
     <p>{{cart.length}}</p>
   </div>
 </div> -->
+
+<app-modal [title]="productSelected.product?.nameProduct ?? ''" *ngIf="productSelected" [fadeExpandComp]="true" (closeModalEvent)="productSelected = undefined">
+  <div class="modal-content">
+    <div class="product-header">
+      <div class="view-product" >
+        <img [src]="getFirstImageUrl(productSelected.product ?? {})" alt="" style="max-width: 230px;object-fit: cover;">
+      </div>
+      <div class="product-infomation">
+        <h2>{{productSelected.product?.nameProduct}}</h2>
+        <div class="menu-selections">
+            <div class="selection sel-category" *ngFor="let item of productSelected?.product?.categoriaSelectors">
+              <div class="selection" *ngFor="let interaction of getInteration(item.numberSelections ?? 1); let ind = index">
+                <span class="select-title">{{(item.numberSelections ?? 1) > 1 ? (ind + 1)  + '.' : ''}} {{item.category}}: <strong>{{getModeloInd(item, ind)?.modelo?.modelName ?? ''}}</strong></span>
+                <div class="modelos-sliders" style="padding-bottom: 2px;">
+                  <span class="modelo" *ngFor="let modelo of getModeloIsNotSelected(item,ind)" (click)="setModeloSelected(item, ind, modelo)" [ngClass]="modeloActive(item,ind,modelo)">
+                    {{modelo.modelName}}
+                  </span>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="quant">
+          <div class="decrement" (click)="decrementar(productSelected)">
+            <i class="fa-solid fa-minus"></i>
+          </div>
+          <div class="amount">
+            <p>{{productSelected.quantity}}</p>
+          </div>
+          <div class="increment" (click)="incrementar(productSelected)">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+        </div>
+        <h3>{{getTotalProdutoSelection(productSelected) | currency : 'BRL' : 'symbol-narrow'}}</h3>
+        <div class="btn-product-actions">
+          <button class="btn-ac-to-cart" (click)="addToCart(productSelected)">Adicionar ao carrinho</button>
+          <button class="btn-ac-buy-now">Comprar agora</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-description">
+      <h3>Descrição do produto</h3>
+      <p>{{productSelected.product?.description}}</p>
+    </div>
+  </div>
+</app-modal>

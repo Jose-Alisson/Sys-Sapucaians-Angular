@@ -33,9 +33,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit, AfterViewInit {
-  count: number = 3;
+  count: number = 0;
   confirm: string = '';
-  contatoMask = '99 9 9999-9999';
+  contatoMask = '(00) 0000-0000';
   cSv = false;
   contatoClass = 'fa-solid fa-square-phone';
   typeContato = 'Telefone';
@@ -155,42 +155,66 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.chars.forEach((c) => {
       code += c;
     });
+    this.prosseguir();
 
-    this.sign.verifyCodeNumber(code, this.token?.token ?? '').subscribe({
-      next: () => {
-        this.show.show = false;
-        this.sign.salvar(this.getAuth()).subscribe({
-          next: (data) => {
-            this.toastr.success('Conta criada com êxito.', 'Sucesso');
-            (
-              document.getElementById('img-status-create') as HTMLImageElement
-            ).src = 'assets//accept.png';
+    // this.sign.verifyCodeNumber(code, this.token?.token ?? '').subscribe({
 
-            console.log(data)
-            this.sign
-              .login({ tokenAccess: data.tokenAccess })
-              .subscribe((data) => {
-                this.router.navigate(['dashboard']);
-              });
-          },
-          error: () => {
-            (
-              document.getElementById('img-status-create') as HTMLImageElement
-            ).src = 'assets//close.png';
-            this.toastr.success('Erro na criação de sua conta', 'Error');
-          },
-        });
+    //   next: () => {
+    //     // this.show.show = false;
+    //     // this.sign.salvar(this.getAuth()).subscribe({
+    //     //   next: (data) => {
+    //     //     this.toastr.success('Conta criada com êxito.', 'Sucesso');
+    //     //     (
+    //     //       document.getElementById('img-status-create') as HTMLImageElement
+    //     //     ).src = 'assets//accept.png';
 
-        this.toastr.success('Código de verificação validado.', 'Sucesso');
-        this.prosseguir();
-      },
-      error: (err: HttpErrorResponse) => {
-        if (err.status === 401) {
-          this.codeInvalid = true;
-          this.toastr.error('Código invalido.', 'Error');
-        }
-      },
-    });
+    //     //     console.log(data)
+    //     //     this.sign
+    //     //       .login({ tokenAccess: data.tokenAccess })
+    //     //       .subscribe((data) => {
+    //     //         this.router.navigate(['dashboard']);
+    //     //       });
+    //     //   },
+    //     //   error: () => {
+    //     //     (
+    //     //       document.getElementById('img-status-create') as HTMLImageElement
+    //     //     ).src = 'assets//close.png';
+    //     //     this.toastr.success('Erro na criação de sua conta', 'Error');
+    //     //   },
+    //     // });
+
+    //     // this.toastr.success('Código de verificação validado.', 'Sucesso');
+    //     this.prosseguir();
+    //   },
+    //   error: (err: HttpErrorResponse) => {
+    //     if (err.status === 401) {
+    //       this.codeInvalid = true;
+    //       this.toastr.error('Código invalido.', 'Error');
+    //     }
+    //   },
+    // });
+
+    this.sign.salvar(this.getAuth()).subscribe({
+            next: (data) => {
+              this.toastr.success('Conta criada com êxito.', 'Sucesso');
+              (
+                document.getElementById('img-status-create') as HTMLImageElement
+              ).src = 'assets//accept.png';
+
+              console.log(data)
+              this.sign
+                .login({ tokenAccess: data.tokenAccess })
+                .subscribe((data) => {
+                  this.router.navigate(['dash-board', 'home']);
+                });
+            },
+            error: () => {
+              (
+                document.getElementById('img-status-create') as HTMLImageElement
+              ).src = 'assets//close.png';
+              this.toastr.success('Erro na criação de sua conta', 'Error');
+            },
+      });
   }
 
   voltar() {
@@ -224,7 +248,6 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
   setTypeContatoWhatsapp() {
     this.cSv = false;
-
     this.contatoClass = 'fa-brands fa-square-whatsapp';
     this.contatoMask = '99 9999-9999';
     this.typeContato = 'Whatsapp';

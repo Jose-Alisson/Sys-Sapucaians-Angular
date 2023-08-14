@@ -11,6 +11,8 @@ import { RadioListComponent } from './radio-list/radio-list.component';
 import { RadioComponent } from './radio/radio.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { AnyCompComponent } from './any-comp/any-comp.component';
+import { AutoConcluitComponent } from './auto-concluit/auto-concluit.component';
+import { AddressManagerComponent } from './address-manager/address-manager.component';
 
 @NgModule({
   declarations: [
@@ -19,14 +21,18 @@ import { AnyCompComponent } from './any-comp/any-comp.component';
     RadioListComponent,
     RadioComponent,
     DropdownComponent,
-    AnyCompComponent
+    AnyCompComponent,
+    AutoConcluitComponent,
+    AddressManagerComponent
   ],
   exports: [
     ModalComponent,
     CartComponent,
     RadioListComponent,
     RadioComponent,
-    DropdownComponent
+    DropdownComponent,
+    AutoConcluitComponent,
+    AddressManagerComponent
   ],
   imports: [
     CommonModule,

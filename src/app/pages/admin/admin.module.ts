@@ -15,6 +15,7 @@ import { HomeComponent } from '../home/home.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { OrdersListComponent } from './orders-list/orders-list.component';
 import { ViewOrderComponent } from './view-order/view-order.component';
+import { DeliveryManagerComponent } from './delivery-manager/delivery-manager.component';
 
 const admRoutes: Routes = [
   { path: '', redirectTo: 'product-manager', pathMatch: 'full' },
@@ -29,6 +30,7 @@ const admRoutes: Routes = [
       { path: 'view-order', component: ViewOrderComponent }
     ],
   },
+  { path: 'delivery-manager', component: DeliveryManagerComponent }
 ];
 
 @NgModule({
@@ -38,6 +40,7 @@ const admRoutes: Routes = [
     ShoppingBoxComponent,
     OrdersListComponent,
     ViewOrderComponent,
+    DeliveryManagerComponent,
   ],
   imports: [
     CommonModule,

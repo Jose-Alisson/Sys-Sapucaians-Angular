@@ -189,8 +189,21 @@
   font-family: 'Avenir Bold', sans-serif;
   border: 0;
   border-radius: 7px;
+  transition: 0.2s;
   outline: none;
   margin-top: 10px;
+  box-shadow: 0px 2px 0px #ddab21, 0px 6px 0px #c2961c;
+  cursor: pointer;
+}
+
+.btn-send-message:hover{
+  transform: translateY(2px);
+  box-shadow: 0px 0px 0px #ddab21, 0px 4px 0px #c2961c;
+}
+
+.btn-send-message:focus{
+  transform: translateY(6px);
+  box-shadow: 0px 0px 0px #ddab21, 0px 0px 0px #c2961c;
 }
 
 

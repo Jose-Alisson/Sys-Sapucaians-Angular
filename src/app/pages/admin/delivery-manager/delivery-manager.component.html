@@ -1,0 +1,35 @@
+<section class="tabs-slider">
+  <button class="tab_btn active">Concluidos</button>
+  <button class="tab_btn">Entregando</button>
+  <button class="tab_btn">Na Fila</button>
+</section>
+<section class="delivery_content" [ngSwitch]="pageIndex">
+  <div class="tab_cpntent_template" *ngSwitchCase="0">
+    <ng-container *ngTemplateOutlet="concluit"></ng-container>
+  </div>
+  <div class="tab_content_template" *ngSwitchCase="1">
+    <ng-container *ngTemplateOutlet="delivery"></ng-container>
+  </div>
+  <div class="tab_content_template" *ngSwitchDefault>
+    <ng-container *ngTemplateOutlet="concluit"></ng-container>
+  </div>
+</section>
+
+<ng-template #concluit>
+  <div class="delivery_sub_total">
+    <h2>Total de Entregas: {{totalEntregas}}</h2>
+    <h3>Arrecadado: {{arrecadado | currency : 'BRL' : 'symbol-narrow'}}</h3>
+  </div>
+</ng-template>
+
+
+<ng-template #delivery>
+  <div class="cards_delivery">
+    <div class="card">
+      <h1>Hello</h1>
+    </div>
+    <div class="card">
+      <h1>Hello</h1>
+    </div>
+  </div>
+</ng-template>

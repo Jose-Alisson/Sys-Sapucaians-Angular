@@ -17,6 +17,10 @@
   align-items: center;
 }
 
+.side-right{
+  background: white;
+}
+
 //.side-right {//background: var(--color-4);}
 
 .side-left #img_1 {
@@ -33,9 +37,9 @@
 
 .card {
   width: 500px;
-  height: 650px;
+  //height: 650px;
   padding: 0px calc(5% - 4px) 20px calc(5% - 4px);
-  border-radius: 20px;
+  //border-radius: 20px;
   box-shadow: 0px 0px 40px rgba(0,0,0,0.5);
   display: flex;
   flex-flow: column;

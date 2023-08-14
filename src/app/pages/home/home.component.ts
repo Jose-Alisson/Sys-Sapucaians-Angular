@@ -1,8 +1,14 @@
 import { Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ProdutoService } from './../../shared/services/produto.service';
 import { ImagemService } from 'src/app/shared/services/imagem.service';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { Produto } from 'src/app/model/Produto.model';
 
@@ -16,7 +22,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   randProd?: Produto[];
 
-  intervalo:any = null
+  intervalo: any = null;
 
   zoom = 18;
 
@@ -41,7 +47,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router
   ) {}
   ngOnDestroy(): void {
-    if(this.intervalo){
+    if (this.intervalo) {
       clearInterval(this.intervalo);
     }
   }
@@ -66,18 +72,23 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.prodServ.getAllProduct().subscribe({
       next: (prods) => {
-        this.randProd = []
+        this.randProd = [];
         prods.forEach((prod, index) => {
           if (index < 6) {
 
-            prod.photoUrl?.forEach(photo => {
-              this.imgServ.downloadImagem(photo).subscribe({
-                next: (blob) => {
-                  prod.photoObject?.push(this.sanitizer.bypassSecurityTrustUrl(
-                    URL.createObjectURL(blob)
-                  ));
-                },
-              });
+            prod.photoObject = []
+            prod.photoUrl?.forEach((photo, ind) => {
+              if (ind === 0) {
+                this.imgServ.downloadImagem(photo).subscribe({
+                  next: (blob) => {
+                    prod.photoObject?.push(
+                      this.sanitizer.bypassSecurityTrustUrl(
+                        URL.createObjectURL(blob)
+                      )
+                    );
+                  },
+                });
+              }
             });
             this.randProd!.push(prod);
           }
@@ -132,16 +143,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   cardCurrent = 0;
 
-
-  selectCard(index: number){
-    this.cardCurrent = index
+  selectCard(index: number) {
+    this.cardCurrent = index;
   }
 
   moverSlider(count: number) {
     this.cardCurrent += count;
 
-    let carrosselWrapper = document.querySelector('.card-wrapper') as HTMLDivElement
-    let cards = carrosselWrapper.children //document.querySelectorAll('.card-product');
+    let carrosselWrapper = document.querySelector(
+      '.card-wrapper'
+    ) as HTMLDivElement;
+    let cards = carrosselWrapper.children; //document.querySelectorAll('.card-product');
 
     if (this.cardCurrent > cards.length - 1) {
       this.cardCurrent = 0;
@@ -151,22 +163,27 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardCurrent = cards.length - 1;
     }
 
-   // console.log(this.cardCurrent)
+    // console.log(this.cardCurrent)
 
-    for(let i = 0;i < cards.length;i++){
-      cards[i].classList.remove('card-current')
+    for (let i = 0; i < cards.length; i++) {
+      cards[i].classList.remove('card-current');
     }
 
-    const posicaoCard = (cards[this.cardCurrent] as HTMLDivElement).offsetLeft - carrosselWrapper.offsetLeft
+    const posicaoCard =
+      (cards[this.cardCurrent] as HTMLDivElement).offsetLeft -
+      carrosselWrapper.offsetLeft;
 
-    const posicaoCentralizada = posicaoCard - carrosselWrapper.offsetWidth / 2 + (cards[this.cardCurrent] as HTMLDivElement).offsetWidth / 2;
+    const posicaoCentralizada =
+      posicaoCard -
+      carrosselWrapper.offsetWidth / 2 +
+      (cards[this.cardCurrent] as HTMLDivElement).offsetWidth / 2;
 
     carrosselWrapper.scrollTo({
       left: posicaoCentralizada,
-      behavior: 'smooth'
-    })
+      behavior: 'smooth',
+    });
 
-    cards[this.cardCurrent].classList.add('card-current')
+    cards[this.cardCurrent].classList.add('card-current');
 
     /*let widthCurrent = 0;
 
@@ -187,37 +204,58 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
       widthCurrent += _card.offsetWidth
     });*/
-
-
   }
 
-  activeCardCenter(element: HTMLDivElement){
-
-    let cards = element.querySelectorAll('.card-product')
-    console.log(cards.length)
+  activeCardCenter(element: HTMLDivElement) {
+    let cards = element.querySelectorAll('.card-product');
+    console.log(cards.length);
 
     cards.forEach((card, index) => {
       let _card = card as HTMLDivElement;
-      _card.classList.remove('card-current')
+      _card.classList.remove('card-current');
 
-      let bounds = _card.getBoundingClientRect()
-      if(element.offsetWidth / 2 > bounds.x  && element.offsetWidth / 2 < bounds.x + _card.offsetWidth ){
-        this.cardCurrent = index
-        card.classList.add('card-current')
+      let bounds = _card.getBoundingClientRect();
+      if (
+        element.offsetWidth / 2 > bounds.x &&
+        element.offsetWidth / 2 < bounds.x + _card.offsetWidth
+      ) {
+        this.cardCurrent = index;
+        card.classList.add('card-current');
       }
-    })
+    });
   }
 
-  comprar(idProduct: number | null | undefined){
-    if(idProduct)
-    this.router.navigate(['dashboard/menu'], {queryParams : {'action': 'add', 'product_id': idProduct, 'cart_active': true}})
+  comprar(idProduct: number | null | undefined) {
+    if (idProduct)
+      this.router.navigate(['dashboard/menu'], {
+        queryParams: {
+          action: 'add',
+          product_id: idProduct,
+          cart_active: true,
+        },
+      });
   }
 
-  sendMessage(message: string){
+  sendMessage(message: string) {
     const numeroContato = '+5581973127515'; // Insira o número do seu contato do WhatsApp aqui
     const mensagem = encodeURIComponent(message); // Codificar a mensagem para evitar problemas de URL
 
     const url = `https://api.whatsapp.com/send?phone=${numeroContato}&text=${mensagem}`;
     window.open(url);
+  }
+
+  getFirstImageUrl(produto: Produto) {
+    if (produto && produto.photoObject) {
+
+      let img: SafeUrl | null = null
+
+      produto.photoObject.forEach((im, i) => {
+        if(i === 0){
+          img = im
+        }
+      })
+      return img;
+    }
+    return null;
   }
 }

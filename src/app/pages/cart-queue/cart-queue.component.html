@@ -32,11 +32,15 @@
   </div>
 </div> -->
 
-<div class="card" *ngFor="let item of allPedidos" [ngClass]="getStateStyleOrder(item)">
+<button class="btn-add-order" [routerLink]="['../menu']">
+  Quero fazer mais um pedido
+</button>
+
+<div class="card" *ngFor="let item of getAllPedidos()" [ngClass]="getStateStyleOrder(item)">
   <div class="card-header">
     <div class="cahe-left">
       <strong>
-        <p>Pedido Implatado</p>
+        <p>{{item.creationDate != undefined ? 'Pedido Implatado' : 'Aguardando Implantação'}}</p>
       </strong>
       <p>{{item?.state}}</p>
     </div>
@@ -62,6 +66,6 @@
   </div>
   <div class="view-actions">
     <button (click)="viewOrder(item.id ?? 0)">Visualizar Mais Informaçoes</button>
-    <button class="btn-dlt" *ngIf="item.state === 'Em Andamento'">Deletar Pedido</button>
+    <button class="btn-dlt" (click)="dltPedido(item.id ?? 0)">Deletar Pedido</button>
   </div>
 </div>

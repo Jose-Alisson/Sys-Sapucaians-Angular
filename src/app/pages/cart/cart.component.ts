@@ -1,9 +1,8 @@
+import { Pedido } from 'src/app/model/pedido.model';
 import { SignService } from './../../shared/services/sign-service.service';
 import { ImagemService } from './../../shared/services/imagem.service';
 import { PedidoService } from './../../shared/services/pedido.service';
 import { ProdutoService } from './../../shared/services/produto.service';
-
-import { Pedido } from './../../model/pedido.model';
 
 import {
   AfterViewInit,
@@ -19,6 +18,8 @@ import { FormBuilder } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { QuantidadeProduto } from 'src/app/model/quantidade.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModeloProduto } from 'src/app/model/modelProduct';
+import { CategoriaModeloSelector } from 'src/app/model/CategoriaModeloSelector';
 
 @Component({
   selector: 'app-cart',
@@ -26,12 +27,15 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit, AfterViewInit {
+
+  pedido: Pedido = {};
   cart: QuantidadeProduto[] = [];
 
   filterModalActive = false;
   filterProduct: QuantidadeProduto[] = [];
+
   allProduct?: QuantidadeProduto[];
-  productSelected?: Produto;
+  productSelected?: QuantidadeProduto;
   filterCategory = 'all';
 
   viewCardWrapper = false;
@@ -47,7 +51,14 @@ export class CartComponent implements OnInit, AfterViewInit {
     private sign: SignService,
     private router: Router,
     private activeRouter: ActivatedRoute
-  ) {}
+  ) {
+    this.productSelected?.product?.categoriaSelectors?.forEach((cat) => {
+      cat.category;
+      cat.rmodelsProduts?.forEach((modelo) => {
+        modelo.modelName;
+      });
+    });
+  }
 
   ngAfterViewInit(): void {}
 
@@ -57,20 +68,23 @@ export class CartComponent implements OnInit, AfterViewInit {
         this.allProduct = [];
         prods.forEach((prod) => {
           if (prod.inStock && prod.inStock > 0) {
-
-            prod.photoUrl?.forEach(photo => {
-              this.imgService.downloadImagem(photo).subscribe({
-                next: (blob) => {
-                  prod?.photoObject?.push(this.sanitizer.bypassSecurityTrustUrl(
-                    URL.createObjectURL(blob)
-                  ));
-                },
-                error: (error: HttpErrorResponse) => {
-                  console.log(error);
-                },
-              });
-            })
-
+            prod.photoObject = [];
+            prod.photoUrl?.forEach((url, i) => {
+              if (i === 0) {
+                this.imgService.downloadImagem(url).subscribe({
+                  next: (blob) => {
+                    prod?.photoObject?.push(
+                      this.sanitizer.bypassSecurityTrustUrl(
+                        URL.createObjectURL(blob)
+                      )
+                    );
+                  },
+                  error: (error: HttpErrorResponse) => {
+                    console.log(error);
+                  },
+                });
+              }
+            });
             this.allProduct!.push({ product: prod, quantity: 1 });
           }
         });
@@ -82,6 +96,38 @@ export class CartComponent implements OnInit, AfterViewInit {
     });
 
     this.activeRouter.queryParams.subscribe((data) => {
+      if (data?.['load_cart_id']) {
+        this.pedidoService.findById(data?.['load_cart_id']).subscribe({
+          next: (pedido) => {
+            this.pedido = pedido;
+            this.cart = this.pedido.qproducts ?? [];
+
+            this.cart.forEach((prod) => {
+              if (prod.product) {
+                prod.product.photoObject = [];
+                prod.product.photoUrl?.forEach((url, i) => {
+                  if (i === 0) {
+                    this.imgService.downloadImagem(url).subscribe({
+                      next: (blob) => {
+                        prod.product?.photoObject?.push(
+                          this.sanitizer.bypassSecurityTrustUrl(
+                            URL.createObjectURL(blob)
+                          )
+                        );
+                      },
+                      error: (error: HttpErrorResponse) => {
+                        console.log(error);
+                      },
+                    });
+                  }
+                });
+              }
+            });
+          },
+          error: () => {},
+        });
+      }
+
       if (data?.['cart_active']) {
         this.viewCardWrapper = true;
       }
@@ -184,14 +230,12 @@ export class CartComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (
-      this.cart.findIndex((prod) => prod.product?.idProduct === qProd.product?.idProduct) !=
-      -1
-    ) {
-      this.cart = this.cart.filter(
-        (prod) => prod.product?.idProduct !== qProd.product?.idProduct
-      );
-    }
+    /* if (
+      /*this.cart.findIndex((prod) => prod.product?.idProduct === qProd.product?.idProduct) != -1) {
+      this.cart = this.cart.filter((prod) => prod.product?.idProduct !== qProd.product?.idProduct);
+    }*/
+
+    this.cart = this.cart.filter((prod) => prod != qProd);
   }
 
   incrementar(qProd: QuantidadeProduto) {
@@ -200,18 +244,36 @@ export class CartComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addToCart(qProd: QuantidadeProduto) {
-    let eProd = this.cart.find(
-      (prod) => prod.product?.idProduct === qProd.product?.idProduct
-    );
+  viewProductModal(qProd: QuantidadeProduto) {
+    this.productSelected = {...qProd};
+  }
 
-    if (eProd) {
-      eProd.quantity = qProd.quantity;
-    } else {
-      this.cart.push(qProd);
+  addToCart(qProd: QuantidadeProduto) {
+    let prod = qProd;
+
+    if (prod.rmodelsProduts === undefined) {
+      prod.rmodelsProduts = [];
     }
 
-    console.log(this.cart);
+    prod.product?.categoriaSelectors?.forEach((category) => {
+      category.modeloSelected?.forEach((modeloSelected) => {
+        let index = prod.rmodelsProduts?.findIndex(
+          (mod) => mod.idIndex === modeloSelected.modelo?.idIndex
+        );
+        if (index != -1 && index != undefined) {
+          prod.rmodelsProduts![index] = modeloSelected.modelo ?? {};
+        } else {
+          prod.rmodelsProduts?.push(modeloSelected.modelo ?? {});
+        }
+      });
+    });
+
+    this.cart.push({ ...prod });
+    this.productSelected = undefined;
+
+    qProd.product?.categoriaSelectors?.forEach(categoria => {
+      categoria.modeloSelected = []
+    })
   }
 
   toggleViewCartWrapper() {
@@ -225,7 +287,14 @@ export class CartComponent implements OnInit, AfterViewInit {
   getSubTotal() {
     let value = 0;
     this.cart.forEach((prod) => {
-      value += (prod.product?.price ?? 0) * (prod.quantity ?? 0);
+
+      let valorProduto = 0
+
+      prod.rmodelsProduts?.forEach(modelos => {
+        valorProduto += modelos.amountValue ?? 0
+      })
+
+      value += ((prod.product?.price ?? 0) + valorProduto) * (prod.quantity ?? 0);
     });
     return value;
   }
@@ -236,38 +305,32 @@ export class CartComponent implements OnInit, AfterViewInit {
 
       //console.log({ qproducts: this.cart, user: auth.user } as Pedido)
 
-      this.pedidoService
-        .salvar({
-          id: 0,
-          qproducts: this.cart,
-          user: {
-            id: user?.id,
-            name: user?.name,
-            lastName: user?.lastName,
-            contact: user?.contact,
+      this.pedido.user = user;
+      this.pedido.qproducts = this.cart;
+
+      this.pedidoService.salvar(this.pedido).then((d) =>
+        d.subscribe({
+          next: (pedido) => {
+            console.log(pedido);
+            this.toastr.success('Sucesso ao criar pedido', 'Sucesso');
+            this.router.navigate([`checkout`], {
+              queryParams: { pedido_id: pedido.id },
+            });
           },
-        } as Pedido)
-        .then((d) =>
-          d.subscribe({
-            next: (pedido) => {
-              console.log(pedido);
-              this.toastr.success('Sucesso ao criar pedido', 'Sucesso');
-              this.router.navigate([`checkout`], {
-                queryParams: { pedido_id: pedido.id },
-              });
-            },
-            error: (err: HttpErrorResponse) => {
-              this.toastr.error('Error ao criar pedido', 'Error');
-              console.log(err);
-            },
-          })
-        );
+          error: (err: HttpErrorResponse) => {
+            this.toastr.error('Error ao criar pedido', 'Error');
+            console.log(err);
+          },
+        })
+      );
     }
   }
 
   isSelected(id: number | null | undefined) {
     if (id) {
-      return this.cart.findIndex((prod) => prod.product?.idProduct === id) !== -1;
+      return (
+        this.cart.findIndex((prod) => prod.product?.idProduct === id) !== -1
+      );
     }
     return false;
   }
@@ -277,5 +340,101 @@ export class CartComponent implements OnInit, AfterViewInit {
       this.allProduct?.filter((prod) => prod.product?.category === category) ??
       []
     );
+  }
+
+  getFirstImageUrl(produto: Produto) {
+    let img = produto.photoObject?.find((p, i) => i === 0);
+    return img;
+  }
+
+
+  getTotalProduto(qProd: QuantidadeProduto) {
+    let valor = 0;
+    valor += qProd.product?.price ?? 0;
+    qProd.rmodelsProduts?.forEach((modelo) => {
+      valor += modelo.amountValue ?? 0;
+    });
+    return valor * (qProd.quantity ?? 0);
+  }
+
+  getTotalProdutoSelection(qProd: QuantidadeProduto){
+    let valor = 0;
+
+    valor += qProd.product?.price ?? 0;
+    qProd.product?.categoriaSelectors?.forEach(category => {
+      category.modeloSelected?.forEach(modelo => {
+        valor += modelo.modelo?.amountValue ?? 0
+      })
+    })
+
+    return valor * (qProd.quantity ?? 0);
+  }
+
+  getInteration(quantidade: number) {
+    return new Array(quantidade);
+  }
+
+  setModeloSelected(
+    categoria: CategoriaModeloSelector,
+    ind: number,
+    modelo: ModeloProduto
+  ) {
+    if (categoria.modeloSelected === undefined) {
+      categoria.modeloSelected = [];
+    }
+
+    let index = categoria.modeloSelected?.findIndex(
+      (modeloSelect) => modeloSelect.index === ind
+    );
+
+    if (index != -1 && index != undefined) {
+      categoria.modeloSelected![index ?? 0] = { index: ind, modelo: modelo };
+    } else {
+      categoria.modeloSelected?.push({ index: ind, modelo: modelo });
+    }
+  }
+
+  getModeloInd(categoria: CategoriaModeloSelector, ind: number) {
+    let modelo = categoria.modeloSelected?.find(
+      (modeloSelect) => modeloSelect.index === ind
+    );
+    return modelo;
+  }
+
+  modeloActive(
+    categoria: CategoriaModeloSelector,
+    ind: number,
+    modelo: ModeloProduto
+  ) {
+    let mod = categoria.modeloSelected?.find(
+      (modeloSelect) => modeloSelect.index === ind
+    );
+    return { modelo_active: mod?.modelo?.modelName === modelo.modelName };
+  }
+
+  getModeloIsNotSelected(categoria: CategoriaModeloSelector, ind: number) {
+    return categoria.rmodelsProduts?.filter((modelo) => {
+      let notIquals = true;
+      var modelos = categoria.modeloSelected?.filter(
+        (modeloSelected) => modeloSelected.index != ind
+      );
+
+      modelos?.forEach((mod) => {
+        if (mod.modelo?.modelName === modelo.modelName) {
+          notIquals = false;
+        }
+      });
+
+      return notIquals;
+    });
+  }
+
+  getModeloFomatedName(modelos: ModeloProduto[]) {
+    let name = '';
+    modelos.forEach((modelo, index) => {
+      name += `${index === 0 ? '' : ','}` + modelo.modelName;
+    });
+
+    return `(${name})`;
   }
 }

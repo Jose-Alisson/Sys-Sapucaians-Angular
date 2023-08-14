@@ -21,7 +21,7 @@
     <div class="card-wrapper" (wheel)="activeCardCenter(cardSlider)" *ngIf="randProd; else loadingCards">
       <div id="card-{{i}}" class="card-product card-current" *ngFor="let prod of randProd; let i = index" (click)="selectCard(i);moverSlider(0)">
       <div class="card-imagem">
-        <img [src]="prod?.photoObject"  [ngClass]="{'view-width': aiv(i)}">
+        <img [src]="getFirstImageUrl(prod)"  [ngClass]="{'view-width': aiv(i)}">
       </div>
       <div class="card-body">
         <div class="info">

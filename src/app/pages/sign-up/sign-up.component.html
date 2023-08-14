@@ -100,13 +100,16 @@
           <div class="box">
             <div class="box-fild">
               <input type="text" name="" id="phone-field" required prefix="+55 " [mask]="contatoMask" [showMaskTyped]="true" formControlName="contato" [ngClass]="{'input-invalid': isValidControlForm(step3Form, 'contato')}">
-              <label for="phone-field" class="label-static">Número de {{typeContato}}*</label>
+              <label for="phone-field" class="label-static">Número de Whatsapp*</label>
               <span class="selection-contato" (click)="showSelectionContato()">
-                <i [ngClass]="contatoClass" style="color: #1AC760;"></i>
-                <i class="fa-solid fa-caret-up" style="transition: 0.2s;" [ngStyle]="{'transform' : getRotate()}"></i>
+                <i class="fa-brands fa-square-whatsapp" style="color: #1AC760;"></i>
+                <!-- <i class="fa-solid fa-caret-up" style="transition: 0.2s;" [ngStyle]="{'transform' : getRotate()}"></i> -->
               </span>
             </div>
-            <ul class="contato-section"  [ngClass]="{'show' : cSv}">
+            <!-- <div class="phone_mask">
+              *Obs: Em Números de Whastapp o 9 após o ddd é removido'
+            </div> -->
+            <!-- <ul class="contato-section"  [ngClass]="{'show' : cSv}">
               <li (click)="setTypeContatoPhone()">
                 <i class="fa-solid fa-square-phone"></i>
                 <span>Celular</span>
@@ -115,7 +118,8 @@
                 <i class="fa-brands fa-square-whatsapp"></i>
                 <span>Whastapp</span>
               </li>
-            </ul>
+            </ul> -->
+
             <div class="invalid">
               <div *ngIf="step3Form.get('contato')?.errors?.['required'] && getInteractionForm(step3Form, 'contato')">
                 O campo é obrigatório*
@@ -126,7 +130,7 @@
             </div>
             <br>
             <div class="buttons-controll" style="width: 100%;" *ngIf="count < 4">
-              <button [disabled]="step3Form.invalid" class="btn-voltar" (click)="enviarCode()">Enviar</button>
+              <button [disabled]="step3Form.invalid" class="btn-enviar-code" (click)="enviarCode()">Enviar para Whatsapp</button>
             </div>
           </div>
         </div>

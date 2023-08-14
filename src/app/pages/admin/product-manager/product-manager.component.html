@@ -78,7 +78,7 @@
           <td><span attr-data="id">{{p.idProduct}}</span></td>
           <td>
             <div class="product-view">
-               <img [src]="p.photoObject">
+               <img [src]="getFirstImageUrl(p)">
             </div>
           </td>
           <td><span attr-data="Produto">{{p.nameProduct}}</span></td>
@@ -128,8 +128,9 @@
       <div class="filds first" [formGroup]="proRegisterForm">
         <div class="box">
           <div class="box-fild">
-            <input type="text" id="productName" required formControlName="name" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'name')}">
+            <input type="text" id="productName" #nameInput required formControlName="name" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'name')}" (keyup)="autName.setAuto()" (click)="autName.setAuto()" (focus)="autName.setActive()">
             <label for="productName">Nome do Produto</label>
+            <app-auto-concluit #autName [inputElement]="nameInput" [autoValues]="getAllProductNames()"></app-auto-concluit>
           </div>
           <div class="invalid">
             <div *ngIf="proRegisterForm.get('name')?.errors?.['required'] && getInteractionForm(proRegisterForm,'name')">
@@ -139,8 +140,9 @@
         </div>
         <div class="box">
           <div class="box-fild">
-            <input type="text" id="idProduct" required formControlName="idProduct" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'idProduct')}">
+            <input type="text" id="idProduct" #idInput required formControlName="idProduct" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'idProduct')}" (keyup)="autId.setAuto()" (click)="autId.setAuto()" (focus)="autId.setActive()">
             <label for="idProduct">Id do Produto</label>
+            <app-auto-concluit #autId [inputElement]="idInput" [autoValues]="getProductAllIds()"></app-auto-concluit>
           </div>
           <div class="invalid">
             <div *ngIf="proRegisterForm.get('idProduct')?.errors?.['required'] && getInteractionForm(proRegisterForm,'idProduct')">
@@ -150,8 +152,9 @@
         </div>
         <div class="box">
           <div class="box-fild">
-            <input type="text" id="categoriProduct" required formControlName="categori" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'categori')}">
+            <input type="text" id="categoriProduct" #categoryInput required formControlName="categori" [ngClass]="{'input-invalid': isValidControlForm(proRegisterForm,'categori')}" (keyup)="autCate.setAuto()" (click)="autCate.setAuto()" (focus)="autCate.setActive()">
             <label for="categoriProduct">Categoria do Produto</label>
+            <app-auto-concluit #autCate [inputElement]="categoryInput" [autoValues]="getAllProductCategory()"></app-auto-concluit>
           </div>
           <div class="invalid">
             <div *ngIf="proRegisterForm.get('categori')?.errors?.['required'] && getInteractionForm(proRegisterForm,'categori')">
@@ -198,7 +201,7 @@
           <div class="unique">
             <div class="text">
               <h3>{{categoria.category}}</h3>
-              <p>{{categoria.numberSelections}}</p>
+              <p>mesma seleção: {{categoria.numberSelections}}</p>
             </div>
             <div class="btn">
               <button class="btn-black-transparent" (click)="removerCategory(i)">Remover</button>
@@ -211,9 +214,9 @@
                 </div>
                 <div class="item-description">
                   <h3>{{ item.modelName }}</h3>
-                  <p>{{ item.idIndex }}</p>
+                  <p>indexador: {{ item.idIndex }}</p>
                   <div class="unique">
-                  <h3>{{item.amountValue | currency : "BRL" : "symbol-narrow"}}</h3>
+                  <h3>Adicional: {{item.amountValue | currency : "BRL" : "symbol-narrow"}}</h3>
                   <div class="quant">
                     <div class="amount">
                       <p><button class="btn-black-transparent btn-black br-re" (click)="removerModeloProduto(categoria,i)">Remover</button></p>
@@ -258,16 +261,16 @@
         </div>
       </div>
     </div>
-    <app-dropdown [title]="'Adicionar Categoria de Seleção'" (click)="modalpm = true"></app-dropdown>
+    <app-dropdown [title]="'Adicionar Produto de Seleção'" (click)="modalpm = true"></app-dropdown>
     <div class="item" *ngFor="let item of preModelProduct;let i = index">
       <div class="item-view">
         <img [src]="item.photoObject" height="52px" />
       </div>
       <div class="item-description">
         <h3>{{ item.modelName }}</h3>
-        <p>{{ item.idIndex }}</p>
+        <p>indexador: {{ item.idIndex }}</p>
         <div class="unique">
-        <h3>{{item.amountValue | currency : "BRL" : "symbol-narrow"}}</h3>
+        <h3>Adicional: {{item.amountValue | currency : "BRL" : "symbol-narrow"}}</h3>
         <div class="quant">
           <div class="amount">
             <p><button class="btn-black-transparent btn-black br-re" (click)="removerModeloProduto(null, i)">Remover</button></p>
@@ -278,7 +281,7 @@
 </div>
     <div class="modal-actions">
       <button class="btn-black-transparent" (click)="closeModalCategoria()">Cancelar</button>
-      <button class="btn-black-transparent btn-black" (click)="adicionarCategoriaModelo()">Salvar</button>
+      <button class="btn-black-transparent btn-black" (click)="adicionarCategoriaModelo()">Adicionar</button>
     </div>
   </div>
 </app-modal>
@@ -308,8 +311,9 @@
         <div class="filds first" [formGroup]="mproRegisterForm">
           <div class="box">
             <div class="box-fild">
-              <input type="text" id="modelName" required formControlName="modelName" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'modelName')}">
+              <input type="text" id="modelName" #nameModeloInput required formControlName="modelName" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'modelName')}"  (keyup)="autModeloName.setAuto()" (click)="autModeloName.setAuto()"  (focus)="autModeloName.setActive()">
               <label for="modelName">Nome de Modelo</label>
+              <app-auto-concluit #autModeloName [inputElement]="nameModeloInput" [autoValues]="getAllModeloNames()"></app-auto-concluit>
             </div>
             <div class="invalid">
               <div *ngIf="mproRegisterForm.get('modelName')?.errors?.['required'] && getInteractionForm(mproRegisterForm,'modelName')">
@@ -319,8 +323,9 @@
           </div>
           <div class="box">
             <div class="box-fild">
-              <input type="text" id="idIndex" required formControlName="idIndex" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'idIndex')}">
+              <input type="text" id="idIndex" required #idIndexInput formControlName="idIndex" [ngClass]="{'input-invalid': isValidControlForm(mproRegisterForm,'idIndex')}" (keyup)="autIdIndex.setAuto()" (click)="autIdIndex.setAuto()" (focus)="autIdIndex.setActive()">
               <label for="idIndex">Id Indexador</label>
+              <app-auto-concluit #autIdIndex [inputElement]="idIndexInput" [autoValues]="geAllModeloId()"></app-auto-concluit>
             </div>
             <div class="invalid">
               <div *ngIf="mproRegisterForm.get('idIndex')?.errors?.['required'] && getInteractionForm(mproRegisterForm,'idIndex')">
@@ -352,7 +357,7 @@
           </div>
         </div>
     <div class="modal-actions">
-        <button class="btn-black-transparent" (click)="adicionarModeloProduto()">Salvar</button>
+        <button class="btn-black-transparent" (click)="adicionarModeloProduto()">Adicionar</button>
     </div>
   </div>
 </app-modal>

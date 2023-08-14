@@ -15,4 +15,10 @@ export class PrintService {
 
     return this.http.post<any>(this.URL_API + '/pedido', {}, {params: params})
   }
+
+  printarPedidoProdutos(id: number){
+    let params = new HttpParams().set('pedido_id', id)
+
+    return this.http.post<any>(this.URL_API + '/pedidoCozinha', {}, {params: params})
+  }
 }

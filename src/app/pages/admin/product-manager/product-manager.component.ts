@@ -9,11 +9,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { CategoriaModeloSelector } from 'src/app/model/CategoriaModeloSelector';
 import { Produto } from 'src/app/model/Produto.model';
 import { ModeloProduto } from 'src/app/model/modelProduct';
+import { AutoConcluitComponent } from 'src/app/shared/comps/auto-concluit/auto-concluit.component';
 import { ImagemService } from 'src/app/shared/services/imagem.service';
 
 @Component({
@@ -41,15 +42,15 @@ export class ProductManagerComponent
   filterCategory = 'all';
 
   modalpm = false;
-  modalCatSelect = false
+  modalCatSelect = false;
 
-  preModelProduct: ModeloProduto [] = []
+  preModelProduct: ModeloProduto[] = [];
 
-  preCategoriaModeloSelected?:CategoriaModeloSelector
+  preCategoriaModeloSelected?: CategoriaModeloSelector;
 
-  preCategoriaModelo: CategoriaModeloSelector[] = []
+  preCategoriaModelo: CategoriaModeloSelector[] = [];
 
-  pEditCatIndex = 0
+  pEditCatIndex = 0;
 
   constructor(
     private form: FormBuilder,
@@ -90,7 +91,7 @@ export class ProductManagerComponent
   ngOnInit(): void {
     this.proRegisterForm = this.form.group({
       name: [null, [Validators.required]],
-      idProduct:[null, [Validators.required]],
+      idProduct: [null, [Validators.required]],
       description: [null, [Validators.required]],
       price: [null, [Validators.required]],
       categori: [null, []],
@@ -99,27 +100,29 @@ export class ProductManagerComponent
 
     this.categoriaModeloForm = this.form.group({
       category: [null, [Validators.required]],
-      numberSelections: [1, [Validators.required]]
-    })
+      numberSelections: [1, [Validators.required]],
+    });
 
     this.mproRegisterForm = this.form.group({
       idIndex: [null, [Validators.required]],
       modelName: [null, [Validators.required]],
       amountValue: [null, []],
       inStock: [null, [Validators.required]],
-      category: [null, []]
-    })
-
+      category: [null, []],
+    });
 
     this.prodService.getAllProduct().subscribe((data) => {
       let products = data;
       products.forEach((prod) => {
-        prod.photoUrl?.forEach((photoUrl) => {
-          this.imgService.downloadImagem(photoUrl).subscribe((img) => {
-            prod.photoObject?.push(this.sanitizer.bypassSecurityTrustUrl(
-              URL.createObjectURL(img)
-            ));
-          });
+        prod.photoObject = [];
+        prod.photoUrl?.forEach((photoUrl, i) => {
+          if (i === 0) {
+            this.imgService.downloadImagem(photoUrl).subscribe((img) => {
+              prod.photoObject?.push(
+                this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(img))
+              );
+            });
+          }
         });
       });
       this.allProduct = products;
@@ -169,45 +172,58 @@ export class ProductManagerComponent
   }
 
   salvar() {
-
-    console.log("Aqui")
     if (this.proRegisterForm.valid) {
-      console.log("Aqui é valido")
       if (this.fileViewImage) {
-        console.log("Aqui é valido com imagem")
         this.imgService.uploadImage(this.fileViewImage).subscribe((data) => {
-          console.log("Aqui feito upload")
           let prodct = this.getProduct();
-          prodct.photoUrl = data?.['path'];
-         prodct.categoriaSelectors = this.preCategoriaModelo
+
+          let index = prodct.photoUrl?.findIndex((v, i) => i === 0);
+
+          if (index != -1) {
+            prodct.photoUrl![index ?? 0] = data?.['path'];
+          } else {
+            prodct.photoUrl?.push(data?.['path']);
+          }
+
+          prodct.categoriaSelectors = this.preCategoriaModelo;
 
           this.prodService.salvar(prodct).subscribe({
-
             next: (data) => {
-              console.log("Aqui Salvou produto")
               data.photoObject = this.fileImage;
               let index = this.allProduct.findIndex(
                 (produto) => produto.idProduct === data.idProduct
               );
+
+              data.photoObject = []
+              data.photoUrl?.forEach((photoUrl, i) => {
+                if (i === 0) {
+                  this.imgService.downloadImagem(photoUrl).subscribe((img) => {
+                    data.photoObject?.push(
+                      this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(img))
+                    );
+                  });
+                }
+              });
+
               if (index !== -1) {
                 this.allProduct[index] = data;
               } else {
                 this.allProduct.push(data);
               }
+
               this.toastr.success('Sucesso ao salvar o produto.', 'Sucesso');
               this.mpra = false;
             },
           });
         });
       } else {
-        console.log("Aqui Sem imagem")
-        let product = this.getProduct()
-        product.categoriaSelectors = this.preCategoriaModelo
-        console.log(product)
+        console.log('Aqui Sem imagem');
+        let product = this.getProduct();
+        product.categoriaSelectors = this.preCategoriaModelo;
+        console.log(product);
         this.prodService.salvar(product).subscribe({
-
           next: (data) => {
-            console.log("Aqui Salvou produto")
+            console.log('Aqui Salvou produto');
             data.photoObject = this.fileImage;
 
             let index = this.allProduct.findIndex(
@@ -233,54 +249,62 @@ export class ProductManagerComponent
         });
       }
     } else {
-      console.log(this.proRegisterForm)
+      console.log(this.proRegisterForm);
       this.allErrorVisibleForm = true;
     }
   }
 
-  adicionarModeloProduto(){
-    this.preModelProduct.push(this.getModeloProdutoForm())
-    this.modalpm = false
-    this.resetModeloForm()
+  adicionarModeloProduto() {
+    this.preModelProduct.push(this.getModeloProdutoForm());
+    this.modalpm = false;
+    this.resetModeloForm();
   }
 
-
-
-  removerModeloProduto(categoryProd: CategoriaModeloSelector | null | undefined, index: number){
-    if(categoryProd){
-      categoryProd.rmodelsProduts = categoryProd.rmodelsProduts?.filter((mp, i) => i !== index)
+  removerModeloProduto(
+    categoryProd: CategoriaModeloSelector | null | undefined,
+    index: number
+  ) {
+    if (categoryProd) {
+      categoryProd.rmodelsProduts = categoryProd.rmodelsProduts?.filter(
+        (mp, i) => i !== index
+      );
     } else {
-      this.preModelProduct = this.preModelProduct.filter((mp, i) => i !== index)
+      this.preModelProduct = this.preModelProduct.filter(
+        (mp, i) => i !== index
+      );
     }
   }
 
-  removerCategory(index: number){
-    this.preCategoriaModelo = this.preCategoriaModelo.filter((category, i) => i !== index)
+  removerCategory(index: number) {
+    this.preCategoriaModelo = this.preCategoriaModelo.filter(
+      (category, i) => i !== index
+    );
   }
 
-  getModeloProdutoForm(){
-    const form = this.mproRegisterForm
+  getModeloProdutoForm() {
+    const form = this.mproRegisterForm;
 
     let modeloProduto: ModeloProduto = {
       idIndex: form.get('idIndex')?.value,
       modelName: form.get('modelName')?.value,
       inStock: form.get('inStock')?.value,
       amountValue: form.get('amountValue')?.value,
-      category: form.get('category')?.value
-    }
+      category: form.get('category')?.value,
+    };
 
-    return modeloProduto
+    return modeloProduto;
   }
 
-  getCategoriaModelo(){
-    const form = this.categoriaModeloForm
+  getCategoriaModelo() {
+    const form = this.categoriaModeloForm;
 
-    let categoria:CategoriaModeloSelector = {
+    let categoria: CategoriaModeloSelector = {
       category: form.get('category')?.value,
-      numberSelections: form.get('numberSelections')?.value
-    }
+      numberSelections: form.get('numberSelections')?.value,
+      modeloSelected : []
+    };
 
-    return categoria
+    return categoria;
   }
 
   getFile() {
@@ -297,13 +321,13 @@ export class ProductManagerComponent
 
     let product: Produto = {
       idProduct: form.get('idProduct')?.value,
-      photoUrl: prod?.photoUrl,
+      photoUrl: prod?.photoUrl ?? [],
       nameProduct: form.get('name')?.value,
       description: form.get('description')?.value,
       price: form.get('price')?.value,
       category: form.get('categori')?.value,
       inStock: form.get('quant')?.value,
-      categoriaSelectors: prod?.categoriaSelectors
+      categoriaSelectors: prod?.categoriaSelectors,
     };
     return product;
   }
@@ -311,7 +335,7 @@ export class ProductManagerComponent
   editar(idObj: number | null | undefined) {
     let product = this.allProduct.find(({ idProduct }) => idObj === idProduct);
     this.productSelected = product;
-    this.preCategoriaModelo = product?.categoriaSelectors ?? []
+    this.preCategoriaModelo = product?.categoriaSelectors ?? [];
 
     this.proRegisterForm.setValue({
       idProduct: product?.idProduct,
@@ -322,7 +346,7 @@ export class ProductManagerComponent
       quant: product?.inStock,
     });
 
-    this.fileImage = product?.photoObject;
+    this.fileImage = product?.photoObject?.find((v, i) => i === 0);
     this.mpra = true;
   }
 
@@ -341,23 +365,23 @@ export class ProductManagerComponent
       });
   }
 
-  editarCategoria(index: number){
-    let category =  this.preCategoriaModelo.find((categoria, i) => i === index)
-    this.preCategoriaModeloSelected = category ?? {}
-    this.preModelProduct = category?.rmodelsProduts ?? []
-    this.pEditCatIndex = index
+  editarCategoria(index: number) {
+    let category = this.preCategoriaModelo.find((categoria, i) => i === index);
+    this.preCategoriaModeloSelected = category ?? {};
+    this.preModelProduct = category?.rmodelsProduts ?? [];
+    this.pEditCatIndex = index;
 
     this.categoriaModeloForm.setValue({
       category: category?.category,
-      numberSelections: category?.numberSelections
-    })
+      numberSelections: category?.numberSelections,
+    });
 
-    this.modalCatSelect = true
+    this.modalCatSelect = true;
   }
 
-  adicionarCategoriaModelo(){
-     let categoria = this.getCategoriaModelo();
-     categoria.rmodelsProduts = this.preModelProduct
+  adicionarCategoriaModelo() {
+    let categoria = this.getCategoriaModelo();
+    categoria.rmodelsProduts = this.preModelProduct;
 
     // if(this.preCategoriaModeloSelected === undefined){
     //   this.preCategoriaModelo.push(categoria)
@@ -369,15 +393,17 @@ export class ProductManagerComponent
     //   })
     // }
 
-    let index = this.preCategoriaModelo.findIndex((obj, i) => i === this.pEditCatIndex)
+    let index = this.preCategoriaModelo.findIndex(
+      (obj, i) => i === this.pEditCatIndex
+    );
 
-    if(index != -1){
-      this.preCategoriaModelo[index] = categoria
+    if (index != -1) {
+      this.preCategoriaModelo[index] = categoria;
     } else {
-      this.preCategoriaModelo.push(categoria)
+      this.preCategoriaModelo.push(categoria);
     }
 
-    this.modalCatSelect = false
+    this.modalCatSelect = false;
   }
 
   expandModal() {
@@ -396,16 +422,17 @@ export class ProductManagerComponent
     });
     this.fileImage = undefined;
     this.mpra = true;
+    this.preCategoriaModelo = [];
   }
 
-  expandModalCategory(){
-    this.preCategoriaModeloSelected = undefined
+  expandModalCategory() {
+    this.preCategoriaModeloSelected = undefined;
   }
 
   resetForm() {
     this.proRegisterForm = this.form.group({
       name: [null, [Validators.required]],
-      idProduct:[null, [Validators.required]],
+      idProduct: [null, [Validators.required]],
       description: [null, [Validators.required]],
       price: [null, [Validators.required]],
       categori: [null, []],
@@ -413,21 +440,21 @@ export class ProductManagerComponent
     });
   }
 
-  resetModeloForm(){
+  resetModeloForm() {
     this.mproRegisterForm = this.form.group({
       idIndex: [null, [Validators.required]],
       modelName: [null, [Validators.required]],
       amountValue: [null, []],
       inStock: [null, [Validators.required]],
-      category: [null, [Validators.required]]
-    })
+      category: [null, [Validators.required]],
+    });
   }
 
-  resetCategoriaForm(){
+  resetCategoriaForm() {
     this.categoriaModeloForm = this.form.group({
       category: [null, [Validators.required]],
-      numberSelections: [1, [Validators.required]]
-    })
+      numberSelections: [1, [Validators.required]],
+    });
   }
 
   setCategory(category: string) {
@@ -455,19 +482,19 @@ export class ProductManagerComponent
   closeModal() {
     this.mpra = false;
     this.resetForm();
-    this.cpCurrentStep = 1
+    this.cpCurrentStep = 1;
   }
 
   closeModalModel() {
     this.modalpm = false;
   }
 
-  closeModalCategoria(){
-    this.modalCatSelect = false
-    this.pEditCatIndex = -1
-    this.resetCategoriaForm()
-    this.preModelProduct = []
-    this.preCategoriaModeloSelected = undefined
+  closeModalCategoria() {
+    this.modalCatSelect = false;
+    this.pEditCatIndex = -1;
+    this.resetCategoriaForm();
+    this.preModelProduct = [];
+    this.preCategoriaModeloSelected = undefined;
   }
 
   seachProductos(input: HTMLInputElement) {
@@ -536,5 +563,80 @@ export class ProductManagerComponent
     (
       document.getElementById('str-m-' + this.cmCurrentStep) as HTMLInputElement
     ).checked = true;
+  }
+
+  getProductAllIds() {
+    let ids: { index: string; indexName?: string }[] = [];
+
+    this.allProduct.forEach((product) => {
+      ids.push({ index: product.idProduct + '' });
+    });
+
+    return ids;
+  }
+
+  getAllProductCategory() {
+    let categorys: { index: string; indexName?: string }[] = [];
+    let indexes: string[] = [];
+
+    this.allProduct.forEach((product) => {
+      if (!indexes.includes(product.category ?? '')) {
+        indexes.push(product.category ?? '');
+        categorys.push({ index: product.category ?? '' });
+      }
+    });
+
+    return categorys;
+  }
+
+  getAllProductNames() {
+    let names: { index: string; indexName?: string }[] = [];
+
+    this.allProduct.forEach((product) => {
+      names.push({ index: product.nameProduct ?? '' });
+    });
+
+    return names;
+  }
+
+  geAllModeloId() {
+    let ids: { index: string; indexName?: string }[] = [];
+
+    this.preCategoriaModeloSelected?.rmodelsProduts?.forEach((modelo) => {
+      ids.push({ index: modelo.idIndex + '' });
+    });
+
+    return ids;
+  }
+
+  getAllModeloNames() {
+    let names: { index: string; indexName?: string }[] = [];
+    let indexes: string[] = [];
+
+    this.preCategoriaModeloSelected?.rmodelsProduts?.forEach((modelo) => {
+      if (!indexes.includes(modelo.modelName ?? '')) {
+        indexes.push(modelo.modelName ?? '');
+        names.push({ index: modelo.modelName + '' });
+      }
+    });
+
+    return names;
+  }
+
+  getFirstImageUrl(produto: Produto) {
+    if (produto && produto.photoObject) {
+
+      let img: SafeUrl | null = null
+
+      produto.photoObject.forEach((im, i) => {
+        if(i === 0){
+          img = im
+        }
+      })
+
+      return img;
+    }
+
+    return null;
   }
 }

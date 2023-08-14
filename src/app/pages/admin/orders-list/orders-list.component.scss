@@ -132,6 +132,10 @@
   border-left: 4px #FFD867 solid
 }
 
+.card.printabled{
+  border-left: 4px #6b1aee solid;
+}
+
 .card.in-prepration{
   border-left: 4px #DB6992 solid
 }
@@ -139,6 +143,7 @@
 .card.concluded-delivery{
   border-left: 4px #0ABB87 solid
 }
+
 
 
 .card.concluded-retirada{
@@ -170,6 +175,10 @@
   color: var(--color-4);
 }
 
+.order-state.printabled{
+  border-left: 4px #6b1aee solid;
+  color: var(--color-4);
+}
 
 .order-state.concluded-retirada{
   background: #5D78FF ;
@@ -180,8 +189,6 @@
   background: var(--color-6);
   color: var(--color-4);
 }
-
-
 
 
 .wrapper{
@@ -241,21 +248,6 @@
 }
 
 
-@media screen and (max-width: 800px) {
-  .orders-container .container-left{
-    z-index: 1;
-    position: absolute;
-    box-shadow: 2px 0px 10px rgba(0 0 0 / 17%);
-    background: var(--color-4);
-  }
-}
-
-.orders-container .container-left.active{
-  width: auto;
-  flex-grow: 1;
-  width: 350px;
-  height: 100%;
-}
 
 .orders-container .container-left{
   width: 0px;
@@ -268,10 +260,32 @@
  /* gap: 10px;*/
 }
 
+.orders-container .container-left.active{
+  flex-grow: 1;
+  width: 300px;
+  left: 0;
+}
+
 .container-left{
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (max-width: 800px) {
+  .orders-container .container-left{
+    z-index: 7;
+    position: absolute;
+    width: 350px;
+    box-shadow: 2px 0px 10px rgba(0 0 0 / 17%);
+    background: var(--color-4);
+    left: -350px;
+    height: 100%;
+    top: 0;
+    transition: 0.2s;
+    overflow: initial;
+  }
+}
+
 
 .card-container{
   flex-grow: 1;

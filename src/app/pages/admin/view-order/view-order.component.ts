@@ -1,9 +1,12 @@
+import { alterPedidoService } from './../orders-list/orders-list.component';
+import { PrintService } from './../../../shared/services/print.service';
 import { map } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input } from '@angular/core';
 import { Pedido } from 'src/app/model/pedido.model';
 import { PedidoService } from 'src/app/shared/services/pedido.service';
+import { ModeloProduto } from 'src/app/model/modelProduct';
 
 @Component({
   selector: 'app-view-order',
@@ -20,7 +23,9 @@ export class ViewOrderComponent {
     private pedService: PedidoService,
     private toastr: ToastrService,
     private actRouter: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private print: PrintService,
+    private alterpedido: alterPedidoService
   ) {
     this.actRouter.queryParams.subscribe((params) => {
       pedService.findById(params['load_order']).subscribe({
@@ -114,14 +119,125 @@ export class ViewOrderComponent {
               'Alterar Estatos'
             );
             //this.setPedidosState(ped.state ?? '');
+
+            this.alterpedido.event.emit(ped);
           },
         });
       });
     }
   }
 
-  spandViewStateModal(){
-    this.newState = this.order?.state ?? ''
-    this.viewStateModal = true
+  spandViewStateModal() {
+    this.newState = this.order?.state ?? '';
+    this.viewStateModal = true;
+  }
+
+  getModeloFomatedName(modelos: ModeloProduto[]) {
+    let name = '';
+    modelos.forEach((modelo, index) => {
+      name += `${index === 0 ? '' : ','}` + modelo.modelName;
+    });
+
+    return `(${name})`;
+  }
+
+  //Formatação Entregador
+  printarFE() {
+    if (this.order?.id) {
+      this.print.printarPedido(this.order.id).subscribe({
+        next: () => {
+          this.toastr.success(
+            'Emprimindo Formatação para Entregador',
+            'Impressao'
+          );
+
+          console.log(this.order?.printate)
+
+          if (this.order?.printate != undefined) {
+            this.order.printate += 1;
+
+            console.log(this.order.printate)
+
+            this.pedService.salvar(this.order ?? {}).then((p) => {
+              p.subscribe((ped) => {
+                this.order = ped;
+
+                this.toastr.success("Foi Adicionado o print +1")
+              });
+            });
+          }
+        },
+        error: () => {
+          this.toastr.error(
+            'Não foi possivel imprimir Formatação para Entregador',
+            'Impressao'
+          );
+        },
+      });
+    }
+  }
+
+  printarFC() {
+    if (this.order) {
+      this.print.printarPedidoProdutos(this.order.id ?? 0).subscribe({
+        next: () => {
+          this.toastr.success(
+            'Emprimindo Formatação para cozinha',
+            'Impressao'
+          );
+
+
+          console.log(this.order?.printate)
+
+          if (this.order?.printate != undefined) {
+            this.order.printate += 1;
+
+            console.log(this.order.printate)
+
+            this.pedService.salvar(this.order ?? {}).then((p) => {
+              p.subscribe((ped) => {
+                this.order = ped;
+
+                this.toastr.success("Foi Adicionado o print +1")
+              });
+            });
+          }
+        },
+        error: () => {
+          this.toastr.error(
+            'Não foi possivel imprimir Formatação para cozinha',
+            'Impressao'
+          );
+        },
+      });
+    }
+  }
+
+  deletarPedido() {
+    if (this.order) {
+      this.pedService.delete(this.order?.id ?? 0).subscribe({
+        next: () => {
+          this.alterpedido.eventdlt.emit(this.order?.id ?? 0);
+          this.order = {};
+        },
+        error: () => {},
+      });
+    }
+  }
+
+  getPhoneMask(phone: String) {
+    let mask = '';
+
+    if (phone.length <= 8) {
+      mask = '0000-0000';
+    } else if (phone.length <= 9) {
+      mask = '0 0000-0000';
+    } else if (phone.length <= 11) {
+      mask = '(00) 0 0000-0000';
+    } else {
+      mask = '(000) 0 0000-0000';
+    }
+
+    return mask;
   }
 }

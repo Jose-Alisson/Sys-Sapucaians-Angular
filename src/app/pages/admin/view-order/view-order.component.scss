@@ -8,6 +8,7 @@
 
 .view-header{
   align-items: center;
+  gap: 10px;
 }
 
 .table-content thead{
@@ -21,4 +22,64 @@
 
 .table-content{
   width: 100%;
+}
+
+
+@media screen and (max-width: 680px) {
+  .box-seach {
+    border-bottom: 1px #cccccc solid;
+  }
+
+  table {
+    display: flex;
+    flex-direction: column;
+
+    tbody {
+      overflow: auto;
+      max-width: 100%;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .table-content {
+    thead {
+      display: none;
+    }
+
+    th,
+    td {
+      display: flex;
+      position: relative;
+      flex-direction: row-reverse;
+      resize: none;
+
+      span {
+        width: 50%;
+        text-align: left;
+        overflow: hidden;
+      }
+
+      span::before {
+        content: attr(attr-data);
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        font-size: 14px;
+      }
+    }
+
+    td span::-webkit-scrollbar {
+      height: 7px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    td span::-webkit-scrollbar-thumb {
+      background: var(--color-1);
+      border-radius: 20px;
+    }
+  }
 }

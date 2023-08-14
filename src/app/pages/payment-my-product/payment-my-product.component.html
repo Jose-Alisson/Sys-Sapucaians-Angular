@@ -7,14 +7,14 @@
     <div class="product-list">
       <div class="item" *ngFor="let item of pedido.qproducts">
         <div class="item-view">
-          <img [src]="item.product?.photoObject" height="52px" />
+          <img [src]="getFirstImageUrl(item.product ?? {})" height="52px" />
         </div>
         <div class="item-description">
           <h3>{{ item.product?.nameProduct }}</h3>
-          <p>{{ item.product?.description }}</p>
+          <p>{{(item.rmodelsProduts?.length ?? 0) > 0 ? getModeloFomatedName(item.rmodelsProduts ?? []) : item.product?.description}}</p>
           <div class="unique">
             <h3>
-              {{ item.product?.price | currency : "BRL" : "symbol-narrow" }}
+              {{ getTotalProdutoSelection(item) | currency : "BRL" : "symbol-narrow" }}
             </h3>
             <div class="quant">
               <div class="amount">
@@ -37,26 +37,26 @@
         <h3>{{ getSubTotal() | currency : "BRL" : "symbol-narrow" }}</h3>
       </div>
     </div>
-    <button class="btn-confirm-cart">Alterar Carrinho</button>
+    <button class="btn-confirm-cart" (click)="alterarCarrinho()">Alterar Carrinho</button>
     <!-- <a href="#">Está faltando algo</a> -->
   </div>
 </div>
 <div class="side-right">
-  <div class="card" index-form-data="2">
-    <h2 style="padding-bottom: 15px;text-align: center;">Selecione a forma de despache</h2>
+  <div class="card" index-form-data="2" style="display: flex; flex-direction: column; gap: 12px;">
+    <h2 style="text-align: center;">Selecione a forma de despache</h2>
     <div class="card-header-switch">
       <button [ngClass]="{'active' : isDispatch }" (click)="setFormDispatch(true)">Delivery</button>
       <button [ngClass]="{'active': !isDispatch }" (click)="setFormDispatch(false)">Retirada</button>
     </div>
     <div class="address-form" *ngIf="isDispatch">
       <div class="my-address-wrapper">
-        <div class="my-address-wrapper-header" (click)="addressWrapperActive = !addressWrapperActive">
+        <!-- <div class="my-address-wrapper-header" (click)="addressWrapperActive = !addressWrapperActive">
           <span>Selecionar Endereço</span>
           <span><i class="fa-solid fa-caret-up"></i></span>
-        </div>
+        </div> -->
         <div class="my-address-wrapper-body" [ngClass]="{'wrapper-active': addressWrapperActive}">
           <div class="register-new-address-header">
-              <button class="btn-register-address">Registrar novo Endereço</button>
+              <button class="btn-register-address" (click)="addressModalActive = true">Selecionar Endereço</button>
           </div>
           <ul>
 
@@ -129,3 +129,93 @@
   </div>
 </div>
 <!-- </div> -->
+<!--
+<app-modal [title]="'Selecionar Endereço'" *ngIf="addressModalActive" [fadeExpandComp]="true" (closeModalEvent)="addressModalActive = false">
+  <div class="modal-content">
+    <button class="btn-register-address" (click)="addressRegisterModal = true">
+      Quero Registar Um Novo Endereço
+    </button>
+    <div class="address_empty" *ngIf="getAddress().length <= 0">
+      Nenhum endereço encontrado
+    </div>
+  </div>
+</app-modal>
+
+<app-modal [title]="'Registrar Endereço'" *ngIf="addressRegisterModal" [fadeExpandComp]="true" (closeModalEvent)="addressRegisterModal = false">
+  <div class="modal-content">
+    <button class="btn-locality-auto" style="margin-top: 10px;">
+      Pegar Localização Automaticamente
+    </button>
+    <div class="filds">
+      <div class="filds first" [formGroup]="addressForm">
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="addressName" #nameInput required formControlName="nameAddress" [ngClass]="{'input-invalid': isValidControlForm(addressForm,'nameAddress')}">
+            <label for="addressName">Nome da Rua</label>
+            <!-- <app-auto-concluit #autName [inputElement]="nameInput" [autoValues]="[]"></app-auto-concluit>
+          </div>
+          <div class="invalid">
+            <div *ngIf="addressForm.get('nameAddress')?.errors?.['required'] && getInteractionForm(addressForm,'nameAddress')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="idProduct" #idInput required formControlName="houseNumber" [ngClass]="{'input-invalid': isValidControlForm(addressForm,'houseNumber')}" >
+            <label for="idProduct">numero da residencia</label>
+            <!-- <app-auto-concluit #autId [inputElement]="idInput" [autoValues]="[]"></app-auto-concluit>
+          </div>
+          <div class="invalid">
+            <div *ngIf="addressForm.get('houseNumber')?.errors?.['required'] && getInteractionForm(addressForm,'houseNumber')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <input type="text" id="categoriProduct" #categoryInput required formControlName="zipCode" [ngClass]="{'input-invalid': isValidControlForm(addressForm,'zipCode')}">
+            <label for="categoriProduct">Cep(Opcional)</label>
+            <!-- <app-auto-concluit #autCate [inputElement]="categoryInput" [autoValues]="[]"></app-auto-concluit>
+          </div>
+          <div class="invalid">
+            <div *ngIf="addressForm.get('zipCode')?.errors?.['required'] && getInteractionForm(addressForm,'zipCode')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <!-- <input type="text" id="priceProduct" required formControlName="price" [ngClass]="{'input-invalid': isValidControlForm(addressForm,'price')}" mask="separator.2" thousandSeparator="." prefix="R$ ">
+            <label for="categoriProduct">Localidade</label>
+            <app-dropdown [title]="'Localidade'">
+              <div class="wrapper-body" style="z-index: 7; flex-grow: 1;max-height: 200px;overflow-y: auto;">
+                <ul>
+                  <li (click)="{}" *ngFor="let locality of getLocalidades();let i = index">{{locality.localidade}} {{locality.preco | currency : 'BRL' : 'symbol-narrow'}}</li>
+                </ul>
+              </div>
+            </app-dropdown>
+          </div>
+          <div class="invalid">
+            <div *ngIf="addressForm.get('price')?.errors?.['required'] && getInteractionForm(addressForm,'price')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="box-fild">
+            <textarea type="text" class="box-textarea" cols="30" rows="10" placeholder="Descrição de de seu endereço com ponto de referencia..." id="quantProduct" required formControlName="description" [ngClass]="{'input-invalid': isValidControlForm(addressForm,'description')}"></textarea>
+          </div>
+          <div class="invalid">
+            <!-- <div *ngIf="addressForm.get('description')?.errors?.['required'] && getInteractionForm(addressForm,'description')">
+              O campo é obrigatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="finallity">
+      <button class="btn_finalizar">Adicionar endereço</button>
+    </div>
+  </div>
+</app-modal> -->

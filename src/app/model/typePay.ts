@@ -1,6 +1,6 @@
 export declare class TypePay{
   id?: number | null
-  isPaying?: boolean | null
+  paying?: boolean | null
   typePay?: string | null
   value?: number| null
 }

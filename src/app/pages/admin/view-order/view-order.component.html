@@ -5,8 +5,8 @@
     <app-dropdown [title]="'Imprimir'" style="max-width: 200px;">
       <div class="wrapper-body">
         <ul>
-          <li>Formatação para pedido</li>
-          <li>Formatação para delivery</li>
+          <li (click)="printarFC()">Formatação para pedido</li>
+          <li (click)="printarFE()">Formatação para delivery</li>
         </ul>
       </div>
     </app-dropdown>
@@ -21,7 +21,7 @@
     <div class="client-contact space-bottom view-field">
       <p class="contact-place">Contato</p>
       <strong>
-        <p class="name" *ngIf="order?.user?.contact != undefined; else contact">{{order?.user?.contact ?? '' | mask : '0000-0000 || 0 0000-0000 || (00) 0 0000-0000 || (000) 0 0000-0000' }}</p>
+        <p class="name" *ngIf="order?.user?.contact != undefined; else contact">{{order?.user?.contact ?? '' | mask : getPhoneMask(order?.user?.contact ?? '')}}</p>
         <ng-template #contact>
           <p class="name">Não Informado</p>
         </ng-template>
@@ -46,7 +46,7 @@
         <tr *ngFor="let p of order?.qproducts; let i = index">
           <td><span attr-data="#">{{ i }}</span></td>
           <td><span attr-data="Codigo">{{ p.product?.idProduct }}</span></td>
-          <td><span attr-data="Produto">{{ p.product?.nameProduct }}</span></td>
+          <td><span attr-data="Produto">{{ p.product?.nameProduct }} <span *ngIf="p.rmodelsProduts?.length">{{getModeloFomatedName(p.rmodelsProduts ?? [])}}</span></span></td>
           <td><span attr-data="Qtd">{{ p.quantity }} un X</span></td>
           <td>
             <span attr-data="Unitário">{{
@@ -146,7 +146,7 @@
   <div class="view-pay view-field space-bottom">
     <span class="text-place">Tipo de Pagamento <br></span>
     <strong>
-      <p *ngFor="let pay of order?.typesPay">{{pay.typePay }} - {{pay.isPaying === true ? 'Pago' : 'Irar Pagar'}} - {{pay.value | currency : 'BRL' : 'symbol-narrow'}}</p>
+      <p *ngFor="let pay of order?.typesPay">{{pay.typePay }} - {{pay.paying === true ? 'Pago' : 'Irar Pagar'}} - {{pay.value | currency : 'BRL' : 'symbol-narrow'}}</p>
     </strong>
     <span class="text-place">{{ getTroco() <= 0 ? "Troco" : "Valor a ser Pago" }}</span>
     <strong>
@@ -156,6 +156,8 @@
   <button class="btn-alter-order space-bottom " (click)="alterOrderPropertys()">Alterar Propriedades</button>
   <br>
   <button class="btn-alter-state-order" (click)="spandViewStateModal()">Alterar Estado De Pedido</button>
+  <br>
+  <button class="btn-black-transparent " (click)="deletarPedido()">Deletar Pedido</button>
 </div>
 <app-modal *ngIf="viewStateModal" [title]="'Alterar Estado de Pedido'" [fadeExpandComp]="true" (closeModalEvent)="viewStateModal = false">
   <div class="modal-content">

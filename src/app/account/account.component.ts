@@ -28,7 +28,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router, private signService: SignService, private show: showViewDarken) {
     if(localStorage.getItem('Token-Access')){
-      localStorage.removeItem('Token-Access')
+      //localStorage.removeItem('Token-Access')
     }
   }
 

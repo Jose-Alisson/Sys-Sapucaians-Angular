@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { Produto } from 'src/app/model/Produto.model';
 import { Endereco } from 'src/app/model/endereco.model';
@@ -21,6 +22,7 @@ import { ImagemService } from '../../services/imagem.service';
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ModalComponent implements OnInit {
 

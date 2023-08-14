@@ -12,10 +12,9 @@ import { PrintService } from 'src/app/shared/services/print.service';
 @Component({
   selector: 'app-cart-queue',
   templateUrl: './cart-queue.component.html',
-  styleUrls: ['./cart-queue.component.scss']
+  styleUrls: ['./cart-queue.component.scss'],
 })
 export class CartQueueComponent {
-
   allPedidos: Pedido[] = [];
 
   constructor(
@@ -29,39 +28,40 @@ export class CartQueueComponent {
   ) {}
 
   ngOnInit(): void {
-    this.pedService.findAllByUserId(this.sign.auth.user?.id).subscribe((data) => {
-      data.forEach((pedido) => {
-        pedido.qproducts?.forEach((prod) => {
-          prod.product?.photoUrl?.forEach(photo => {
-            this.imgService
-            .downloadImagem(photo)
-            .subscribe({
-              next: (blob) => {
-                if(prod.product){
-                  prod.product.photoObject?.push(this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob)));
-                }
-              },
-              error: () => {},
+    this.pedService
+      .findAllByUserId(this.sign.auth.user?.id)
+      .subscribe((data) => {
+        data.forEach((pedido) => {
+          pedido.qproducts?.forEach((prod) => {
+            prod.product?.photoUrl?.forEach((photo) => {
+              this.imgService.downloadImagem(photo).subscribe({
+                next: (blob) => {
+                  if (prod.product) {
+                    prod.product.photoObject?.push(
+                      this.sanitizer.bypassSecurityTrustUrl(
+                        URL.createObjectURL(blob)
+                      )
+                    );
+                  }
+                },
+                error: () => {},
+              });
             });
-          })
-
-
+          });
         });
+
+        this.allPedidos = data;
       });
-
-      this.allPedidos = data
-    });
   }
 
-  getSubTotal(cart: QuantidadeProduto[] | null | undefined){
-    let value = 0
-    if(cart){
-      cart.forEach(prod => {
-        value += (prod.product?.price ?? 0) * (prod.quantity ?? 0)
-      }
-    )
-  }
-    return value
+  getSubTotal(cart: QuantidadeProduto[] | null | undefined) {
+    let value = 0;
+    if (cart) {
+      cart.forEach((prod) => {
+        value += (prod.product?.price ?? 0) * (prod.quantity ?? 0);
+      });
+    }
+    return value;
   }
 
   getStateStyleOrder(pedido: Pedido) {
@@ -71,7 +71,6 @@ export class CartQueueComponent {
       'concluded-retirada': pedido.state === 'Concluido Retirada',
       'concluded-delivery': pedido.state === 'Concluido Delivery',
       'concluded-all': pedido.state === 'Concluido Geral',
-
     };
   }
 
@@ -85,7 +84,6 @@ export class CartQueueComponent {
     return total;
   }
 
-
   getFomatedDate(pedido: Pedido) {
     let date = new Date(pedido.creationDate ?? '0000-00-00T00:00:00.0');
     return `${new String(date.getDate()).padStart(2, '0')}/${new String(
@@ -98,9 +96,34 @@ export class CartQueueComponent {
     )}:${new String(date.getSeconds()).padStart(2, '0')}`;
   }
 
-  viewOrder(id : number){
-    this.router.navigate(['checkout'] , {queryParams : {pedido_id : id}})
+  viewOrder(id: number) {
+    this.router.navigate(['checkout'], { queryParams: { pedido_id: id } });
   }
 
+  dltPedido(id: number) {
+    let index = this.allPedidos.findIndex(p => p.id === id)
 
+    this.allPedidos[index].user = undefined
+
+    this.pedService.salvar(this.allPedidos[index]).then(r => r.subscribe())
+
+    this.pedService.delete(id).subscribe({
+      next: () => {
+        this.allPedidos = this.allPedidos.filter((ped) => ped.id != id);
+      },
+    });
+  }
+
+  private compararData(dataA: Date, dataB: Date) {
+    return  dataB.getTime() - dataA.getTime();
+  }
+
+  getAllPedidos() {
+    return this.allPedidos.sort((a, b) =>
+      this.compararData(
+        new Date(a.creationDate ?? ''),
+        new Date(b.creationDate ?? '')
+      )
+    );
+  }
 }

@@ -191,7 +191,7 @@
         <div class="card-information" *ngIf="pedidoSelected.user">
           <p><strong>Nome</strong><br/>{{ pedidoSelected.user.name }}</p>
           <p><strong>Telefone</strong><br />
-             {{ pedidoSelected.user.contact ?? "" | mask : "0000-0000 || 0 0000-0000 || (00) 0 0000-0000 || (000) 0 0000-0000" }}
+             {{ pedidoSelected.user.contact ?? "" | mask : getPhoneMask(pedidoSelected.user.contact ?? "") }}
           </p>
         </div>
         <button class="btn-black-transparent" (click)="viewModalUsuario = true">{{ pedidoSelected.user ? "Alterar Cliente" : "Inserir Cliente" }}</button>
@@ -207,7 +207,7 @@
         </div>
         <div class="card-information" *ngIf="pedidoSelected.typesPay?.length ?? 0 > 0">
           <p><strong>Tipo de Pagamento</strong></p>
-          <p *ngFor="let pay of getAllTypesPay()">{{pay.typePay }} - {{pay.isPaying === true ? 'Pago' : 'Irar Pagar'}} - {{pay.value | currency : 'BRL' : 'symbol-narrow'}}</p>
+          <p *ngFor="let pay of getAllTypesPay()">{{pay.typePay }} - {{pay.paying === true ? 'Pago' : 'Irar Pagar'}} - {{pay.value | currency : 'BRL' : 'symbol-narrow'}}</p>
           <p><strong>{{ getTroco() <= 0 ? "Troco" : "Valor a ser Pago" }}</strong></p>
           <p> {{ (getTroco() <= 0 ? -getTroco() : getTroco()) | currency : "BRL" : "symbol-narrow" }}
           </p>
@@ -224,8 +224,8 @@
     <input class="product-view" type="text" [(ngModel)]="text" (keydown)="catchBoard($event)" >
     <div class="sub-total">
       <span class="info">Qtd {{ prodSelected?.quantity ?? 0 }} X </span>
-      <span class="info">Unitário {{ (prodSelected?.product?.price ?? 0) | currency : "BRL" : "symbol-narrow" }}</span>
-      <span class="info">Total {{(prodSelected?.product?.price ?? 0) * (prodSelected?.quantity ?? 0) | currency : "BRL" : "symbol-narrow"}}</span>
+      <span class="info">Unitário {{ ((prodSelected?.product?.price ?? 0) + getSumModelos(prodSelected ?? {})) | currency : "BRL" : "symbol-narrow" }}</span>
+      <span class="info">Total {{((prodSelected?.product?.price ?? 0) + getSumModelos(prodSelected ?? {})) * (prodSelected?.quantity ?? 0) | currency : "BRL" : "symbol-narrow"}}</span>
     </div>
    <!-- <div class="tools">
       <h3 style="text-transform: uppercase">Caixa</h3>
@@ -263,12 +263,12 @@
             <td><span attr-data="Qtd">{{ p.quantity }} un X</span></td>
             <td>
               <span attr-data="Unitário">{{
-                p.product?.price | currency : "BRL" : "symbol-narrow"
+                ((p.product?.price ?? 0) + getSumModelos(p)) | currency : "BRL" : "symbol-narrow"
               }}</span>
             </td>
             <td>
               <span attr-data="Total">{{
-                (p.product?.price ?? 0) * (p.quantity ?? 0)
+                ((p.product?.price ?? 0) + getSumModelos(p)) * (p.quantity ?? 0)
                   | currency : "BRL" : "symbol-narrow"
               }}</span>
             </td>
@@ -392,9 +392,9 @@
       <ng-container *ngFor="let pay of getOrderPays(); let i = index">
         <div class="pay-select">
           <div style="display: flex; justify-content: space-between;">
-            <app-radio-list id="radios-list-pay-{{i}}" #radioList  [valueCheked]="pay.isPaying">
+            <app-radio-list id="radios-list-pay-{{i}}" #radioList  [valueCheked]="pay.paying">
               <app-radio [text]="'Antecipado'" [name]="'pay-' + i" [value]="true" (checkOption)="setPaying(pay,$event)"></app-radio>
-              <app-radio [text]="'Na Entrega'" [name]="'pay-' + i" [value]="false" (checkOption)="setPaying(pay,$event)"></app-radio>
+              <app-radio [text]="pedidoSelected.address != undefined ? 'Na Entrega' : 'Na Retirada'" [name]="'pay-' + i" [value]="false" (checkOption)="setPaying(pay,$event)"></app-radio>
             </app-radio-list>
             <span class="btn-circle" (click)="removePayOption(i)">
               <i class="fa-solid fa-minus"></i>

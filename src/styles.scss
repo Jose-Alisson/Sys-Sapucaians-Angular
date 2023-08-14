@@ -194,11 +194,11 @@ app-orders-list {
 }
 
 app-cart-queue {
-  display: flex;
-  flex-grow: 1;
+  display: grid;
+  //flex-grow: 1;
   flex-direction: column;
   padding: 15px;
-  align-items: flex-start;
+  align-items: center;
   animation: displayMove 0.5s ease;
 }
 
@@ -217,6 +217,11 @@ app-view-order {
   flex-grow: 1;
   gap: 7px;
   animation: displayMove 0.5s ease;
+  position: relative;
+}
+
+app-modal{
+  position: fixed !important;
 }
 
 @media screen and (max-width: 875px) {
@@ -260,4 +265,16 @@ app-modal {
     opacity: 1;
     transform: translateX(0px);
   }
+}
+
+
+app-auto-concluit{
+  position: relative;
+  display: block;
+  z-index: 2;
+}
+
+app-delivery-manager{
+  flex-grow: 1;
+  position: relative;
 }

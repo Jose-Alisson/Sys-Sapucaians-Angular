@@ -174,11 +174,13 @@
 }
 
 .card-slider{
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 15px;
   flex-wrap: wrap;
   //overflow: auto;
   justify-content: center;
+  justify-items: center;
 }
 
 .card-product {
@@ -559,4 +561,131 @@
 
 .card-body .content-loading:nth-child(3){
   width: 90px;
+}
+
+.modal-content{
+  display: grid;
+  gap: 10px;
+  font-family: 'Avenir Bold', sans-serif;
+  justify-content: stretch;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0px 15px 7px 15px;
+}
+
+.product-header{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btn-ac-to-cart, .btn-ac-buy-now{
+  background: var(--color-1);
+  border-radius: 7px;
+  color: var(--color-4);
+  padding: 10px 15px;
+  border: 0px;
+  box-shadow: 0px 2px 0px #07080a, 0px 6px 0px #040405;
+  margin-bottom: 10px;
+  outline: none;
+  font-family: 'Avenir Bold', sans-serif;
+  letter-spacing: 1.25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.2s;
+  justify-content: center;
+}
+
+.btn-ac-to-cart{
+  background: var(--color-3);
+  box-shadow: 0px 2px 0px #e4b023, 0px 6px 0px #cfa120;
+}
+
+.btn-ac-to-cart:hover, .btn-ac-buy-now:hover{
+  transform: translateY(2px);
+  box-shadow: 0px 0px 0px #07080a, 0px 4px 0px #040405;
+}
+
+.btn-ac-to-cart:hover{
+  box-shadow: 0px 0px 0px #e4b023, 0px 4px 0px #cfa120;
+}
+
+.btn-ac-to-cart:focus, .btn-ac-buy-now:focus{
+  transform: translateY(6px);
+  box-shadow: 0px 0px 0px #07080a, 0px 0px 0px #040405;
+}
+
+.btn-ac-to-cart:focus{
+  box-shadow: 0px 0px 0px #e4b023, 0px 0px 0px #cfa120;
+}
+
+.btn-product-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  button{
+    flex-grow: 1;
+  }
+}
+
+.modal{
+  width: 600px;
+}
+
+.product-information{
+  display: grid;
+  gap: 10px;
+}
+
+.selection{
+  display: grid;
+  gap: 4px;
+}
+
+.selection.sel-category{
+  gap: 12px;
+}
+
+.modelos-sliders{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 4px;
+}
+
+.modelos-sliders .modelo{
+  border-radius: 4px;
+  white-space: nowrap;
+  padding: 2px 4px;
+  border: 1px #cccccc solid;
+  color: var(--color-1);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.modelos-sliders::-webkit-scrollbar{
+  width: 3px;
+  height: 3px;
+}
+
+.modelos-sliders::-webkit-scrollbar-thumb{
+  background: transparent;
+  transition: 0.2s;
+  border-radius: 1.5px;
+}
+
+.modelos-sliders:hover::-webkit-scrollbar-thumb{
+  background: #dcdcdc;
+  transition: 0.2s;
+}
+
+
+.product-infomation{
+  display: grid;
+  gap: 10px;
+}
+
+.modelos-sliders .modelo:hover, .modelo_active{
+  border-color: var(--color-10) !important;
 }
