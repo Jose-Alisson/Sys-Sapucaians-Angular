@@ -19,7 +19,7 @@ h1{
 
 .box-fild input, .box-fild textarea, .box-textarea{
   width: 100%;
-  //border: 2px  var(--color-9) solid;
+  /*border: 2px  var(--color-9) solid;*/
   border-radius: 7px;
   outline: none;
   padding: 10px 15px;
@@ -28,7 +28,7 @@ h1{
   transition: 0.2s;
   border: 0;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(61, 59, 53, 0.16) 0px 0px 0px 1px, rgba(61, 59, 53, 0.08) 0px 2px 5px 0px;
-  //box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 0px 3px rgba(0, 0, 0, 0.25);
+  /*box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 0px 3px rgba(0, 0, 0, 0.25);*/
   &:hover {
     box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
   }

@@ -13,6 +13,10 @@ export class PedidoService {
 
   private URL_API = `${this.UApi.springApiUrl}/pedido`
 
+  implantar(pedido: Pedido){
+    return this.http.post<Pedido>(this.URL_API + '/implantar', pedido, {})
+  }
+
   async salvar(pedido: Pedido): Promise<Observable<Pedido>>{
     return this.http.post<Pedido>(this.URL_API + '/save', pedido, {})
   }

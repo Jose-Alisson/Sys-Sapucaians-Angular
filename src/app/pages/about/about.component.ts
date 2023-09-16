@@ -46,8 +46,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
   addressCount = 0;
 
   valoresDaTaxa = exValoresDaTaxa;
-
-
+  addressModalActive = false
 
   constructor(private router: Router, private signService: SignService) {
     this.auth = signService.auth!
@@ -61,13 +60,14 @@ export class AboutComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.auth = this.signService.auth!
     this.user = this.auth.user
+    console.log(this.user?.contact)
   }
 
   sair() {
     const auth = getAuth();
     signOut(auth).then(() => {
         localStorage.removeItem('Token-Access')
-        this.signService.auth = {}
+        this.signService.auth = { user : undefined }
         this.router.navigate(['account']);
       })
       .catch((err) => {

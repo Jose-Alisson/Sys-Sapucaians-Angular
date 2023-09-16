@@ -1,5 +1,5 @@
 <div class="fade" *ngIf="fadeExpandComp" (click)="closeModal()"></div>
-<div class="modal" >
+<div class="modal" [ngClass]="{'min-space-transform': minSpace}">
   <div class="modal-header">
     &nbsp;
     <p style="color: var(--color-1); margin-left: 10px;font-weight: 500;">{{title}}</p>

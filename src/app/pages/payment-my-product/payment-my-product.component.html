@@ -104,6 +104,16 @@
         <div class="pay-content" #payPix [ngStyle]="expandPayContent(payIsSelected(2), payPix)">
           <section>
             <h3>Total R$ {{getValorTotal() | currency : 'BRL' : 'symbol-narrow'}}</h3>
+            <button *ngIf="cobrancaPix == undefined" class="btn-gerar-qrcode" (click)="gerarQrcode()">Gerar Qrcode</button>
+            <div class="cobranca-content" *ngIf="cobrancaPix != undefined">
+              <div class="image-pix">
+                <img [src]="cobrancaPix.imagemQrcode" alt="">
+              </div>
+              <div class="action-pix">
+                <a [href]="cobrancaPix.linkVisualizacao">Acesse o link de pagamento</a>
+                <button class="send_link_whatsapp" (click)="enviarLink()">Enviar para Whatsapp</button>
+              </div>
+            </div>
             <button class="btn-black-transparent btn-black btn-finalizar" (click)="finalizarPedido()">Finalizar Pedido</button>
           </section>
         </div>
@@ -128,6 +138,8 @@
     </div>
   </div>
 </div>
+
+<app-address-manager *ngIf="addressModalActive" (CloseModalMain)="addressModalActive = false"></app-address-manager>
 <!-- </div> -->
 <!--
 <app-modal [title]="'Selecionar Endereço'" *ngIf="addressModalActive" [fadeExpandComp]="true" (closeModalEvent)="addressModalActive = false">

@@ -211,10 +211,10 @@ export class ShoppingBoxComponent implements OnInit {
       '/',
       'Enter',
       'Backspace',
-      '#',
+      ',',
       'ArrowLeft',
       'ArrowRight',
-      '$',
+      '.',
     ]; // caracteres permitidos
     const key = event.key;
 
@@ -319,7 +319,7 @@ export class ShoppingBoxComponent implements OnInit {
               });
             });
 
-            let modelosId = this.text.split('$');
+            let modelosId = this.text.split('.');
             modelosId.shift();
 
             let modelos: ModeloProduto[] = [];
@@ -330,7 +330,7 @@ export class ShoppingBoxComponent implements OnInit {
               );
 
               if (categoria) {
-                let idIndexModelo = modelo.split('#');
+                let idIndexModelo = modelo.split(',');
 
                 idIndexModelo.forEach((n, ind) => {
                   if (ind <= (categoria?.numberSelections ?? 0)) {

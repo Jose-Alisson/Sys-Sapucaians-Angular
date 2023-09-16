@@ -278,3 +278,12 @@ app-delivery-manager{
   flex-grow: 1;
   position: relative;
 }
+
+
+app-address-manager{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}

@@ -431,3 +431,32 @@
 .image-profile i {
   font-size: 40px;
 }
+
+
+.btn-locality-auto{
+  background: var(--color-10);
+  border-radius: 7px;
+  color: var(--color-4);
+  padding: 10px 15px;
+  border: 0px;
+  box-shadow: 0px 2px 0px #1c5aac, 0px 6px 0px #184f96;
+  margin-bottom: 10px;
+  outline: none;
+  font-family: 'Avenir Bold', sans-serif;
+  letter-spacing: 1.25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.2s;
+  justify-content: center;
+}
+
+.btn-register-address:hover, .btn-locality-auto:hover{
+  transform: translateY(2px);
+  box-shadow: 0px 0px 0px #1c5aac, 0px 4px 0px #184f96;
+}
+
+.btn-register-address:focus, .btn-locality-auto:focus{
+  transform: translateY(6px);
+  box-shadow: 0px 0px 0px #1c5aac, 0px 0px 0px #184f96;
+}

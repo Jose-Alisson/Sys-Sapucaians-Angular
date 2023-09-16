@@ -22,9 +22,9 @@
     </div>
   </div>
   <button class="sair" (click)="sair()">Sair da conta &nbsp;<i class="fa-solid fa-right-from-bracket"></i></button>
-  <div class="box">
-    <h2>Meus Endereços</h2>
-    <button>Adicionar</button>
+  <div class="box" style="display: flex;flex-direction: column;">
+    <h2 style="text-align: center;">Meus Endereços</h2>
+    <button class="btn-locality-auto" (click)="addressModalActive = true" >Adicionar</button>
   </div>
 </div>
-<app-address-manager [addressModalActive]="true"></app-address-manager>
+<app-address-manager *ngIf="addressModalActive" (CloseModalMain)="addressModalActive = false"></app-address-manager>

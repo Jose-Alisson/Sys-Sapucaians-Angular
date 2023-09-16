@@ -28,11 +28,11 @@
   <div class="container-left" #containerLeft [ngClass]="{'active': viewOrdersList}">
     <div class="cont-left-header">
       <h2>Lista de pedidos</h2>
-      <button class="btn-alter-state-order" [routerLink]="['./shopping-box']">Adicionar&nbsp;<i class="fa-solid fa-plus"></i></button>
+      <!-- <button class="btn-alter-state-order" [routerLink]="['./shopping-box']">Adicionar&nbsp;<i class="fa-solid fa-plus"></i></button> -->
       <app-radio-list #viewGeral [valueCheked]="false">
         <app-radio [text]="'Visualizar Con... Geral'" [unchecked]="true" [name]="'view Geral'"  [value]="true" ></app-radio>
       </app-radio-list>
-      <i class="fa-solid fa-arrow-left toggle" (click)="viewOrdersList = !viewOrdersList"></i>
+      <i class="fa-solid fa-arrow-right toggle" [ngClass]="{'active' : viewOrdersList}" (click)="viewOrdersList = !viewOrdersList"></i>
     </div>
     <div class="card-container">
       <div class="card" *ngFor="let item of allPedidosState" [ngClass]="getStateStyleOrder(item)" (click)="setViewOrder(item.id ?? 0);">
@@ -227,7 +227,7 @@
   </div>
 </app-modal>
 
-<app-modal *ngIf="viewDateModal" [title]="'Data de Seleção'" [fadeExpandComp]="true" (closeModalEvent)="viewDateModal = false">
+<app-modal *ngIf="viewDateModal" [title]="'Data de Seleção'" [fadeExpandComp]="true" (closeModalEvent)="viewDateModal = false" [minSpace]="true">
     <div class="modal-content">
       <div class="modal-container">
         <div class="date-wrappers" style="display: flex;gap: 7px;">

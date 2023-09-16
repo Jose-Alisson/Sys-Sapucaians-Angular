@@ -19,12 +19,18 @@ export class AddressService {
     return this.http.post<Endereco>(this.URL_API + '/save', address, {params: params})
   }
 
+
   getAllByUserId(userId: number){
     let params = new HttpParams().set('usuario_id', userId)
-    return this.http.get<Endereco>(this.URL_API, {params: params})
+    return this.http.get<Endereco[]>(this.URL_API + "/findAllByUser", {params: params})
   }
 
   getAllByUserLogged(){
-    return of(this.sign.auth.usuario?.enderecos)
+    return of(this.sign.auth.user?.addresses)
+  }
+
+  deleteById(addressId: number){
+    let params = new HttpParams().set('address_id', addressId)
+    return this.http.delete<any>(this.URL_API + '/deleteById', {params: params})
   }
 }

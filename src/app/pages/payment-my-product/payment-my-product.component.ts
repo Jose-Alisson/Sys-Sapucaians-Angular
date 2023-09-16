@@ -14,6 +14,9 @@ import { Produto } from 'src/app/model/Produto.model';
 import { exValoresDaTaxa } from '../about/about.component';
 import { ModeloProduto } from 'src/app/model/modelProduct';
 import { QuantidadeProduto } from 'src/app/model/quantidade.model';
+import { PixService } from 'src/app/shared/services/pix.service';
+import { MessageService } from 'src/app/shared/services/message.service';
+import { type } from 'jquery';
 
 @Component({
   selector: 'app-payment-my-product',
@@ -34,9 +37,10 @@ export class PaymentMyProductComponent implements OnInit {
 
   addressSelected?: Endereco;
 
-
   addressModalActive = false;
   addressRegisterModal = false;
+
+  cobrancaPix: any = undefined;
 
   constructor(
     private actRoute: ActivatedRoute,
@@ -46,7 +50,9 @@ export class PaymentMyProductComponent implements OnInit {
     private formBuilder: FormBuilder,
     private imgService: ImagemService,
     private sanitizer: DomSanitizer,
-    private sign: SignService
+    private sign: SignService,
+    private pix: PixService,
+    private message: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +83,21 @@ export class PaymentMyProductComponent implements OnInit {
                     break;
                   case 'Pix':
                     this.selectPay(2);
+
+                    this.pedido.typesPay?.forEach((pays) => {
+                      if (pays.typePay === 'Pix') {
+                        this.pix
+                          .gerarQrcode(parseInt(pays?.['idPay'] ?? '') ?? 0)
+                          .subscribe((qrcodeObj) => {
+                            console.log(qrcodeObj);
+                            this.cobrancaPix = {
+                              linkVisualizacao: qrcodeObj.qrcode,
+                              imagemQrcode: qrcodeObj.imagemQrcode,
+                            };
+                          });
+                      }
+                    });
+
                     break;
                   case 'Cartao':
                     this.selectPay(3);
@@ -130,14 +151,14 @@ export class PaymentMyProductComponent implements OnInit {
   getSubTotal() {
     let value = 0;
     this.pedido.qproducts?.forEach((prod) => {
+      let valorProduto = 0;
 
-      let valorProduto = 0
+      prod.rmodelsProduts?.forEach((modelos) => {
+        valorProduto += modelos.amountValue ?? 0;
+      });
 
-      prod.rmodelsProduts?.forEach(modelos => {
-        valorProduto += modelos.amountValue ?? 0
-      })
-
-      value += ((prod.product?.price ?? 0) + valorProduto) * (prod.quantity ?? 0);
+      value +=
+        ((prod.product?.price ?? 0) + valorProduto) * (prod.quantity ?? 0);
     });
     return value;
   }
@@ -224,15 +245,14 @@ export class PaymentMyProductComponent implements OnInit {
   }
 
   finalizarPedido() {
-    this.pedido.state = 'Em Andamento';
-    this.pedidoServ.salvar(this.pedido).then((d) =>
-      d.subscribe({
+    //this.pedido.state = 'Em Andamento';
+    this.pedidoServ.implantar(this.pedido).subscribe({
         next: (ped) => {
           console.log(ped);
           this.toast.success('Pedido Implantado com Sucesso');
           this.router.navigate(['dash-board', 'cart-queue']);
         },
-      })
+    }
     );
   }
 
@@ -249,11 +269,11 @@ export class PaymentMyProductComponent implements OnInit {
     return img;
   }
 
-  getLocalidades(){
+  getLocalidades() {
     return exValoresDaTaxa;
   }
 
-  getTotalProdutoSelection(qProd: QuantidadeProduto){
+  getTotalProdutoSelection(qProd: QuantidadeProduto) {
     let valor = 0;
 
     valor += qProd.product?.price ?? 0;
@@ -263,9 +283,9 @@ export class PaymentMyProductComponent implements OnInit {
     //   })
     // })
 
-    qProd.rmodelsProduts?.forEach(modelos => {
-      valor += modelos.amountValue ?? 0
-    })
+    qProd.rmodelsProduts?.forEach((modelos) => {
+      valor += modelos.amountValue ?? 0;
+    });
 
     return valor * (qProd.quantity ?? 0);
   }
@@ -277,5 +297,61 @@ export class PaymentMyProductComponent implements OnInit {
     });
 
     return `(${name})`;
+  }
+
+  gerarQrcode() {
+    //this.pix.gerarCobrancaPix("" + this.getValorTotal().toFixed(1)).subscribe({ next: (cobranca) => {
+    //console.log(cobranca)
+
+    // }})
+
+    console.log('entrou');
+
+    let typePay: TypePay | undefined = undefined;
+
+    this.pedido.typesPay?.forEach((pay) => {
+      if (pay.typePay == 'Pix') {
+        typePay = pay;
+        console.log('Tem pix sim');
+      }
+    });
+
+    if (
+      typePay == undefined ||
+      typePay?.['idPay'] == undefined ||
+      this.getValorTotal() != typePay?.['value']
+    ) {
+      console.log('cobrança gerada');
+      this.pix
+        .gerarCobrancaPix('' + this.getValorTotal().toFixed(1))
+        .subscribe({
+          next: (cobranca) => {
+            console.log(cobranca);
+            typePay!.idPay = cobranca?.['loc']?.['id'];
+            this.pedido.typesPay = [{ ...typePay }];
+          },
+        });
+    }
+
+    this.pedidoServ.salvar(this.pedido).then((d) => d.subscribe({}));
+
+    this.pix
+      .gerarQrcode(parseInt(typePay?.['idPay'] ?? '') ?? 0)
+      .subscribe((qrcodeObj) => {
+        console.log(qrcodeObj);
+        this.cobrancaPix = {
+          linkVisualizacao: qrcodeObj.qrcode,
+          imagemQrcode: qrcodeObj.imagemQrcode,
+        };
+      });
+  }
+
+  enviarLink() {
+    let to = this.sign.auth.user?.contact;
+    this.message.enviar(
+        'whatsapp:+55' + to ?? '',
+        `*Segue o link de pagamento* 👇\n${this.cobrancaPix.linkVisualizacao}\n`
+      )
+      .subscribe();
   }
 }

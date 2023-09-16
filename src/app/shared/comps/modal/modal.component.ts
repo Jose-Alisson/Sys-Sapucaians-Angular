@@ -38,6 +38,9 @@ export class ModalComponent implements OnInit {
   @Output()
   closeModalEvent: EventEmitter<void> = new EventEmitter()
 
+  @Input()
+  minSpace: boolean = false
+
   ngOnInit(): void {
   }
 

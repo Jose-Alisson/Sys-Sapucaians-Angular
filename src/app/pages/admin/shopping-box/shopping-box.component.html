@@ -286,7 +286,7 @@
 </ng-template>
 
 <!-- modal -->
-<app-modal [fadeExpandComp]="true" [title]="'Seleção de Endereço'" *ngIf="viewModalAddress" (closeModalEvent)="viewModalAddress = false">
+<app-modal [fadeExpandComp]="true" [title]="'Seleção de Endereço'" *ngIf="viewModalAddress" (closeModalEvent)="viewModalAddress = false" [minSpace]="true">
   <div class="modal-content">
     <div class="container">
       <h2>Adicione as informçoes de endereço</h2>
@@ -325,7 +325,7 @@
     </div>
   </div>
 </app-modal>
-<app-modal [fadeExpandComp]="true" [title]="'Seleção de Mesa'" *ngIf="viewModalSelectMesa" (closeModalEvent)="viewModalSelectMesa = false">
+<app-modal [fadeExpandComp]="true" [title]="'Seleção de Mesa'" *ngIf="viewModalSelectMesa" (closeModalEvent)="viewModalSelectMesa = false" [minSpace]="true">
   <div class="modal-content">
     <div class="modal-container">
       <h2>Selecione a mesa</h2>
@@ -351,7 +351,7 @@
     </div>
   </div>
 </app-modal>
-<app-modal [fadeExpandComp]="true" [title]="'Selecionar Usuário'" *ngIf="viewModalUsuario" (closeModalEvent)="viewModalUsuario = false">
+<app-modal [fadeExpandComp]="true" [title]="'Selecionar Usuário'" *ngIf="viewModalUsuario" (closeModalEvent)="viewModalUsuario = false" [minSpace]="true">
   <div class="modal-content">
     <div class="container">
       <div class="filds" [formGroup]="clientForm">
@@ -377,7 +377,7 @@
     </div>
   </div>
 </app-modal>
-<app-modal [fadeExpandComp]="true" [title]="'Pagamento do Cliente'" *ngIf="viewModalPagamento" (closeModalEvent)="viewModalPagamento = false">
+<app-modal [fadeExpandComp]="true" [title]="'Pagamento do Cliente'" *ngIf="viewModalPagamento" (closeModalEvent)="viewModalPagamento = false" [minSpace]="true">
   <div class="modal-content">
     <div class="modal-container">
       <div class="pay-modal-header">
@@ -453,6 +453,7 @@
   [title]="'Area de ação'"
   *ngIf="viewModalSelectProduct"
   (closeModalEvent)="viewModalSelectProduct = false"
+  [minSpace]="true"
 >
 <div class="modal-content">
   <div class="modal-container">

@@ -3,4 +3,5 @@ export declare class TypePay{
   paying?: boolean | null
   typePay?: string | null
   value?: number| null
+  idPay?: string | null
 }

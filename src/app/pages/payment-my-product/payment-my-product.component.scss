@@ -279,7 +279,7 @@
   transition: all 0.2s;
   overflow: hidden;
   background: var(--color-4);
-  //box-shadow: 2px 0px 10px rgba(0,0,0,0.4);
+  /*box-shadow: 2px 0px 10px rgba(0,0,0,0.4);*/
 }
 
 .card-payment.active {
@@ -320,7 +320,7 @@
 
 .pay-select-radio[checked], .radio-select[checked] {
   padding: 5px;
-  //background: var(--color-4);
+  /*background: var(--color-4);*/
 }
 
 .pay-content {
@@ -329,7 +329,7 @@
   height: 0px;
   overflow: hidden;
   border-radius: 0px 0px 7px 7px;
-  //border: 2px var(--color-1) solid;
+  /*border: 2px var(--color-1) solid;*/
 }
 
 .pay-content section {
@@ -394,7 +394,7 @@
   box-shadow: 0px 0px 0px #1c5aac, 0px 4px 0px #184f96;
 }
 
-.btn-register-address:focus, .btn-locality-auto:hover{
+.btn-register-address:focus, .btn-locality-auto:focus{
   transform: translateY(6px);
   box-shadow: 0px 0px 0px #1c5aac, 0px 0px 0px #184f96;
 }
@@ -407,4 +407,45 @@
 
 .filds{
   gap: 12px;
+}
+
+
+.cobranca-content{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.send_link_whatsapp, .btn-gerar-qrcode{
+  width: 100%;
+  padding: 10px 15px;
+  background: #1AC760;
+  color: var(--color-4);
+  text-transform: uppercase;
+  font-family: 'Avenir Bold', sans-serif;
+  letter-spacing: 1.25px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 0px;
+  transition: box-shadow 0.3s;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25),
+      0 0 0 3px #c8dafc;
+  }
+
+  &:hover {
+    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.btn-gerar-qrcode{
+  background: var(--color-10);
+}
+
+.action-pix{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }

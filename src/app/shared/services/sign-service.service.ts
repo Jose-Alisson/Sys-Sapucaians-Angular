@@ -19,7 +19,9 @@ export class SignService {
    isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable()
 
-  public auth: AuthPsModel = {};
+  public auth: AuthPsModel = {
+    user: undefined
+  };
 
   constructor(private http: HttpClient, private uApi: UrlApiService) {}
 
