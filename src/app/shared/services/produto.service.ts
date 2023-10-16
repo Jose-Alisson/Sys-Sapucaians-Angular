@@ -38,4 +38,18 @@ export class ProdutoService {
     let params = new HttpParams().set('id', id);
     return this.http.get<Produto>(this.URL_API + '/find', {params: params})
   }
+
+  isContains(name: string, id: number) : Observable<Produto[]> {
+    //let params = new HttpParams().set('name' ,name).set('id', Number.isNaN(id) ?  '' : id);
+
+    if(!Number.isNaN(id)){
+      let params = new HttpParams().set('id', id);
+      return this.http.get<Produto[]>(this.URL_API + '/isContains', {params: params})
+    } else {
+      let params = new HttpParams().set('name', name);
+      return this.http.get<Produto[]>(this.URL_API + '/isContains', {params: params})
+    }
+
+    //return this.http.get<Produto[]>(this.URL_API + '/isContains', {params: params})
+  }
 }

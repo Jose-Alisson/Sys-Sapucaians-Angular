@@ -24,6 +24,12 @@ export class AddressManagerComponent implements OnInit {
   allAddress?: Endereco[];
   addressSelected?: Endereco;
 
+  @Input()
+  isAddressEscolhed: boolean = false
+
+  @Output()
+  addressEscolhed = new EventEmitter<Endereco>();
+
   ngOnInit(): void {
     this.addressForm = this.formBuilder.group({
       nameAddress: [null, Validators.required],
@@ -181,5 +187,12 @@ export class AddressManagerComponent implements OnInit {
 
   setLocality(locality: string) {
     this.addressForm.get('locality')?.setValue(locality);
+  }
+
+  addressSelect(endereco: Endereco){
+    if(this.isAddressEscolhed){
+      this.addressEscolhed.emit(endereco)
+
+    }
   }
 }

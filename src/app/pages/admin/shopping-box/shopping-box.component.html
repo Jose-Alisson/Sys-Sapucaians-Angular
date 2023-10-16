@@ -121,9 +121,9 @@
     </div> -->
     <div class="side-left">
       <div class="card" index-form-data="2">
-        <div class="card-header">
+        <!-- <div class="card-header">
           <h2>Forma de Despache</h2>
-        </div>
+        </div> -->
         <div class="card-header-switch" style="margin-bottom: 10px;">
           <button [ngClass]="{ active: isDispatch }" (click)="setFormDispatch(true)">Delivery</button>
           <button [ngClass]="{ active: !isDispatch }" (click)="setFormDispatch(false)">Retirada</button>
@@ -171,9 +171,9 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-header">
+        <!-- <div class="card-header">
           <h2>Cliente</h2>
-        </div>
+        </div> -->
         <!-- <div class="filds" [formGroup]="clientForm">
           <div class="box">
             <div class="box-fild">
@@ -202,9 +202,9 @@
 
     <div class="side-right">
       <div class="card">
-        <div class="card-header">
+        <!-- <div class="card-header">
           <h2>Pagamento</h2>
-        </div>
+        </div> -->
         <div class="card-information" *ngIf="pedidoSelected.typesPay?.length ?? 0 > 0">
           <p><strong>Tipo de Pagamento</strong></p>
           <p *ngFor="let pay of getAllTypesPay()">{{pay.typePay }} - {{pay.paying === true ? 'Pago' : 'Irar Pagar'}} - {{pay.value | currency : 'BRL' : 'symbol-narrow'}}</p>
@@ -221,7 +221,8 @@
 
 <ng-template #commandOperator>
   <div class="card command-operator">
-    <input class="product-view" type="text" [(ngModel)]="text" (keydown)="catchBoard($event)" >
+    <input #command class="product-view" type="text" [(ngModel)]="text" (keydown)="catchBoard($event)" (keyup)="autoConcluir($event)" (focus)="autName.setActive()">
+    <app-auto-concluit [inputElement]="command" #autName [aotoValuesObser$]="getConclusao()" [include]="concluir"></app-auto-concluit>
     <div class="sub-total">
       <span class="info">Qtd {{ prodSelected?.quantity ?? 0 }} X </span>
       <span class="info">Unitário {{ ((prodSelected?.product?.price ?? 0) + getSumModelos(prodSelected ?? {})) | currency : "BRL" : "symbol-narrow" }}</span>

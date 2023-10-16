@@ -21,12 +21,13 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Endereco } from 'src/app/model/endereco.model';
 import { TypePay } from 'src/app/model/typePay';
-import { Produto } from 'src/app/model/Produto.model';
 import { OrderState } from 'src/app/model/OrderState';
 import { RadioListComponent } from 'src/app/shared/comps/radio-list/radio-list.component';
 import { OrderItem } from 'src/app/model/OrderItem';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, map, observable, of } from 'rxjs';
+import { Produto } from 'src/app/model/Produto.model';
 
 @Component({
   selector: 'app-shopping-box',
@@ -39,7 +40,7 @@ export class ShoppingBoxComponent implements OnInit {
   allPedidos: Pedido[] = [];
   pedidoSelected: Pedido = {
     typesPay: [],
-    printate : 0
+    printate: 0,
   };
 
   prodSelected?: QuantidadeProduto;
@@ -53,6 +54,8 @@ export class ShoppingBoxComponent implements OnInit {
   viewModalSelectProduct = false;
   viewModalSelectMesa = false;
   viewModalPagamento = false;
+
+  concluir = true
 
   @ViewChild('box', { static: true })
   boxTemplate!: TemplateRef<any>;
@@ -69,6 +72,11 @@ export class ShoppingBoxComponent implements OnInit {
   deliveryForm!: FormGroup;
   clientForm!: FormGroup;
   pagamenteForm!: FormGroup[];
+
+  @ViewChild('command', { static: false })
+  command!: ElementRef<HTMLInputElement>;
+
+  autoConcluir$: Observable<any[]> = of();
 
   constructor(
     private pedService: PedidoService,
@@ -110,7 +118,7 @@ export class ShoppingBoxComponent implements OnInit {
             });
 
             if (order.address != undefined) {
-              this.isDispatch = true
+              this.isDispatch = true;
 
               this.deliveryForm.setValue({
                 nameAddress: order.address?.nameAddress,
@@ -135,6 +143,33 @@ export class ShoppingBoxComponent implements OnInit {
       }
     });
 
+    this.prodService
+        .isContains('', NaN)
+        .pipe(
+          map((data) =>
+            data.map((item) => ({
+              index: item.idProduct,
+              indexName:
+                item.nameProduct +
+                ` ${
+                  (item.categoriaSelectors?.length ?? 0) > 0
+                    ? `${
+                        (item.categoriaSelectors?.length ?? 0) >= 2
+                          ? ' - Contem categorias'
+                          : ' - Contem Categoria'
+                      }`
+                    : ''
+                }`,
+            }))
+          )
+        )
+        .subscribe((data) => {
+          this.autoConcluir$ = new Observable<any[]>((observable) => {
+            observable.next(data);
+            observable.complete();
+          });
+        });
+
     // this.pedService.findAll().subscribe((data) => {
     //   data.forEach((pedido) => {
     //     pedido.qProducts?.forEach((prod) => {
@@ -156,12 +191,17 @@ export class ShoppingBoxComponent implements OnInit {
 
     //   this.allPedidos = data;
     // });
+
+    // setInterval(() => {
+
+    //   this.buscar()
+
+    // }, 100);
   }
 
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload(event: Event) {
-    console.log('oie');
-
+    // console.log('oie');
     event.preventDefault();
     return 'Tem certeza que deseja sair da página? Suas alterações não serão salvas.';
   }
@@ -225,7 +265,11 @@ export class ShoppingBoxComponent implements OnInit {
       this.prodSelected = undefined;
     }
 
-    if (!allowedKeys.includes(key) && !this.isNumberKey(key)) {
+    if (
+      !allowedKeys.includes(key) &&
+      !this.isNumberKey(key) &&
+      !this.isTextKey(key)
+    ) {
       event.preventDefault(); // Impede a entrada de teclado inválida
     }
 
@@ -337,7 +381,6 @@ export class ShoppingBoxComponent implements OnInit {
                     let j = categoria?.rmodelsProduts?.find(
                       (h) => h.idIndex === parseInt(n)
                     );
-
                     if (j) {
                       modelos.push(j);
                     }
@@ -381,8 +424,106 @@ export class ShoppingBoxComponent implements OnInit {
     return /^\d$/.test(key);
   }
 
-  @HostListener('window:keyup', ['$event'])
-  keyup(event: KeyboardEvent) {}
+  isTextKey(key: string): boolean {
+    return /^[a-zA-Z]+$/.test(key);
+  }
+
+  isNumberText(key: string): boolean {
+    return /^[0-9]+$/.test(key);
+  }
+
+  autoConcluir(event: KeyboardEvent) {
+    let pontos = this.encontrarIndeces(this.text, '.');
+    let pontosDividio = this.text.split('.');
+
+    if (((event.target as HTMLInputElement).selectionStart ?? 0) > pontos[0]) {
+      this.prodService
+        .isContains(pontosDividio[0] ?? '', parseInt(pontosDividio[0] ?? '0'))
+        .subscribe((data) => {
+          let divisaoPontos = this.text.split('.');
+          divisaoPontos.shift();
+
+          let modelos: ModeloProduto[] = [];
+
+          divisaoPontos.forEach((modelo, ind) => {
+            let categoria = data[0].categoriaSelectors?.find(
+              (o, i) => i === ind
+            );
+            let modelosContains: ModeloProduto[] = [];
+
+            if (categoria) {
+              let idIndexModelo = modelo.split(',');
+
+              idIndexModelo.forEach((n, i, array) => {
+
+                if (array.length <= (categoria?.numberSelections ?? 0)) {
+                  let j = categoria?.rmodelsProduts?.find((h) => (h.idIndex + '').includes('' + parseInt(n)) || (h?.modelName ?? '').toLowerCase().includes(n?.toLowerCase() ?? ''));
+
+                  if (j) {
+                    modelosContains.push(j);
+                  }
+                }
+
+                if (n === '' && array.length <= (categoria?.numberSelections ?? 0)) {
+                  categoria?.rmodelsProduts?.forEach((modelo) => {
+                    let index = modelosContains.findIndex(
+                      (m) => m.idIndex === modelo.idIndex
+                    );
+
+                    if (index === -1) {
+                      modelosContains.push(modelo);
+                    }
+                  });
+                }
+              });
+            }
+
+            modelos = modelosContains;
+          });
+
+
+
+          this.autoConcluir$ = new Observable<any[]>((observable) => {
+            observable.next(modelos);
+            observable.complete();
+          }).pipe(
+            map((data) =>
+              data.map((item) => ({
+                index: item.idIndex,
+                indexName: item.modelName,
+              }))
+            )
+          );
+        });
+    } else {
+      this.prodService
+        .isContains(pontosDividio[0] ?? '', parseInt(pontosDividio[0] ?? '0'))
+        .pipe(
+          map((data) =>
+            data.map((item) => ({
+              index: item.idProduct,
+              indexName:
+                item.nameProduct +
+                ` ${
+                  (item.categoriaSelectors?.length ?? 0) > 0
+                    ? `${
+                        (item.categoriaSelectors?.length ?? 0) >= 2
+                          ? ' - Contem categorias'
+                          : ' - Contem Categoria'
+                      }`
+                    : ''
+                }`,
+            }))
+          )
+        )
+        .subscribe((data) => {
+          this.autoConcluir$ = new Observable<any[]>((observable) => {
+            observable.next(data);
+            observable.complete();
+          });
+        });
+    }
+  }
 
   setProductInCaixa(qProd: QuantidadeProduto) {
     let name =
@@ -659,7 +800,7 @@ export class ShoppingBoxComponent implements OnInit {
             this.text = '';
             this.page = 'box';
             this.alterPedidoService.event.emit(_data);
-            this.clientForm.setValue({})
+            this.clientForm.setValue({});
 
             console.log(_data);
           },
@@ -691,5 +832,31 @@ export class ShoppingBoxComponent implements OnInit {
     }
 
     return mask;
+  }
+
+  getConclusao() {
+    return this.autoConcluir$;
+  }
+
+  encontrarIndeces(str: string, caracter: string) {
+    const indices: number[] = [];
+    for (let i = 0; i < str.length; i++) {
+      if (str[i] === caracter) {
+        indices.push(i);
+      }
+    }
+    return indices;
+  }
+
+  indeceMaior(indeces: number[], indece: number) {
+    let eMaior = 0;
+
+    for (let i = 0; i < indeces.length; i++) {
+      if (indece >= indeces[i] && indece <= (indeces[i + 1] ?? 0)) {
+        eMaior = indeces[i];
+        break;
+      }
+    }
+    return eMaior;
   }
 }

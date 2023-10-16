@@ -361,3 +361,65 @@
 .card-body .content-loading:nth-child(3){
   width: 90px;
 }
+
+
+/*---------------------------------------*/
+.banner {
+  max-height: 80vh;
+  height: 80vh;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-image: url('../../../assets/pizza e fogo.jpg');
+}
+
+.banner-content {
+  width: 80%;
+  color: var(--color-black);
+  display: flex;
+  justify-content: space-between;
+}
+
+.banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.banner-text .title {
+  font-size: 42px;
+  color: white;
+  font-family: "Avenir Bold", sans-serif;
+}
+
+.banner-text .text {
+  font-size: 20px;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+.banner-text button {
+  padding: 15px 20px;
+  background: transparent;
+  color: white;
+  font-family: "Avenir Bold", sans-serif;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  border: 2px var(--color-black) solid;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border: 2px white solid
+}
+
+.banner-text button:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-white);
+}

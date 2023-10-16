@@ -8,13 +8,13 @@
     </div>
     <ng-template #addresses>
       <div class="addresses">
-        <div class="address-card" *ngFor="let address of allAddress">
+        <div class="address-card" *ngFor="let address of allAddress" (click)="addressSelect(address)">
           <span class="address-attr">{{getAddressValues(address)}}</span>
           <div class="info">
              <span class="address-attr">{{(getValorLocalitity(address.locality ?? '') | currency : 'BRL' : 'symbol-narrow') ?? 'Valor não especificado'}}</span>
              <div class="icons-action">
-                <span class="pencil icon" (click)="editarEndereco(address)"><i class="fa-solid fa-pencil"></i></span>
-                <span class="trash icon" (click)="deletarEndereco(address.id ?? 0)"><i class="fa-solid fa-trash-can"></i></span>
+                <span class="pencil icon" (click)="$event.stopPropagation(); editarEndereco(address)"><i class="fa-solid fa-pencil"></i></span>
+                <span class="trash icon" (click)="$event.stopPropagation(); deletarEndereco(address.id ?? 0)"><i class="fa-solid fa-trash-can"></i></span>
              </div>
           </div>
 

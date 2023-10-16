@@ -55,7 +55,7 @@
           </td>
           <td>
             <span attr-data="Total">{{
-              (p.product?.price ?? 0) * (p.quantity ?? 0)
+              ((p.product?.price ?? 0) + getSumModelos(p)) * (p.quantity ?? 0)
                 | currency : "BRL" : "symbol-narrow"
             }}</span>
           </td>
@@ -155,7 +155,7 @@
   </div>
   <button class="btn-alter-order space-bottom " (click)="alterOrderPropertys()">Alterar Propriedades</button>
   <br>
-  <button class="btn-alter-state-order" (click)="spandViewStateModal()">Alterar Estado De Pedido</button>
+  <button class="btn-alter-state-order" (click)="spandViewStateModal()" style="margin-bottom: 10px;">Alterar Estado De Pedido</button>
   <br>
   <button class="btn-black-transparent " (click)="deletarPedido()">Deletar Pedido</button>
 </div>

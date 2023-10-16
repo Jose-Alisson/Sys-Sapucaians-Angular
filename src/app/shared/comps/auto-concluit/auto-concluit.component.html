@@ -1,10 +1,21 @@
-<ul class="auto-content" [ngClass]="{'active': isActive}" #autoList>
+<ul class="auto-content" [ngClass]="{ active: isActive }" #autoList>
   <li class="auto-header">
     <span class="title">Auto concluir</span>
     <span class="close"><i class="fa-solid fa-xmark"></i></span>
   </li>
-  <li class="auto" *ngFor="let item of values" (click)="setValue(item)">
-    <span class="auto-index">{{item?.['index']}}</span>
-    <span class="auto-name">{{item?.['indexName']}}</span>
-  </li>
+  <ng-container *ngIf="(aotoValuesObser$ | async); else autoValues">
+    <li class="auto" *ngFor="let item of aotoValuesObser$ | async" (click)="setValue(item)">
+      <span class="auto-index"><strong>{{item?.['index']}}</strong></span>
+      {{separacao(item)}}
+      <span class="auto-name"><strong>{{item?.['indexName']}}</strong></span>
+    </li>
+  </ng-container>
+
+    <ng-template #autoValues>
+      <li class="auto" *ngFor="let item of values" (click)="setValue(item)">
+        <span class="auto-index"><strong>{{item?.['index']}}</strong></span>
+        {{separacao(item)}}
+        <span class="auto-name"><strong>{{item?.['indexName']}}</strong></span>
+      </li>
+    </ng-template>
 </ul>

@@ -106,6 +106,8 @@ export class PaymentMyProductComponent implements OnInit {
                     break;
                 }
 
+                this.addressSelected = data.address ?? undefined
+
                 data.qproducts?.forEach((qProd) => {
                   if (qProd.product) {
                     qProd.product.photoObject = [];
@@ -229,7 +231,7 @@ export class PaymentMyProductComponent implements OnInit {
       valortotal += (qProd.product?.price ?? 0) * (qProd?.quantity ?? 0);
     });
 
-    valortotal += this.addressSelected?.price ?? 0;
+    valortotal += this.getValorLocality(this.addressSelected?.locality ?? this.pedido.address?.locality ?? '') ?? 0;
 
     return valortotal;
   }
@@ -246,6 +248,7 @@ export class PaymentMyProductComponent implements OnInit {
 
   finalizarPedido() {
     //this.pedido.state = 'Em Andamento';
+
     this.pedidoServ.implantar(this.pedido).subscribe({
         next: (ped) => {
           console.log(ped);
@@ -353,5 +356,34 @@ export class PaymentMyProductComponent implements OnInit {
         `*Segue o link de pagamento* 👇\n${this.cobrancaPix.linkVisualizacao}\n`
       )
       .subscribe();
+  }
+
+  getAddressValues(endereco: Endereco) {
+    let addressFormate = '';
+
+    let address = {
+      name: endereco.nameAddress,
+      houseNumber: endereco.houseNumber,
+      locality: endereco.locality,
+      cep: endereco.zipCode,
+      complement: endereco.complement,
+    };
+
+    Object.values(address).forEach((value, index) => {
+      if (value != undefined && value != null && value != '') {
+        if (index > 0) {
+          addressFormate += ', ';
+        }
+
+        addressFormate += value;
+      }
+    });
+
+    return addressFormate;
+  }
+
+  getValorLocality(locality: string) {
+    return exValoresDaTaxa.find((local) => local.localidade === locality)
+      ?.preco;
   }
 }

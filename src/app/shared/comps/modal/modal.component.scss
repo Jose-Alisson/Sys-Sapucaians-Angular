@@ -132,11 +132,12 @@
     transform: translate(-50%, 0px);
     animation: reactive_mobile 0.2s linear;
   }
+
+  .min-space-transform{
+    transform: translate(-50%, -65px);
+  }
 }
 
-.min-space-transform{
-  transform: translate(-50%, -65px);
-}
 
 @keyframes reactive_mobile {
   0% {

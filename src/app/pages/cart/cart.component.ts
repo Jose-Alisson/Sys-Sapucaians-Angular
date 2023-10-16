@@ -308,7 +308,7 @@ export class CartComponent implements OnInit, AfterViewInit {
       this.pedido.user = user;
       this.pedido.qproducts = this.cart;
 
-      this.pedidoService.implantar(this.pedido).subscribe({
+      this.pedidoService.salvar(this.pedido).then(t =>  t.subscribe({
           next: (pedido) => {
             console.log(pedido);
             this.toastr.success('Sucesso ao criar pedido', 'Sucesso');
@@ -320,7 +320,7 @@ export class CartComponent implements OnInit, AfterViewInit {
             this.toastr.error('Error ao criar pedido', 'Error');
             console.log(err);
           },
-        });
+        }));
     }
   }
 

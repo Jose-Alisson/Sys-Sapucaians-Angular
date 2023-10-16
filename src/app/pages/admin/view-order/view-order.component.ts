@@ -7,6 +7,8 @@ import { Component, Input } from '@angular/core';
 import { Pedido } from 'src/app/model/pedido.model';
 import { PedidoService } from 'src/app/shared/services/pedido.service';
 import { ModeloProduto } from 'src/app/model/modelProduct';
+import { Produto } from 'src/app/model/Produto.model';
+import { QuantidadeProduto } from 'src/app/model/quantidade.model';
 
 @Component({
   selector: 'app-view-order',
@@ -60,13 +62,15 @@ export class ViewOrderComponent {
     let valortotal = 0;
 
     this.order?.qproducts?.forEach((qProd) => {
-      valortotal += (qProd.product?.price ?? 0) * (qProd?.quantity ?? 0);
+      valortotal += ((qProd.product?.price ?? 0) + this.getSumModelos(qProd ?? {})) * (qProd?.quantity ?? 0);
     });
 
     valortotal += this.order?.address?.price ?? 0;
 
     return valortotal;
   }
+
+
 
   getFomatedDate(pedido: Pedido) {
     let date = new Date(pedido.creationDate ?? '0000-00-00T00:00:00.0');
@@ -239,5 +243,15 @@ export class ViewOrderComponent {
     }
 
     return mask;
+  }
+
+  getSumModelos(quantidade: QuantidadeProduto) {
+    let valor = 0;
+
+    quantidade.rmodelsProduts?.forEach((modelo) => {
+      valor += modelo.amountValue ?? 0;
+    });
+
+    return valor;
   }
 }

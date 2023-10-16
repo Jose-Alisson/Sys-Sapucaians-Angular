@@ -7,16 +7,24 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
+import { Observable, of, async } from 'rxjs';
 
 @Component({
   selector: 'app-auto-concluit',
   templateUrl: './auto-concluit.component.html',
   styleUrls: ['./auto-concluit.component.scss'],
 })
-export class AutoConcluitComponent implements AfterViewInit {
+export class AutoConcluitComponent implements OnInit, AfterViewInit {
+  @Input()
+  aotoValuesObser$?: Observable<any[]>;
+
+  @Input()
+  include: boolean = false;
+
   @Input()
   autoValues: any[] = [];
 
@@ -28,23 +36,27 @@ export class AutoConcluitComponent implements AfterViewInit {
 
   values: any[] = [];
 
+  ngOnInit(): void {}
+
   public setAuto() {
     let auto: any[] = [];
 
     this.autoValues.forEach((value) => {
       let text = this.inputElement?.value;
-
-
-
       if (
         value['index'] === text ||
-        ((value['index'] as string) ?? '').toLowerCase().includes(text?.toLowerCase() ?? '') ||
-        ((value['indexName'] as string) ?? '').toLowerCase().includes(text?.toLowerCase() ?? '')) {
+        ((value['index'] as string) ?? '')
+          .toLowerCase()
+          .includes(text?.toLowerCase() ?? '') ||
+        ((value['indexName'] as string) ?? '')
+          .toLowerCase()
+          .includes(text?.toLowerCase() ?? '')
+      ) {
         auto.push(value);
       }
     });
 
-    if (this.autoValues.length === 0) {
+    if ((this.autoValues as []).length === 0) {
       this.isActive = false;
     }
 
@@ -66,11 +78,29 @@ export class AutoConcluitComponent implements AfterViewInit {
     }
   }
 
+  separacao(item: any) {
+    if (
+      (item.index != null &&
+      item.index != undefined &&
+      item.index != '') && (
+      item.indexName != null &&
+      item.indexName != undefined &&
+      item.indexName != '')
+    ) {
+
+      return ' '
+    }
+
+    return '-'
+  }
+
   setValue(item: any) {
-    console.log(item);
     if (this.inputElement) {
-      console.log(item);
-      this.inputElement.value = item['index'];
+      if (this.include) {
+        this.inputElement.value += item['index'];
+      } else {
+        this.inputElement.value = item['index'];
+      }
     }
   }
 }

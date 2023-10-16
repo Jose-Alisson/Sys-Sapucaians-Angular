@@ -211,6 +211,9 @@ export class ProductManagerComponent
                 this.allProduct.push(data);
               }
 
+              this.fileImage = undefined
+              this.fileViewImage = null
+
               this.toastr.success('Sucesso ao salvar o produto.', 'Sucesso');
               this.mpra = false;
             },
@@ -393,11 +396,9 @@ export class ProductManagerComponent
     //   })
     // }
 
-    let index = this.preCategoriaModelo.findIndex(
-      (obj, i) => i === this.pEditCatIndex
-    );
+    let index = this.preCategoriaModelo.findIndex((obj, i) => i === this.pEditCatIndex);
 
-    if (index != -1) {
+    if (!(index != -1)) {
       this.preCategoriaModelo[index] = categoria;
     } else {
       this.preCategoriaModelo.push(categoria);

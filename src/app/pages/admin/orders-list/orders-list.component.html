@@ -245,13 +245,20 @@
               </ul>
             </div>
           </app-dropdown>
-          <app-dropdown [title]="'' + getCurrentDay()">
+           <app-dropdown [title]="'' + getCurrentDay()">
             <div class="wrapper-body body-white">
               <ul>
                 <li *ngFor="let date of allDistictDay" (click)="setDay(date)">{{date}}</li>
               </ul>
             </div>
           </app-dropdown>
+
+          <!-- <app-dropdown [title]="'' + currentDate.getFullYear()">
+            <div class="wrapper-body body-white">
+              <input type="date" name="" id="" >
+            </div>
+          </app-dropdown> -->
+
         </div>
       </div>
       <!-- <div class="modal-actions">

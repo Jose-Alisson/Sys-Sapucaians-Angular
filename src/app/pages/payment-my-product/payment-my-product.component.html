@@ -46,7 +46,7 @@
     <h2 style="text-align: center;">Selecione a forma de despache</h2>
     <div class="card-header-switch">
       <button [ngClass]="{'active' : isDispatch }" (click)="setFormDispatch(true)">Delivery</button>
-      <button [ngClass]="{'active': !isDispatch }" (click)="setFormDispatch(false)">Retirada</button>
+      <button [ngClass]="{'active': !isDispatch }" (click)="addressSelected = undefined; pedido.address = undefined;setFormDispatch(false)">Retirada</button>
     </div>
     <div class="address-form" *ngIf="isDispatch">
       <div class="my-address-wrapper">
@@ -56,14 +56,22 @@
         </div> -->
         <div class="my-address-wrapper-body" [ngClass]="{'wrapper-active': addressWrapperActive}">
           <div class="register-new-address-header">
-              <button class="btn-register-address" (click)="addressModalActive = true">Selecionar Endereço</button>
+              <button class="btn-register-address" (click)="addressModalActive = true">{{addressSelected === undefined ? 'Selecionar Endereço' : 'Selecionar Outro Endereço'}}</button>
           </div>
-          <ul>
+          <ul *ngIf="addressSelected">
+            <!-- <li>{{getAddressValues(addressSelected)}}</li> -->
 
+            <div class="address-card">
+              <span class="address-attr">{{getAddressValues(addressSelected)}}</span>
+              <div class="info">
+                 <span class="address-attr">{{(getValorLocality(addressSelected.locality ?? '') | currency : 'BRL' : 'symbol-narrow') ?? 'Valor não especificado'}}</span>
+                 <div class="icons-action">
+                 </div>
+              </div>
+            </div>
           </ul>
         </div>
       </div>
-      <button class="btn-confirm-address" *ngIf="addressSelected">Selecionar Endereco</button>
     </div>
   </div>
   <div class="payment-form">
@@ -139,7 +147,7 @@
   </div>
 </div>
 
-<app-address-manager *ngIf="addressModalActive" (CloseModalMain)="addressModalActive = false"></app-address-manager>
+<app-address-manager *ngIf="addressModalActive" (CloseModalMain)="addressModalActive = false" (addressEscolhed)="pedido.address = $event ;addressSelected = $event; addressModalActive = false" [isAddressEscolhed]="true"></app-address-manager>
 <!-- </div> -->
 <!--
 <app-modal [title]="'Selecionar Endereço'" *ngIf="addressModalActive" [fadeExpandComp]="true" (closeModalEvent)="addressModalActive = false">

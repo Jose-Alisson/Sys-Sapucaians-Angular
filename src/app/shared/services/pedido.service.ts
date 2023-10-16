@@ -18,6 +18,10 @@ export class PedidoService {
   }
 
   async salvar(pedido: Pedido): Promise<Observable<Pedido>>{
+
+    console.log("Teste")
+    console.log(pedido)
+
     return this.http.post<Pedido>(this.URL_API + '/save', pedido, {})
   }
 

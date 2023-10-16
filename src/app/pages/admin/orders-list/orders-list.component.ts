@@ -17,6 +17,8 @@ import { RadioListComponent } from 'src/app/shared/comps/radio-list/radio-list.c
 import { ImagemService } from 'src/app/shared/services/imagem.service';
 import { PedidoService } from 'src/app/shared/services/pedido.service';
 import { PrintService } from 'src/app/shared/services/print.service';
+import { exValoresDaTaxa } from '../../about/about.component';
+import { QuantidadeProduto } from 'src/app/model/quantidade.model';
 
 @Component({
   selector: 'app-orders-list',
@@ -203,11 +205,23 @@ export class OrdersListComponent implements OnInit, AfterViewInit, OnDestroy {
   getOrderTotal(pedido: Pedido) {
     let total = 0;
     pedido.qproducts?.forEach(
-      (qProd) => (total += (qProd.product?.price ?? 0) * (qProd.quantity ?? 0))
+      (qProd) => (total += ((qProd.product?.price ?? 0) + this.getSumModelos(qProd)) * (qProd.quantity ?? 0))
     );
-    total != (pedido.address?.price ?? 0);
+    total += (pedido.address?.price ?? 0);
+
+    //console.log(pedido.user?.name + "/" + pedido.address?.price)
 
     return total;
+  }
+
+  getSumModelos(quantidade: QuantidadeProduto) {
+    let valor = 0;
+
+    quantidade.rmodelsProduts?.forEach((modelo) => {
+      valor += modelo.amountValue ?? 0;
+    });
+
+    return valor;
   }
 
   getFomatedDate(pedido: Pedido) {
